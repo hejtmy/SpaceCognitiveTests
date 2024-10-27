@@ -153,14 +153,10 @@
                 </li>
               </ul>
             </div>
-
           </div>
         </div>
-
       </section>
-
-      <Cta />
-
+      <Cta03 />
     </main>
 
     <!-- Site footer -->

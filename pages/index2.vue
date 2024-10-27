@@ -4,7 +4,7 @@
     <Header />
     <!-- Page content -->
     <main class="grow">
-      <CestaHero :title = "indexData.title" :description = "indexData.description" />
+      <Hero />
       <Clients />
       <Features />
       <Features02 />
@@ -14,19 +14,17 @@
       <PricingHome />
       <Testimonials />
       <Cta />
+
     </main>
-    <Footer />
+    
+    <!-- Site footer -->
+    <Footer />    
+
   </div>
 </template>
 
-<script setup>
-
-const indexData = await queryContent("index");
-
-</script>
-
 <script>
 export default {
-  name: 'index',
+  name: 'Home',
 }
 </script>
