@@ -54,7 +54,6 @@
                       <div class="absolute w-1/4 h-1/4 translate-z-0 bg-purple-400 rounded-full blur-[40px]"></div>
                     </div>
 
-
                     <!-- Text -->
                     <div class="md:max-w-[480px] shrink-0 order-1 md:order-none p-6 pt-0 md:p-8 md:pr-0">
                       <div class="mb-5">
@@ -198,10 +197,3 @@
     </div>
   </section>
 </template>
-
-<script>
-
-export default {
-  name: 'Features02',
-}
-</script>

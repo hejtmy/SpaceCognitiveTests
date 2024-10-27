@@ -17,19 +17,19 @@
           <!-- Desktop menu links -->
           <ul class="flex grow justify-center flex-wrap items-center">
             <li>
-              <router-link class="font-medium text-sm text-slate-300 hover:text-white mx-4 lg:mx-5 transition duration-150 ease-in-out" to="/about">About</router-link>
+              <router-link class="font-medium text-sm text-slate-300 hover:text-white mx-4 lg:mx-5 transition duration-150 ease-in-out" to="/inspiration/about">About</router-link>
             </li>
             <li>
-              <router-link class="font-medium text-sm text-slate-300 hover:text-white mx-4 lg:mx-5 transition duration-150 ease-in-out" to="/integrations">Integrations</router-link>
+              <router-link class="font-medium text-sm text-slate-300 hover:text-white mx-4 lg:mx-5 transition duration-150 ease-in-out" to="/inspiration/integrations">Integrations</router-link>
             </li>
             <li>
-              <router-link class="font-medium text-sm text-slate-300 hover:text-white mx-4 lg:mx-5 transition duration-150 ease-in-out" to="/pricing">Pricing</router-link>
+              <router-link class="font-medium text-sm text-slate-300 hover:text-white mx-4 lg:mx-5 transition duration-150 ease-in-out" to="/inspiration/pricing">Pricing</router-link>
             </li>
             <li>
-              <router-link class="font-medium text-sm text-slate-300 hover:text-white mx-4 lg:mx-5 transition duration-150 ease-in-out" to="/customers">Customers</router-link>
+              <router-link class="font-medium text-sm text-slate-300 hover:text-white mx-4 lg:mx-5 transition duration-150 ease-in-out" to="/inspiration/customers">Customers</router-link>
             </li>
             <li>
-              <router-link class="font-medium text-sm text-slate-300 hover:text-white mx-4 lg:mx-5 transition duration-150 ease-in-out" to="/changelog">Changelog</router-link>
+              <router-link class="font-medium text-sm text-slate-300 hover:text-white mx-4 lg:mx-5 transition duration-150 ease-in-out" to="/inspiration/changelog">Changelog</router-link>
             </li>
           </ul>
 
@@ -51,7 +51,6 @@
 
         <!-- Mobile menu -->
         <div class="md:hidden flex items-center ml-4">
-
           <!-- Hamburger button -->
           <button class="hamburger" ref="hamburger" :class="{ 'active': mobileNavOpen }" @click="mobileNavOpen = !mobileNavOpen" aria-controls="mobile-nav" :aria-expanded="mobileNavOpen">
             <span class="sr-only">Menu</span>
@@ -66,19 +65,19 @@
           <nav id="mobile-nav" class="absolute top-full z-20 left-0 w-full px-4 sm:px-6 overflow-hidden transition-all duration-300 ease-in-out" ref="mobileNav" :style="[mobileNavOpen ? { maxHeight: $refs.mobileNav.scrollHeight + 'px', opacity: 1 } : { maxHeight: 0, opacity: .8 }]" @click.outside="expanded = false" @keydown.escape.window="expanded = false">
             <ul class="border border-transparent [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] rounded-lg px-4 py-1.5">
               <li>
-                <router-link class="flex font-medium text-sm text-slate-300 hover:text-white py-1.5" to="/about">About</router-link>
+                <router-link class="flex font-medium text-sm text-slate-300 hover:text-white py-1.5" to="/inspiration/about">About</router-link>
               </li>
               <li>
-                <router-link class="flex font-medium text-sm text-slate-300 hover:text-white py-1.5" to="/integrations">Integrations</router-link>
+                <router-link class="flex font-medium text-sm text-slate-300 hover:text-white py-1.5" to="/inspiration/integrations">Integrations</router-link>
               </li>
               <li>
-                <router-link class="flex font-medium text-sm text-slate-300 hover:text-white py-1.5" to="/pricing">Pricing</router-link>
+                <router-link class="flex font-medium text-sm text-slate-300 hover:text-white py-1.5" to="/inspiration/pricing">Pricing</router-link>
               </li>
               <li>
-                <router-link class="flex font-medium text-sm text-slate-300 hover:text-white py-1.5" to="/customers">Customers</router-link>
+                <router-link class="flex font-medium text-sm text-slate-300 hover:text-white py-1.5" to="/inspiration/customers">Customers</router-link>
               </li>
               <li>
-                <router-link class="flex font-medium text-sm text-slate-300 hover:text-white py-1.5" to="/changelog">Changelog</router-link>
+                <router-link class="flex font-medium text-sm text-slate-300 hover:text-white py-1.5" to="/inspiration/changelog">Changelog</router-link>
               </li>
             </ul>
           </nav>

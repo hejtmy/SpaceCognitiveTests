@@ -21,10 +21,5 @@ export default defineNuxtConfig({
     componentDir: './components/ui'
   },
   router: {
-    routes: () => [{
-      name: 'integrations-single',
-      path: '/integrations-single',
-      component: () => import('~/pages/IntegrationsSingle.vue')
-    }]
   }
 })

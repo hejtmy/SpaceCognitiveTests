@@ -1,10 +1,12 @@
+<script setup>
+const { data } = await useAsyncData('home', () => queryContent('/home').findOne());
+</script>
+
 <template>
   <div className="flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
-    <!-- Site header -->
-    <Header />
-    <!-- Page content -->
+    <CestaHeader />
     <main class="grow">
-      <CestaHero :title = "indexData.title" :description = "indexData.description" />
+      <CestaHero :title = "data.title" :description = "data.description" />
       <Clients />
       <Features />
       <Features02 />
@@ -18,12 +20,6 @@
     <Footer />
   </div>
 </template>
-
-<script setup>
-
-const indexData = await queryContent("index");
-
-</script>
 
 <script>
 export default {
