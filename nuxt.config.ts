@@ -1,10 +1,26 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
+  ssr: false,
   devtools: { enabled: true },
   modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt'],
+  vite: {
+    server: {
+      hmr: {
+        protocol: 'ws',
+        host: '0.0.0.0',
+      }
+    }
+  },
   shadcn: {
     prefix: '',
     componentDir: './components/ui'
   },
+  router: {
+    routes: () => [{
+      name: 'integrations-single',
+      path: '/integrations-single',
+      component: () => import('~/pages/IntegrationsSingle.vue')
+    }]
+  }
 })
