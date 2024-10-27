@@ -34,7 +34,6 @@ const links = [
 ]
 
 </script>
-
 <template>
   <header class="absolute w-full z-30">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
@@ -46,27 +45,22 @@ const links = [
             <img class="max-w-none" src="/images/logo.svg" width="38" height="38" alt="Stellar">
           </router-link>
         </div>
-
         <!-- Desktop navigation -->
         <nav class="hidden md:flex md:grow">
           <ul class="flex grow justify-center flex-wrap items-center">
           <!-- Desktop menu links -->
            <li v-for="item in links" :key="item.id">
-            <router-link class="font-medium text-sm text-slate-300 hover:text-white mx-4 lg:mx-5 transition duration-150 ease-in-out" :to="item.link">{{ item.name }}</router-link>
+            <nuxt-link class="font-medium text-sm text-slate-300 hover:text-white mx-4 lg:mx-5 transition duration-150 ease-in-out" :to="item.link">{{ item.name }}</nuxt-link>
           </li>
           </ul>
         </nav>
         <!-- Desktop sign in links -->
         <ul class="flex-1 flex justify-end items-center">
-          <li>
-            <router-link class="font-medium text-sm text-slate-300 hover:text-white whitespace-nowrap transition duration-150 ease-in-out" to="/signin">Sign in</router-link>
-          </li>
           <li class="ml-6">
-            <router-link class="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out w-full group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none" to="/signup">
-              <span class="relative inline-flex items-center">
-                Sign up <span class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+            <nuxt-link to="/signin" class="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out w-full group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none">
+              <span class="relative inline-flex items-center">Přihlásit se<span class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
               </span>
-            </router-link>
+            </nuxt-link>
           </li>
         </ul>
 
@@ -86,7 +80,7 @@ const links = [
           <nav id="mobile-nav" class="absolute top-full z-20 left-0 w-full px-4 sm:px-6 overflow-hidden transition-all duration-300 ease-in-out" ref="mobileNav" :style="[mobileNavOpen ? { maxHeight: $refs.mobileNav.scrollHeight + 'px', opacity: 1 } : { maxHeight: 0, opacity: .8 }]" @click.outside="expanded = false" @keydown.escape.window="expanded = false">
             <ul class="border border-transparent [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] rounded-lg px-4 py-1.5">
               <li v-for="item in links" :key="item.id">
-                <router-link class="flex font-medium text-sm text-slate-300 hover:text-white py-1.5" :to="item.link">{{ item.name }}</router-link>
+                <nuxt-link class="flex font-medium text-sm text-slate-300 hover:text-white py-1.5" :to="item.link">{{ item.name }}</nuxt-link>
               </li>
             </ul>
           </nav>

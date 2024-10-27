@@ -21,5 +21,8 @@ export default defineNuxtConfig({
     componentDir: './components/ui'
   },
   router: {
+    options:{
+      sensitive: false,
+    }
   }
 })

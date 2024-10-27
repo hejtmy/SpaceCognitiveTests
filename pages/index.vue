@@ -9,13 +9,7 @@ const { data } = await useAsyncData('home', () => queryContent('/home').findOne(
       <CestaHero :title = "data.title" :description = "data.description" />
       <Clients />
       <Features />
-      <Features02 />
       <Features03 />
-      <TestimonialsCarousel />
-      <Features04 />
-      <PricingHome />
-      <Testimonials />
-      <Cta />
     </main>
     <Footer />
   </div>

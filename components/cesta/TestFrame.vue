@@ -33,15 +33,12 @@ const props = defineProps({
           <div class="inline-flex items-center justify-center relative">
             <!-- Particles animation -->
             <Particles class="absolute inset-0 -z-10" :quantity="10" />
-            <div class="inline-flex [mask-image:_radial-gradient(circle_at_bottom,transparent_15%,black_70%)]">
-              <img src="/images/about-illustration.svg" width="446" height="446" alt="About illustration" />
+            <div class="inline-flex">
+              <div id="jspsych-target"></div>
             </div>
-            <img class="absolute mt-[30%] drop-shadow-lg animate-float" src="/images/about-icon.svg" width="72" height="72" alt="About icon" />
           </div>
         </div>
-
       </div>
     </div>
-
   </section>
 </template>
