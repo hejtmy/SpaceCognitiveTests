@@ -20,6 +20,7 @@
     "jspsych": "^8.0.2",
     "lucide-vue-next": "^0.452.0",
     "nuxt": "^3.13.0",
+    "patch-package": "^8.0.0",
     "radix-vue": "^1.9.7",
     "shadcn-nuxt": "^0.10.4",
     "swiper": "^8.4.7",
