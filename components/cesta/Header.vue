@@ -28,8 +28,8 @@ onUnmounted(() => {
 })
 
 const links = [
-  { name: 'K testům', link: '/tests' },
-  { name: 'Inspirace', link: '/inspiration/' },
+  { name: 'Psychologické testy', link: '/tests' },
+  //{ name: 'Inspirace', link: '/inspiration/' },
 ]
 
 </script>
@@ -39,7 +39,7 @@ const links = [
       <div class="flex items-center justify-between h-16 md:h-20">
         <div class="flex-1">
           <router-link class="inline-flex" to="/" aria-label="Cruip">
-            <img class="max-w-none" src="/images/logo.svg" width="38" height="38" alt="Stellar">
+            <img class="max-w-none" src="/images/logo.png" width="38" height="38" alt="Stellar">
           </router-link>
         </div>
         <nav class="hidden md:flex md:grow">

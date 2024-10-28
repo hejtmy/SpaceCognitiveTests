@@ -17,7 +17,7 @@
     </main>
     
     <!-- Site footer -->
-    <Footer />    
+    <CestaFooter />    
 
   </div>
 </template>

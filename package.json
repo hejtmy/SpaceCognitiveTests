@@ -10,8 +10,11 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@jspsych/plugin-html-button-response": "^2.0.0",
     "@jspsych/plugin-html-keyboard-response": "^2.0.0",
+    "@jspsych/plugin-image-button-response": "^2.0.0",
     "@jspsych/plugin-image-keyboard-response": "^2.0.0",
+    "@jspsych/plugin-instructions": "^2.0.0",
     "@jspsych/plugin-preload": "^2.0.0",
     "@nuxt/content": "^2.13.4",
     "aos": "^3.0.0-beta.6",

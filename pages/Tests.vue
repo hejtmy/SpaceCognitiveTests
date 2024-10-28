@@ -4,6 +4,6 @@
     <main class="grow">
       <CestaTestsList />
     </main>
-    <Footer />    
+    <CestaFooter />    
   </div>
 </template>

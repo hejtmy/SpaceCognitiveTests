@@ -4,7 +4,6 @@
     <main class="grow">
       <HeroAbout />
     </main>
-    <Footer />    
-
+    <CestaFooter />    
   </div>
 </template>

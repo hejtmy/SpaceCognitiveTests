@@ -6,9 +6,9 @@
 
 <script setup>
 useHead({
-  title: 'Cesta Do Vesmíru',
+  title: 'Vzhůru do vesmíru: kognitivní testování',
   meta: [
-    { name: 'description', content: 'My amazing Nuxt application' },
+    { name: 'description', content: 'Aplikace pro edukaci a demonstraci kognitivního testování budoucích astronautů.' },
     { name:"viewport", content:"width=device-width, initial-scale=1.0"}
   ],
   bodyAttrs: {

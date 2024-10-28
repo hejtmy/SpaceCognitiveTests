@@ -29,7 +29,7 @@ const tests = data.value;
             </svg>
           </div>
           <Highlighter class="grid md:grid-cols-12 gap-6 group">
-            <CestaTestCard v-for="test in tests" :url="test.url" :title="test.title" :description="test.testListShortDescription" :image="test.img"/>
+            <CestaTestCard v-for="test in tests" :url="test.url" :title="test.title" :description="test.testListShortDescription" :image="test.listThumb"/>
           </Highlighter>
         </div>
       </div>
