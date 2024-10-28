@@ -7,15 +7,9 @@ const { data } = await useAsyncData('home', () => queryContent('/home').findOne(
     <CestaHeader />
     <main class="grow">
       <CestaHero :title="data.title" :description="data.description" />
-      <Clients />
-      <Features03 />
+      <CestaPartners />
+      <CestaAbout />
     </main>
     <CestaFooter />
   </div>
 </template>
-
-<script>
-export default {
-  name: 'index',
-}
-</script>
