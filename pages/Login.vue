@@ -1,3 +1,6 @@
+<script setup>
+//const client = useSupabaseAuthClient();
+</script>
 <template>
   <main class="grow">
     <CestaHeader/>

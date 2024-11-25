@@ -6,7 +6,8 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/tailwindcss', 
     'shadcn-nuxt', 
-    '@nuxt/content'
+    '@nuxt/content',
+    '@nuxtjs/supabase'
   ],
   vite: {
     server: {
@@ -19,6 +20,13 @@ export default defineNuxtConfig({
   shadcn: {
     prefix: '',
     componentDir: './components/ui'
+  },
+  supabase: {
+    redirect: false,
+    redirectOptions: {
+      login: '/login',
+      confirm: '/tests',
+    },
   },
   router: {
     options:{
