@@ -7,6 +7,8 @@ import instructions from '@jspsych/plugin-instructions';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response'
 import imageButtonResponse from '@jspsych/plugin-image-button-response'
 
+const client = useSupabaseClient();
+
 // Initialize jsPsych
 jsPsych = initJsPsych({
   display_element: 'jspsych-target',
@@ -19,8 +21,6 @@ jsPsych = initJsPsych({
 const stimuli = [
 '/images/stimuli/nback/1.png',
 '/images/stimuli/nback/2.png',
-'/images/stimuli/nback/3.png',
-'/images/stimuli/nback/4.png',
 '/images/stimuli/nback/5.png',
 ]
 
@@ -38,7 +38,7 @@ const generateSequence = (length) => {
   return sequence
 }
 
-const sequence = generateSequence(10)
+const sequence = generateSequence(5)
 const timeline = []
 
 timeline.push({
@@ -118,9 +118,32 @@ timeline.push({
             <p>Thank you for participating.</p>
           </div>
         `,
-  choices: ['Finish']
+  choices: ['Finish'],
+  on_finish: async () => {
+    await save_test_data(jsPsych);
+  }
 })
 
+async function save_test_data(jspsych){
+  if (client == null) {
+    console.error('Supabase client is not available');
+    return
+  }
+  try {
+    const test_data = jspsych.data.get().json();
+    const updates = {
+      test_name: '2-Back Task',
+      test_results: test_data,
+    }
+    const { error } = await client.from('TestResults').insert(updates, {
+      returning: 'minimal', // Don't return the value after inserting
+    })
+    if (error) throw error
+  } catch (error) {
+    alert(error.message)
+  } finally {
+  }
+}
 
 onMounted(() => {
   jsPsych.run(timeline)
