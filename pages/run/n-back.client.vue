@@ -1,4 +1,5 @@
 <script setup>
+const user = useSupabaseUser();
 import 'jspsych/css/jspsych.css';
 import {initJsPsych} from 'jspsych';
 import preload from '@jspsych/plugin-preload';
@@ -44,6 +45,21 @@ timeline.push({
   type: preload,
   images: stimuli
 })
+
+if(user.value) {
+  timeline.push({
+    type: instructions,
+// create a timeline information for the task if the user is logged in
+// if logged in, they should confirm this is the official attempt and will be counted 
+    pages: [
+      `<div class="max-w-2xl mx-auto text-center">
+        <h1 class="text-2xl font-bold mb-4">2-Back Task</h1>
+        <p class="mb-4">Official attempt.</p>`
+    ],
+    choices: ['Souhlasím, pokračovat'],
+    show_clickable_nav: true
+  })
+}
 
 // Instructions
 timeline.push({

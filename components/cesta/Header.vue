@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+const user = useSupabaseUser();
 
 const mobileNavOpen = ref(false)
 const mobileNav = ref(null)
@@ -32,6 +33,11 @@ const links = [
   //{ name: 'Inspirace', link: '/inspiration/' },
 ]
 
+const isLoggedIn = computed(() => !!user.value);
+
+console.log(isLoggedIn.value);
+
+defineExpose({ isLoggedIn });
 </script>
 <template>
   <header class="absolute w-full z-30">
@@ -49,14 +55,7 @@ const links = [
           </li>
           </ul>
         </nav>
-        <ul class="flex-1 flex justify-end items-center">
-          <li class="ml-6">
-            <nuxt-link to="/login" class="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out w-full group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none">
-              <span class="relative inline-flex items-center">Přihlásit se<span class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
-              </span>
-            </nuxt-link>
-          </li>
-        </ul>
+        <CestaLoginLogoutButton :userLoggedIn="isLoggedIn"/>
         <div class="md:hidden flex items-center ml-4">
           <button class="hamburger" ref="hamburger" :class="{ 'active': mobileNavOpen }" @click="mobileNavOpen = !mobileNavOpen" aria-controls="mobile-nav" :aria-expanded="mobileNavOpen">
             <span class="sr-only">Menu</span>

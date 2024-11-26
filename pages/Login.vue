@@ -1,16 +1,13 @@
 <script setup>
-//const client = useSupabaseAuthClient();
 </script>
 <template>
   <main class="grow">
     <CestaHeader/>
     <section class="relative">
-
       <!-- Illustration -->
       <div class="md:block absolute left-1/2 -translate-x-1/2 -mt-36 blur-2xl opacity-70 pointer-events-none -z-10" aria-hidden="true">
         <img src="/images/auth-illustration.svg" class="max-w-none" width="1440" height="450" alt="Page Illustration">
       </div>
-
       <div class="relative max-w-6xl mx-auto px-4 sm:px-6">
         <div class="pt-32 pb-12 md:pt-40 md:pb-20">
           <!-- Page header -->
@@ -28,30 +25,9 @@
           <p>Testy si můžete natrénovat kolikrát chcete bez přihlášení.</p>
           <p>Pokud chcete zaznamenat své oficální výsledky, přihlašte se se zaslanými údaji.</p>
           </div>
-
           <!-- Form -->
           <div class="max-w-sm mx-auto">
-
-            <form>
-              <div class="space-y-4">
-                <div>
-                  <label class="block text-sm text-slate-300 font-medium mb-1" for="email">Email</label>
-                  <input id="email" class="form-input w-full" type="email" required />
-                </div>
-                <div>
-                  <div class="flex justify-between">
-                    <label class="block text-sm text-slate-300 font-medium mb-1" for="password">Zaslané heslo</label>
-                  </div>
-                  <input id="password" class="form-input w-full" type="password" autocomplete="on" required />
-                </div>
-              </div>
-              <div class="mt-6">
-                <button class="btn text-sm text-white bg-purple-500 hover:bg-purple-600 w-full shadow-sm group">
-                  Přihlásit se <span class="tracking-normal text-purple-300 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
-                </button>
-              </div>
-            </form>
-
+            <CestaLoginForm/>
             <div class="text-center mt-4">
               <div class="text-sm text-slate-400">
                 Přihlášení je pouze pro registrované uživatele. Přihlašovací údaje by vám měly přijít na zaregistrovaný email. Pokud ne, ozvěte se na email: XXX@xxx.xxx
