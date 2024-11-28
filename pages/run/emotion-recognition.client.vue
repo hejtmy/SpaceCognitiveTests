@@ -1,4 +1,5 @@
 <script setup>
+
 const user = useSupabaseUser();
 const client = useSupabaseClient();
 
@@ -22,9 +23,13 @@ var timeline = [];
 
 var testpreload = {
     type: preload,
-    images: ["/images/stimuli/test/stimulusA.jpg", "/images/stimuli/test/stimulusB.jpg"]
+    images: stimuli,
 };
 timeline.unshift(testpreload);
+
+const emotionstimuliurl = client.storage.from("test-stimuli").getPublicUrl('nback/')
+// select random 3 from each category
+anger_images = Array.from({length: 3}, () => Math.floor(Math.random() * 42) + 1)
 
 var welcome = {
   type: htmlButtonResponse,
@@ -32,7 +37,6 @@ var welcome = {
   choices: ["Pokračovat"]
 };
 
-/* Instructions */
 var testinstructions = {
   type: instructions,
   pages: [`
@@ -49,14 +53,38 @@ var test_stimuli = [
   "/images/stimuli/test/stimulusB.jpg"
 ];
 
+ // Create long trials
+sequence.forEach((stimulus, index) => {
+  timeline.push({
+    type: imageButtonResponse,
+    stimulus: stimulus,
+    choices: ['match'],
+    stimulus_duration: null, // Show until response
+    trial_duration: null, // No timeout
+    margin_vertical: '10px',
+    stimulus_height: 512,
+    stimulus_width: 512,
+    render_on_canvas: false, // Allows the image to be clickable
+    button_class: 'jspsych-btn',
+    data: {
+      trial_type: 'long',
+      trial_index: index,
+      stimulus: stimulus,
+    },
+    on_finish: (data) => {
+      // Score the response (1 = Match button clicked)
+      data.correct = (isTarget && data.response === 1) || 
+      (!isTarget && data.response === 0)
+  },
+  post_trial_gap: 500
+  })
+})
+
+
 /* Main trial */
 var emotion_long_trial = {
     type: htmlButtonResponse,
-    stimulus: function() {return `
-      <div class="jspsych-image-button-response-stimulus div-emotion">
-        <img src="${jsPsych.evaluateTimelineVariable('image')}" class="img-emotion"/>
-      </div>`
-    },
+    stimulus: image,
     stimulus_duration: null, // Show until response
     trial_duration: null, // No timeout
     margin_vertical: '10px',
