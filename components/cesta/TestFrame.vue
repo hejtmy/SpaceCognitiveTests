@@ -16,10 +16,8 @@ const props = defineProps({
     <div class="md:block absolute left-1/2 -translate-x-1/2 -mt-16 blur-2xl opacity-90 pointer-events-none -z-10" aria-hidden="true">
       <img src="/images/page-illustration.svg" class="max-w-none" width="1440" height="427" alt="Page Illustration">
     </div>
-
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <div class="pt-32 pb-10 md:pt-40">
-
         <div class="text-center">
           <h1 class="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-6">{{ testName }}</h1>
           <div class="inline-flex items-center justify-center relative">
@@ -33,3 +31,58 @@ const props = defineProps({
     </div>
   </section>
 </template>
+
+<style>
+/* Add any custom styles for jsPsych elements here */
+.jspsych-content {
+  max-width: 100%;
+}
+
+.jspsych-image-button-response-stimulus{
+  min-height: 512px;
+  place-items: center;
+  max-width: 100%;
+  height: auto;
+  margin: auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.jspsych-display-element {
+  display: flex;
+  place-items: center;
+  width: auto;
+  height: auto;
+  margin: auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.jspsych-btn {
+  display:flex;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.jspsych-image-button-response-button-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.jspsych-btn-group-grid{
+  display: flex!important;
+  flex-wrap: wrap!important;
+  justify-content: center!important;
+}
+
+</style>
