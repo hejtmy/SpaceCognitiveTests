@@ -7,10 +7,14 @@ import 'jspsych/css/jspsych.css';
 import {initJsPsych} from 'jspsych';
 import preload from '@jspsych/plugin-preload';
 import instructions from '@jspsych/plugin-instructions';
-import htmlButtonResponse from '@jspsych/plugin-html-button-response'
-import imageButtonResponse from '@jspsych/plugin-image-button-response'
+import htmlButtonResponse from '@jspsych/plugin-html-button-response';
+import imageButtonResponse from '@jspsych/plugin-image-button-response';
 
-// Initialize jsPsych
+// CONSTANTS -------
+const N_IMAGES = 40;
+const EMOTIONS = ['Fear', 'Happiness', 'Surprise', 'Anger', 'Sadness', 'Neutral'];
+const EMOTION_STIMULI_URL = client.storage.from("test-stimuli").getPublicUrl('emotions/');
+
 jsPsych = initJsPsych({
   display_element: 'jspsych-target',
   on_finish: () => {
@@ -18,24 +22,53 @@ jsPsych = initJsPsych({
   }
 })
 
-/* Create timeline */
-var timeline = [];
+function create_stimuli(emotionurl, emotion, n_images){
+  const possible_images = Array.from({length: N_IMAGES}, (_, i) => i + 1)
+  const selected_images = jsPsych.randomization.sampleWithoutReplacement(possible_images, n_images);
+  const stimuli = selected_images.map(num => `${emotionurl.data.publicUrl}/${emotion}/${emotion}_${num}.jpg`);
+  return stimuli;
+}
 
-var testpreload = {
+function extract_emotion(url){
+  const emotion = url.split('/').slice(-2, -1)[0];
+  return emotion;
+} 
+
+function create_emotion_trial(index, stimulus) { 
+  const emotion = extract_emotion(stimulus);
+  const trial = {
+    type: imageButtonResponse,
+    stimulus: jsPsych.timelineVariable('image'),
+    stimulus_duration: null,
+    trial_duration: null,
+    margin_vertical: '10px',
+    stimulus_height: 512,
+    stimulus_width: 512,
+    button_html: (choice) => `<button class="jspsych-btn">${choice}</button>`,
+    choices: ['Fear', 'Happiness', 'Surprise', 'Anger', 'Sadness', 'Neutral'],
+    post_trial_gap: 1000,
+    data: {
+      task: 'emotion_recognition',
+      emotion: emotion,
+    }
+  }
+  return trial;
+};
+
+let stimuli = [];
+EMOTIONS.forEach((emotion, index) => {
+  const emotion_stimuli = create_stimuli(EMOTION_STIMULI_URL, emotion, 3);
+  stimuli = stimuli.concat(emotion_stimuli.map(image => ({image: image})));
+});
+const first_block = jsPsych.randomization.shuffle(stimuli);
+console.log(first_block);
+// TIMELINE -------
+
+var timeline = [];
+timeline.unshift({
     type: preload,
     images: stimuli,
-};
-timeline.unshift(testpreload);
-
-const emotionstimuliurl = client.storage.from("test-stimuli").getPublicUrl('nback/')
-// select random 3 from each category
-anger_images = Array.from({length: 3}, () => Math.floor(Math.random() * 42) + 1)
-
-var welcome = {
-  type: htmlButtonResponse,
-  stimulus: "Vítejte v testu rozpoznávání emocí. Stiskněte libovolnou klávesu pro pokračování.",
-  choices: ["Pokračovat"]
-};
+});
 
 var testinstructions = {
   type: instructions,
@@ -45,78 +78,10 @@ var testinstructions = {
       <p>Press any key to begin.</p>
   `],
    choices: ['Souhlasím, pokračovat'],
-    show_clickable_nav: true
+   show_clickable_nav: true
 };
 
-var test_stimuli = [
-  "/images/stimuli/test/stimulusA.jpg",
-  "/images/stimuli/test/stimulusB.jpg"
-];
-
- // Create long trials
-sequence.forEach((stimulus, index) => {
-  timeline.push({
-    type: imageButtonResponse,
-    stimulus: stimulus,
-    choices: ['match'],
-    stimulus_duration: null, // Show until response
-    trial_duration: null, // No timeout
-    margin_vertical: '10px',
-    stimulus_height: 512,
-    stimulus_width: 512,
-    render_on_canvas: false, // Allows the image to be clickable
-    button_class: 'jspsych-btn',
-    data: {
-      trial_type: 'long',
-      trial_index: index,
-      stimulus: stimulus,
-    },
-    on_finish: (data) => {
-      // Score the response (1 = Match button clicked)
-      data.correct = (isTarget && data.response === 1) || 
-      (!isTarget && data.response === 0)
-  },
-  post_trial_gap: 500
-  })
-})
-
-
-/* Main trial */
-var emotion_long_trial = {
-    type: htmlButtonResponse,
-    stimulus: image,
-    stimulus_duration: null, // Show until response
-    trial_duration: null, // No timeout
-    margin_vertical: '10px',
-    button_html: (choice) => `<button class="jspsych-btn btn-emotion">${choice}</button>`,
-    choices: ['Fear', 'Happiness', 'Surprise', 'Anger', 'Sadness', 'Neutral'],
-    post_trial_gap: 1000,
-    data: {
-      task: 'emotion_recognition',
-      image: jsPsych.timelineVariable('image')
-    }
-};
-
-var emotion_long_trial2 = {
-    type: imageButtonResponse,
-    stimulus: jsPsych.timelineVariable('image'),
-    stimulus_duration: null, // Show until response
-    trial_duration: null, // No timeout
-    margin_vertical: '10px',
-    stimulus_height: 512,
-    stimulus_width: 512,
-    button_html: (choice) => `<button class="jspsych-btn">${choice}</button>`,
-    choices: ['Fear', 'Happiness', 'Surprise', 'Anger', 'Sadness', 'Neutral'],
-    post_trial_gap: 1000,
-    data: {
-      task: 'emotion_recognition',
-      image: jsPsych.timelineVariable('image')
-    }
-};
-
-timeline.push(welcome);
 timeline.push(testinstructions);
-timeline.push(test_procedure);
 
 onMounted(() => {
   jsPsych.run(timeline)
