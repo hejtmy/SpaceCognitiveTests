@@ -8,7 +8,6 @@ import {initJsPsych} from 'jspsych';
 import preload from '@jspsych/plugin-preload';
 import instructions from '@jspsych/plugin-instructions';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response';
-import imageButtonResponse from '@jspsych/plugin-image-button-response';
 
 // CONSTANTS -------
 const N_IMAGES = 40;
@@ -34,48 +33,55 @@ function extract_emotion(url){
   return emotion;
 } 
 
-function create_emotion_trial(index, stimulus) { 
+function create_emotion_trial(index, stimulus, duration, rotation) { 
   const emotion = extract_emotion(stimulus);
   const trial = {
-    type: imageButtonResponse,
-    stimulus: jsPsych.timelineVariable('image'),
-    stimulus_duration: null,
-    trial_duration: null,
-    margin_vertical: '10px',
-    stimulus_height: 512,
-    stimulus_width: 512,
-    button_html: (choice) => `<button class="jspsych-btn">${choice}</button>`,
+    type: htmlButtonResponse,
+    stimulus: `<img src="${stimulus.image}" class="max-w-none rotate_${rotation}" width="512" height="512" alt="Mapa">`,
+    stimulus_duration: duration,
+    trial_duration: duration,
     choices: ['Fear', 'Happiness', 'Surprise', 'Anger', 'Sadness', 'Neutral'],
+    button_html: (choice) => `<button class="jspsych-btn">${choice}</button>`,
     post_trial_gap: 1000,
     data: {
+      index: index,
       task: 'emotion_recognition',
       emotion: emotion,
     }
   }
   return trial;
 };
+// All stimuli for preload
+let all_stimuli = [];
 
+// First block -----------
+// Long trials 
 let stimuli = [];
 EMOTIONS.forEach((emotion, index) => {
   const emotion_stimuli = create_stimuli(EMOTION_STIMULI_URL, emotion, 3);
-  stimuli = stimuli.concat(emotion_stimuli.map(image => ({image: image})));
+  stimuli = stimuli.concat(emotion_stimuli);
 });
-const first_block = jsPsych.randomization.shuffle(stimuli);
+
+stimuli = jsPsych.randomization.shuffle(stimuli);
+const first_block = stimuli.map((stimulus, index) => {
+  return create_emotion_trial(index, stimulus, null, 0);
+});
+
 console.log(first_block);
 // TIMELINE -------
 
 var timeline = [];
 timeline.unshift({
-    type: preload,
-    images: stimuli,
+  type: preload,
+  images: all_stimuli,
 });
 
 var testinstructions = {
   type: instructions,
   pages: [`
-      <p>In this experiment, you will see faces displaying different emotions.</p>
-      <p>Select the emotion you think is being displayed by clicking one of the buttons.</p>
-      <p>Press any key to begin.</p>
+    <p>In this experiment, you will see faces displaying different emotions.</p>
+    <p>Select the emotion you think is being displayed by clicking one of the buttons.</p>
+    <p>Press any key to begin.</p>
   `],
    choices: ['Souhlasím, pokračovat'],
    show_clickable_nav: true
@@ -114,5 +120,14 @@ onMounted(() => {
 .img-emotion{
   width: 100%;
   height: 100%;
+}
+.rotate_90{
+  transform: rotate(90deg);
+}
+.rotate_180{
+  transform: rotate(180deg);
+}
+.rotate_270{
+  transform: rotate(270deg);
 }
 </style>
