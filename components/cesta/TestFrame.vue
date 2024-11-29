@@ -22,7 +22,7 @@ const props = defineProps({
           <h1 class="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-6">{{ testName }}</h1>
           <div class="inline-flex items-center justify-center relative">
             <Particles class="absolute inset-0 -z-10" :quantity="10" />
-            <div class="inline-flex">
+            <div id="jspych-wrapper" class="inline-flex">
               <div id="jspsych-target"></div>
             </div>
           </div>
@@ -34,6 +34,10 @@ const props = defineProps({
 
 <style>
 /* Add any custom styles for jsPsych elements here */
+.jspsych-wrapper {
+  min-height: 600px;
+}
+
 .jspsych-content {
   max-width: 100%;
 }
