@@ -74,7 +74,7 @@ function create_trial_gonogo(index, block, go, type, go_stimulus, stimulus_index
   return {
     type: htmlButtonResponse,
     stimulus: "",
-    button_html: (choice, index) => `<img src=${choice} class="max-w-none" width="512" height="512"/>`,
+    button_html: (choice, index) => `<img src=${choice} class="max-w-none" style="margin:auto;" width="512" height="512"/>`,
     choices: [stimulus],
     stimulus_duration: TRIAL_DURATION, // Show until response
     trial_duration: TRIAL_DURATION, // No timeout
@@ -143,7 +143,6 @@ timeline.push({
   choices: ['Ano, budu klikat jen na astronauta'],
   show_clickable_nav: true
 });
-timeline.push(...third_block.flat());
 
 timeline.push(...first_block.flat());
 timeline.push({

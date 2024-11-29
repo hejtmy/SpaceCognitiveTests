@@ -3,7 +3,6 @@ const user = useSupabaseUser();
 const client = useSupabaseClient();
 
 import 'jspsych/css/jspsych.css';
-import { useRouter } from 'vue-router';
 import {initJsPsych} from 'jspsych';
 import callFuncion from '@jspsych/plugin-call-function';
 import preload from '@jspsych/plugin-preload';

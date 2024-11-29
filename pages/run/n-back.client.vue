@@ -86,57 +86,17 @@ planetstimuli = selectAndDuplicateStrings(planetstimuli, N_BACK, N_REPEATED_TRIA
 let abstractstimuli = generate_stimuli_sequence(NUMBER_OF_TRIALS, NUMBER_OF_STIMULI, 'abstract', 'nback_abstract_')
 abstractstimuli = selectAndDuplicateStrings(abstractstimuli, N_BACK, N_REPEATED_TRIALS)
 
-let timeline = [];
-
-timeline.push({
-  type: preload,
-  images: planetstimuli.concat(abstractstimuli),
-})
-
-if(user.value) {
-  timeline.push({
-    type: instructions,
-    pages: [
-    `<div class="max-w-2xl mx-auto text-center">
-        <h1 class="text-2xl font-bold mb-4">2-Back Task</h1>
-        <p class="mb-4">Official attempt.</p>`
-      ],
-      choices: ['Souhlasím, pokračovat'],
-      show_clickable_nav: true
-    }
-  )
-}
-  
-// Instructions
-timeline.push({
-  type: htmlButtonResponse,
-  stimulus: `
-    <div class="max-w-2xl mx-auto text-center">
-      <h1 class="text-2xl font-bold mb-4">2-Back Task</h1>
-      <p class="mb-2">Postupně uvidíte sérii několika obrázků</p>
-      <p class="mb-2">Klikněte na tlačítko "Viděl/ajsem, pokud obrázek jste viděli jako předminulý" </p>
-      <p class="mb-4">Jinak počkejte až se objeví další.</p>
-    </div>
-  `,
-  choices: ['Začít'],
-  post_trial_gap: 1000
-})
-
 function generate_timeline_sequence(stimuli, duration, width, height) {
   let sequence_trials = []
   stimuli.forEach((stimulus, index) => {
     const isTarget = index >= 2 && stimulus === stimuli[index - 2]
     const trial = {
-      type: imageButtonResponse,
-      stimulus: stimulus,
-      choices: ['match'],
-      margin_vertical: '10px',
-      stimulus_height: height,
-      stimulus_width: width,
+      type: htmlButtonResponse,
+      button_html: (choice, index) => `<img src=${choice} class="max-w-none" style="margin:auto;" width="512" height="512"/>`,
+      stimulus: "",
+      choices: [stimulus],
       stimulus_duration: duration,
       trial_duration: duration,
-      render_on_canvas: false,
-      button_class: 'jspsych-btn',
       data: {
         trial_index: index,
         stimulus: stimulus,
@@ -149,13 +109,52 @@ function generate_timeline_sequence(stimuli, duration, width, height) {
       post_trial_gap: 500
     }
     sequence_trials.push(trial);
-  }
-  )
+  })
   return sequence_trials;
 }
 
 const planet_sequence = generate_timeline_sequence(planetstimuli, TRIAL_DURATION, IMAGE_WIDTH, IMAGE_HEIGHT);
 const abstract_sequence = generate_timeline_sequence(abstractstimuli, TRIAL_DURATION, IMAGE_WIDTH, IMAGE_HEIGHT);
+
+// Timeline generation ------------------
+let timeline = [];
+timeline.push(timeline_hideFooter())
+
+timeline.push({
+  type: preload,
+  images: planetstimuli.concat(abstractstimuli),
+})
+
+if(user.value) {
+  timeline.push({
+    type: instructions,
+    pages: [
+    `<div class="max-w-2xl mx-auto text-center">
+        <h1 class="text-2xl font-bold mb-4">2-Back Task</h1>
+        <p class="mb-4">Neboť jste přihlášení, toto bude váš oficiální pokus. Oficální pokus můžete absolvovat pouze jednou.</p>
+        <p class="mb-4">Pokud si chcete ještě test natrénovat, odhlašte se a můžete trénovat jak dlouho uznáte za vhodné</p>`
+      ],
+      choices: ['Rozumím, chci pokračovat'],
+      show_clickable_nav: true
+    }
+  )
+}
+  
+// Instructions
+timeline.push({
+  type: htmlButtonResponse,
+  stimulus: `
+    <div class="max-w-2xl mx-auto text-center">
+      <h1 class="text-2xl font-bold mb-4">2-Back Task</h1>
+      <p class="mb-2">Postupně uvidíte sérii několika obrázků</p>
+      <p class="mb-2">Vaším úkolem je klinkněte na obrázek pokaždé, pokud jste jej viděli jako předminulý obrázek.</p>
+      <p class="mb-4">Jinak počkejte až se objeví další.</p>
+    </div>
+  `,
+  choices: ['Začít'],
+  post_trial_gap: 1000
+})
+
 
 timeline.push(...planet_sequence)
 timeline.push({
