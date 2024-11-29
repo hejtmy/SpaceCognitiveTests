@@ -3,6 +3,7 @@ const user = useSupabaseUser();
 const client = useSupabaseClient();
 
 import 'jspsych/css/jspsych.css';
+import { useRouter } from 'vue-router';
 import {initJsPsych} from 'jspsych';
 import callFuncion from '@jspsych/plugin-call-function';
 import preload from '@jspsych/plugin-preload';
@@ -17,20 +18,17 @@ jsPsych = initJsPsych({
   }
 })
 
-/* Create timeline */
 const timeline = [];
-
-//create all combininations of stimuli
-const directions = ["left", "right"];
-const distances = [1, 2, 3];
-const angles = [45, 90, 135];
 
 const spatialurl = client.storage.from("test-stimuli").getPublicUrl('spatialcognition/')
 function imagename (direction, distance, angle) {
   return `${spatialurl.data.publicUrl}map_${direction}_${distance}_${angle}.png`
 }
 
-function create_all_stimuli(directions, distances, angles) {
+function create_all_stimuli() {
+  const directions = ["left", "right"];
+  const distances = [1, 2, 3];
+  const angles = [45, 90, 135];
   const all_stimuli = [];
   directions.forEach(direction => {
     distances.forEach(distance => {
@@ -41,7 +39,7 @@ function create_all_stimuli(directions, distances, angles) {
   })
   return all_stimuli;
 }
-const all_stimuli = create_all_stimuli(directions, distances, angles);
+const all_stimuli = create_all_stimuli();
 const testpreload = {
   type: preload,
   images: all_stimuli,

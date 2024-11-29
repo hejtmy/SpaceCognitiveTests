@@ -1,6 +1,6 @@
 ---
-title: N-back paměťová úloha
-description: Krátý popis úlohy
+title: Paměť
+description: Každý astronaut potřebuje mít výbornou paměť na informace i krátkodobou paměť, aby si zapamatoval a dokálaz zpracovat množství informací, které se na něj v každou chvíli hrnou
 longDescription: Dlouhý popis úlohy
 listThumb: /images/cesta/tests/n-back-transparent.png
 icon: /images/cesta/tests/n-back-icon.png
