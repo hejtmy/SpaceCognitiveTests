@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div id="footer-div" class="max-w-6xl mx-auto px-4 sm:px-6">
       <!-- Blocks -->
       <div class="grid sm:grid-cols-12 gap-8 py-8 md:py-12">
         <!-- 1st block -->
@@ -16,8 +16,6 @@
             </div>
           </div>
         </div>
-
-        <!-- 2nd block -->
         <div class="sm:col-span-6 md:col-span-3 lg:col-span-2">
           <h6 class="text-sm text-slate-50 font-medium mb-2">Vzhůru do vesmíru</h6>
           <ul class="text-sm space-y-2">
@@ -26,8 +24,6 @@
             </li>
           </ul>
         </div>
-
-        <!-- 3rd block -->
         <div class="sm:col-span-6 md:col-span-4 lg:col-span-2">
           <h6 class="text-sm text-slate-50 font-medium mb-2">Partneři</h6>
           <ul class="text-sm space-y-2">
@@ -36,8 +32,6 @@
             </li>
           </ul>
         </div>
-
-        <!-- Social links -->
         <div class="sm:col-span-6 md:col-span-4 lg:col-span-2">
           <ul class="flex">
             <li>
