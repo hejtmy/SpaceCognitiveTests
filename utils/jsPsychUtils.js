@@ -1,10 +1,6 @@
 import 'jspsych/css/jspsych.css';
-import {initJsPsych} from 'jspsych';
-import preload from '@jspsych/plugin-preload';
 import callFuncion from '@jspsych/plugin-call-function';
-import instructions from '@jspsych/plugin-instructions';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response'
-import imageButtonResponse from '@jspsych/plugin-image-button-response'
 
 export const timeline_hideFooter = () => {
   const trial = {
@@ -29,12 +25,12 @@ export const timeline_confirmOfficialAttempt = () => {
         <p class="mb-4">Neboť jste přihlášení, toto bude váš oficiální pokus. Oficální pokus můžete absolvovat pouze jednou.</p>
         <p class="mb-4">Pokud si chcete ještě test natrénovat, odhlašte se a můžete trénovat jak dlouho uznáte za vhodné</p>`,
       choices: ['Rozumím, chci pokračovat'],
-}
+  }
   return trial;
 }
 
 // create a saving call function
-export const save_test_data = async (jspsych) => {
+export const save_test_data = async (jspsych, client) => {
   if (client == null) {
     console.error('Supabase client is not available');
     return
@@ -52,5 +48,6 @@ export const save_test_data = async (jspsych) => {
   } catch (error) {
     alert(error.message)
   } finally {
+
   }
 }
