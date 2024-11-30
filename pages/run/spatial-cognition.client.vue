@@ -6,10 +6,11 @@ import 'jspsych/css/jspsych.css';
 import {initJsPsych} from 'jspsych';
 import callFuncion from '@jspsych/plugin-call-function';
 import preload from '@jspsych/plugin-preload';
-import instructions from '@jspsych/plugin-instructions';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response'
-import { h } from 'vue';
 import { timeline_hideFooter } from '~/utils/jsPsychUtils';
+
+const N_TRIALS = 6;
+const POST_INSTRUCTIONS_DELAY = 2000;
 
 // Initialize jsPsych
 jsPsych = initJsPsych({
@@ -55,8 +56,6 @@ function create_sequence(direction, rotations) {
   return sequence;
 }
 
-
-
 const first_rotation = Array(6).fill(0);
 const second_rotation = Array(3).fill(0).concat(Array(3).fill(180));
 const third_rotation = [0, 180, 90, 90, 270, 270];
@@ -84,7 +83,7 @@ function create_trial(stimulus, index) {
       stimulus: stimulus,
     },
     on_finish: (data) => { },
-    post_trial_gap: 0
+    post_trial_gap: 1000
   }
 }
 // TIMELINE ---
@@ -95,11 +94,16 @@ timeline.unshift({
   images: all_stimuli,
 })
 
-imeline.push({
+timeline.push({
   type: htmlButtonResponse,
-  stimulus: `<p>V úloze uvidíte obrázky s raketou a vesmírnou stanicí a vaším úkolem bude určit, zda se raketa pohybuje doprava nebo doleva.</p>`,
-  choices: ["Pokračovat"],
-  post_trial_gap: 2000
+  stimulus: `
+    <p>Vítejte v testu Prostorové kognice!<p/>
+    <p>V úloze uvidíte obrázky s raketou a vesmírnou stanicí. Vaším úkolem bude co nejrychleji určit, na kterou stranu musí raketa zatočit, aby ke stanici doletěla.</p>
+    <p>Na obrázcích níže vidíte pár příkladů. V na prvním obrázku musí otočit doleva, a na tom druhém musí zatočit vpravo.</p>
+    <img src="/images/tutorials/spatial-cognition/spatial-simple.png" class="max-w-none" style="margin:auto" width="512" height="512"/>
+    <p> Na odpověď máte dostatek času, ale hodnotí se jak správná odpověď, tak i vaše rychlost.</p>`,
+  choices: ["Letíme!"],
+  post_trial_gap: POST_INSTRUCTIONS_DELAY
 });
 
 first_sequence.forEach((stimulus, index) => {
@@ -109,11 +113,12 @@ first_sequence.forEach((stimulus, index) => {
 // create a pause trial between the sequences
 timeline.push({
   type: htmlButtonResponse,
-  stimulus: `<p>Přestávka<p/> 
-  <p> V další části bude raketka občas směřovat nahoru a občas dolů.</p>
-  <p>Nezapomeňte určit směr, v jakém by letět měla raketa a ne, na jaké straně obrazovky vidíte stanici. Až budete připraveni, můžete pokračovat.<p/>`,
-  choices: ["Pokračovat"],
-  post_trial_gap: 2000
+  stimulus: `<p>Výborně, první fáze hotová!<p/> 
+  <p> V další části raketa občas poletí směrem nahoru a občas směrem dolů. Vaším úkolem je opět správně a rychle určit směr, v jakém by raketa měla zatočit, aby doletěla správně ke stanici.</p>
+  <img src="/images/tutorials/spatial-cognition/spatial-upsidedown.png" class="max-w-none" style="margin:auto" width="512" height="512"/>
+  <p> Na prvním obrázku výše vidíte příklad, kde raketa letí směrem dolů a musí zatočit doleva, aby ke stanici doletěla. Na druhém obrázku letí nahoru a musí zatočit vpravo.</p>`,
+  choices: ["Letíme!"],
+  post_trial_gap: POST_INSTRUCTIONS_DELAY
 });
 
 second_sequence.forEach((stimulus, index) => {
@@ -123,9 +128,13 @@ second_sequence.forEach((stimulus, index) => {
 // create a pause trial between the sequences
 timeline.push({
   type: htmlButtonResponse,
-  stimulus: `Poslední přestávka a poslední kus cesty. Nyní se bude vesmír točit všemy směry. Až budete připraveni, můžete pokračovat.`,
-  choices: ["Pokračovat"],
-  post_trial_gap: 2000
+  stimulus: `<p>Výborně. Zbývá poslední kus cesty!<p/>
+  <p>Pozor, nyní bude raketa točit bude vesmír točit všemy čtyřmi směry. Občas poletí doprava, občas doleva, někdy nahoru a někdy dolů.</p>
+  <p>Vaším úkolem je opět rychle a přesně určit, kam by měla raketa zatočit, aby doletěla ke stanici.</p>
+  <img src="/images/tutorials/spatial-cognition/spatial-upsidedown.png" class="max-w-none" style="margin:auto" width="512" height="512"/>
+  <p>Na prvním obrázku výše vidíte příklad, kde raketa letí směrem doprava a musí zatočit doleva, aby ke stanici doletěla. Na druhém obrázku musí zatočit doprava.</p>`,
+  choices: ["Letíme!"],
+  post_trial_gap: POST_INSTRUCTIONS_DELAY
 });
 
 third_sequence.forEach((stimulus, index) => {
@@ -136,15 +145,15 @@ timeline.push({
   type: callFuncion,
   async: true,
   func: async (done) => {
-    await save_test_data(jsPsych);
+    await save_test_data(jsPsych, client);
     done();
   }
 })
 
 timeline.push({
   type: htmlButtonResponse,
-  stimulus: "Děkujeme za dokončení.",
-  choices: ["K testům"],
+  stimulus: "Výborně. Test Prostorové kognice je hotový!",
+  choices: ["Zpět k testům"],
   on_finish: () => {
     navigateTo('/tests')
   }

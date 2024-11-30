@@ -142,9 +142,11 @@ timeline.push(testpreload);
 
 timeline.push({
   type: htmlButtonResponse,
-  stimulus: `<p>V úloze uvidíte obrázky s astronautem a mimozemšťanem. Vaším úkolem bude kliknout na obrázek, pokud uvidíte astronauta.</p>
-    <img src=${living_stimuli[0]} class="max-w-none" style="margin:auto" width="512" height="512"/>`,
-  choices: ['Ano, budu klikat jen na astronauta'],
+  stimulus: `
+    <p>Vítejte v testu reakčního času a pozornosti!</p>
+    <p>V úloze uvidíte obrázky s astronautem a mimozemšťanem. Vaším úkolem je kliknout co nejrychleji na obrázek astronauta a neklikat na mimozemšťana.</p>
+    <img src="/images/tutorials/gonogo/gonogo-astronaut-go-tutorial.png" class="max-w-none" style="margin:auto" width="512" height="512"/>`,
+  choices: ['Budu klikat jen na astronauta'],
   post_trial_gap: POST_TRIAL_GAP,
 });
 
@@ -152,28 +154,32 @@ timeline.push(...first_block.flat());
 timeline.push({
   type: htmlButtonResponse,
   stimulus: `
-  <p>Fáze 1 hotová!</p>
-  <p>Nyní se situace trochu obrátí. Klikejte pouze na mimozemšťana a astronauta nechte být.</p>
-    <img src=${living_stimuli[1]} class="max-w-none" style="margin:auto" width="512" height="512"/>`,
-  choices: ['Ano, budu klikat jen na mimozemšťana'],
+    <p>Výborně, první fáze hotová!</p>
+    <p>V další fázi se situace obrátí. Klikejte pouze na mimozemšťana a astronauta nechte být!</p>
+    <img src="/images/tutorials/gonogo/gonogo-alien-go-tutorial.png" class="max-w-none" style="margin:auto" width="512" height="512"/>`,
+  choices: ['Budu klikat jen na mimozemšťana'],
   post_trial_gap: POST_TRIAL_GAP,
 });
 
 timeline.push(...second_block.flat());
 timeline.push({
   type: htmlButtonResponse,
-  stimulus: `<p>A teď to ještě trochu zkomplikujeme. Klikejte pouze na raketu, kterou vidíte níže na obrázku a na nic jiného.</p>
-    <img src=${spaceship_stimuli[0]} class="max-w-none" style="margin:auto" width="512" height="512"/>`,
-  choices: ['Ano, budu klikat jen na raketu'],
+  stimulus: `
+    <p>Výborně, druhá fáze hotová!</p>
+    <p>A teď to trochu zkomplikujeme. Budou se zobrazovat obrázky rakety a UFO, ale vaším úkolem je kliknout pouze na raketu, kterou vidíte na obrázku níže, a neklikat na žádné UFO.</p>
+    <img src="/images/tutorials/gonogo/gonogo-rocket-go-tutorial.png" class="max-w-none" style="margin:auto" width="512" height="512"/>`,
+  choices: ['Budu klikat jen na raketu'],
   post_trial_gap: POST_TRIAL_GAP
 });
 timeline.push(...third_block.flat());
 
 timeline.push({
   type: htmlButtonResponse,
-  stimulus: `<p>A zase naopak. Klikejte na všechno KROMĚ rakety.</p>
-    <img src=${spaceship_stimuli[0]} class="max-w-none" style="margin:auto" width="512" height="512"/>`,
-  choices: ['Ano, budu klikat na všechna UFO a ne na raketu'],
+  stimulus: `
+    <p>Výborně. A teď už poslední fáze!</p>
+    <p>Budou se opět ukazovat obrázky rakety a různých UFO. Vaším úkolem je klikat na všechny obrázky, ale NEKLIKAT na raketu.</p>
+    <img src="/images/tutorials/gonogo/gonogo-ufo-go-tutorial.png" class="max-w-none" style="margin:auto" width="512" height="512"/>`,
+  choices: ['Budu klikat na všechna UFO, ne na raketu'],
   post_trial_gap: POST_TRIAL_GAP
 });
 timeline.push(...fourth_block.flat());
@@ -182,7 +188,7 @@ timeline.push({
   type: callFuncion,
   async: true,
   func: async (done) => {
-    await save_test_data(jsPsych);
+    await save_test_data(jsPsych, client);
     done();
   }
 })

@@ -139,9 +139,10 @@ timeline.push({
   stimulus: `
     <div class="max-w-2xl mx-auto text-center">
       <h1 class="text-2xl font-bold mb-4">2-Back Task</h1>
-      <p class="mb-2">Postupně uvidíte sérii několika obrázků</p>
-      <p class="mb-2">Vaším úkolem je klinkněte na obrázek pokaždé, pokud jste jej viděli jako předminulý obrázek.</p>
-      <p class="mb-4">Jinak počkejte až se objeví další.</p>
+      <p class="mb-2">Postupně uvidíte sérii několika obrázků planet.</p>
+      <p class="mb-2">Vaším úkolem je kliknout na obrázek planety pokaždé, pokud jste jej viděli jako předminulý obrázek. Jinak počkejte až se objeví další.</p>
+      <img src="/images/tutorials/n-back/n-back-planets.png" class="max-w-none" style="margin:auto;" width="512" height="512"/>
+      <p class="mb-2">Zde vidíte příklad. Na planety neklikáte a jen se snažíte si zapamatovat poslední dvě. Neboť pátý obrázek je stejný, jako třetí (předminulá planeta), tak na něj klikněte.</p>
     </div>
   `,
   choices: ['Začít'],
