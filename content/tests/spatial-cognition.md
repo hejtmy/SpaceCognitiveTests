@@ -2,7 +2,7 @@
 title: Prostorová kognice
 description: Prosotorová navigace umožňuje efektivní rozhodování i v případě beztíže
 listThumb: /images/cesta/tests/spatial-nav.png
-testListShortDescription: Prostorová kognice popisuje naši dovednost v duchu rotovat s předměty, orientovat se v prosotoru a efektivně navigovat
+testListShortDescription: V úloze budete mít za úkol v duchu otáčet s obrázkem a rozhodovat se správně zdali se máte otážet doleva nebo doprava.
 url: spatial-cognition
 ---
 

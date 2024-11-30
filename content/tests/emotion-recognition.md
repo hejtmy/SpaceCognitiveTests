@@ -1,9 +1,9 @@
 ---
 title: Rozpoznávání emocí
-description: Krátý popis úlohy
+description: Schopnost rozpoznat, jak se ostatní cítí, je pro úspěch vesmírné mise stejně tak důležitá a neměli bychom ji opomíjet!
 longDescription: Dlouhý popis úlohy
 listThumb: /images/cesta/tests/emotions-transparent.png
-testListShortDescription: Reaction Time is a simple test that measures how quickly you can react to a stimulus.
+testListShortDescription: V úloze budete mít za úkol rozpoznat emoce na základě výrazů obličeje.
 url: emotion-recognition
 ---
 
@@ -16,9 +16,7 @@ Výrazy obličeje nám totiž mohou prozradit, kdy se někdo bojí, je nervózn�
 Dlouhodobý pobyt ve vesmíru je nejen fyzicky, ale i psychicky náročný. Při budoucích vesmírných výpravách mohou astronauti strávit až tři roky v izolaci od zbytku světa, což se bezpochyby podepíše i na jejich duševním stavu. Schopnost rozpoznat a správně reagovat na emoce ostatních je proto VESMÍRNĚ důležitá nejen pro dobré vztahy mezi členy posádky, ale také pro bezpečnost celé mise a úspěšný průzkum hlubokého vesmíru!
 
 ::ContentQuote
-
 “The astronauts’ ability to correctly ‘read’ each other’s emotional expressions will be of paramount importance for effective teamwork and mission success. Our findings suggest that their ability to do this may be impaired over time.”
-
 #author
 Mathias Basner – spolutvůrce baterie kognitivních testů pro vesmírné lety (Cognition test battery)
 ::
@@ -33,14 +31,14 @@ Test rozpoznávání emocí (anglicky Emotion Recognition Task – ERT) je psych
 Ukázka úlohy'
 ::
 
-Část 1
+Fáze 1
 
-Na obrazovce se budou objevovat obrázky s obličeji. Vaším úkolem bude správně rozpoznat emo a vybrat její popis z několika možností (štěstí, strach, smutek, vztek, překvapení a neutrální výraz). Na výběr odpovědi budete mít neomezené množství času.
+Na obrazovce se budou objevovat obrázky s obličeji. Vaším úkolem bude správně rozpoznat a vybrat emoci, kterou obličej zobrazuje. Budete mít na výběr z několika možností (štěstí, strach, smutek, vztek, překvapení a neutrální výraz). Na odpověď budete mít neomezené množství času.
 
-Část 2
+Fáze 2
 
-Úkoů' Každý obrázek se zjeví pouze na zlomek vteřiny, je proto nutné dávat dobrý pozor a na úkol se soustředit. Cílem je rozpoznat emoci v krátkém časovém okně.
+Stejná úloha jako ve fázi 1, ale každý obrázek se zjeví pouze na zlomek vteřiny, je proto nutné dávat dobrý pozor a na úkol se soustředit. Cílem je rozpoznat emoci v krátkém časovém okně.
 
-Část 3
+Fáze 3
 
-Probíhá stejně jako minulé verze. Vaším úkolem bude co nejrychleji odhadlit emoci vyobrazenou v obličeji. Obrázky budou v této ztížené verzi testu otočené různými směry, například vzhůru nohama. Tímto způsobem test simuluje reálné scénáře při pobytu na vesmírné stanici, kde kolem vás mohou členové posádky proplouvat různými směry.
+Probíhá stejně jako minulé verze. Vaším úkolem bude co nejrychleji odhadlit emoci vyobrazenou v obličeji. Obrázky budou v této verzi však otáčené různými směry, například vzhůru nohama. Tímto způsobem test simuluje reálné scénáře při pobytu ve vesmíru, kde kolem vás mohou členové posádky proplouvat různými směry.
