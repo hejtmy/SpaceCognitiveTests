@@ -9,8 +9,15 @@ import preload from '@jspsych/plugin-preload';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response'
 import { timeline_hideFooter } from '~/utils/jsPsychUtils';
 
+// CONSTANTS
+const TEST_NAME = "spatial-cognition";
 const N_TRIALS = 6;
 const POST_INSTRUCTIONS_DELAY = 2000;
+const spatialurl = client.storage.from("test-stimuli").getPublicUrl('spatialcognition/')
+
+onMounted(() => {
+  jsPsych.run(timeline)
+})
 
 // Initialize jsPsych
 jsPsych = initJsPsych({
@@ -20,7 +27,6 @@ jsPsych = initJsPsych({
   }
 })
 
-const spatialurl = client.storage.from("test-stimuli").getPublicUrl('spatialcognition/')
 function imagename (direction, distance, angle) {
   return `${spatialurl.data.publicUrl}map_${direction}_${distance}_${angle}.png`
 }
@@ -86,6 +92,7 @@ function create_trial(stimulus, index) {
     post_trial_gap: 1000
   }
 }
+
 // TIMELINE ---
 const timeline = [];
 timeline.push(timeline_hideFooter());
@@ -97,7 +104,7 @@ timeline.unshift({
 timeline.push({
   type: htmlButtonResponse,
   stimulus: `
-    <p>Vítejte v testu Prostorové kognice!<p/>
+    <p>Vítejte v testu Prostorové orientace!<p/>
     <p>V úloze uvidíte obrázky s raketou a vesmírnou stanicí. Vaším úkolem bude co nejrychleji určit, na kterou stranu musí raketa zatočit, aby ke stanici doletěla.</p>
     <p>Na obrázcích níže vidíte pár příkladů. V na prvním obrázku musí otočit doleva, a na tom druhém musí zatočit vpravo.</p>
     <img src="/images/tutorials/spatial-cognition/spatial-simple.png" class="max-w-none" style="margin:auto" width="512" height="512"/>
@@ -145,7 +152,7 @@ timeline.push({
   type: callFuncion,
   async: true,
   func: async (done) => {
-    await save_test_data(jsPsych, client);
+    await save_test_data(jsPsych, TEST_NAME, client);
     done();
   }
 })
@@ -158,10 +165,6 @@ timeline.push({
     navigateTo('/tests')
   }
 });
-
-onMounted(() => {
-  jsPsych.run(timeline)
-})
 
 </script>
 <template>
