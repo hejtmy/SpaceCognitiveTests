@@ -18,8 +18,39 @@ A pak tu máme kognitivní flexibilitu – schopnost přizpůsobit se nečekaný
 O Úloze
 ::
 
-N-back task je psychologický test využívající se k měření pracovní paměti, kognitivní flexibility a pozornosti. Účastníkovi je postupně prezentována série podnětů (například písmena, číslice nebo vizuální vzory). Úkolem je reagovat, pokud se aktuální podnět shoduje s podnětem, který se objevil před N kroky - proto N Back. Pro zjednodušení: například v „2-back“ úloze si musíte pamatovat, jaký byl podnět před dvěma kroky a reagovat, pokud se aktuální podnět shoduje s tím, který vidíte nyní. Tedy pokud byste viděli postupně čílsa 1 .. 2 .. 5 .. 2, pak byste na poslední 2 měli zareagovat, protože dva kroky zpět byla zobrazena též 2ka. 
+N-back task je test používaný k měření pracovní paměti, kognitivní flexibility a pozornosti. Účastníkovi je postupně prezentována série podnětů (například písmena, číslic nebo obrázků). Úkolem účastníka je reagovat, pokud se aktuální podnět shoduje s podnětem, který se objevil před N kroky - proto *N-back*. Pro zjednodušení: například v „2-back“ úloze máte reagovat, pokud podnět který vidíte nyní je stejný jako ten, který jste viděli předminule. Tedy pokud byste viděli postupně čílsa 1 .. 2 .. 5 .. 2, pak byste na poslední 2 měli zareagovat, protože dva kroky zpět byla zobrazena též 2ka.
 
 ![n back example](/images/tutorials/n-back/n-back-planets.png)
 
-Na obrázku vidíte příklad 2-back úlohy. Na prvním obrázku je zobrazena série podnětů, které se postupně objevují. Neboť pátá planeta se shoduje s tou, která byla dvě planety zpět, máte za úkol na ní kliknout. Ostatní planety se neopakují a neměli byste na ně reagovat.
+Na obrázku vidíte příklad vizuální 2-back úlohy. Účastník vidí sérii obrázků, které se postupně objevují. Úkolem je vždy kliknout na obrázek, který se shoduje s tím, který byl vidět předminule. Neboť pátá planeta, kterou účastník vidí, se shoduje s tou, která byla dvě planety zpět, má za úkol na ní kliknout. Ostatní planety se neopakují a tak by na ně neměl účastník reagovat.
+
+::ContentHeader
+Jak to bude probíhat?
+::
+
+Úloha bude 2-back, tedy budete mít za úkol reagovat na ty podněty, které jste viděli předminule. 
+
+Úloha bude mít několik fází, avšak ty se budou lišit pouze v typu stimulů, které uvidíte. 
+
+Fáze 1
+
+V první fázi uvidíte obrázky planet. 
+
+![n back example](/images/tutorials/n-back/n-back-planets.png)
+
+Fáze 2
+Ve druhé fázi uvidíte abstraktní obrázky s vesmírnou tématikou.
+
+![n back abstract](/images/tutorials/n-back/n-back-abstract.png)
+
+Fáze 3
+
+Ve třetí fázi uvidíte barevné fraktálové obrazce
+
+![n back fractals](/images/tutorials/n-back/n-back-fractals.png)
+
+Fáze  4
+
+A v poslední fázi uvidíte 3D fraktálové obrazy
+
+![n back 3d](/images/tutorials/n-back/n-back-3d.png);
