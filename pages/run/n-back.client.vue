@@ -120,7 +120,7 @@ timeline.push(timeline_hideFooter())
 
 timeline.push({
   type: preload,
-  images: planetstimuli.concat(abstractstimuli),
+  images: planetstimuli.concat(abstractstimuli).concat(fractalstimuli).concat(thirdfractalstimuli),
 })
 
 if(user.value) {
@@ -134,47 +134,33 @@ timeline.push({
   stimulus: `
     <div class="max-w-2xl mx-auto text-center">
       <h1 class="text-2xl font-bold mb-4">2-Back Task</h1>
-      <p class="mb-2">Postupně uvidíš sérii několika obrázků planet.</p>
-      <p class="mb-2">Tvým úkolem je kliknout na obrázek planety pokaždé, pokud jsi jej viděl/a předminule. Jinak neklikej!</p>
-      <img src="/images/tutorials/n-back/n-back-planets.png" class="max-w-none" style="margin:auto;" width="512" height="512"/>
-      <p class="mb-2">Tady je příklad. Sleduj postupně planetky a zkus si neustále pamatovat si poslední dvě. Neboť pátý obrázek je stejný, jako byl třetí (předminulá planeta), tak na něj rychle klikni.</p>
+      <p class="mb-2">Postupně uvidíš sérii několika obrázků </p>
+      <p class="mb-2">Tvým úkolem je kliknout na obrázek pokaždé, pokud jsi jej viděl/a předminule. Jinak neklikej!</p>
+      <img src="/images/tutorials/n-back/n-back-abstract.png" class="max-w-none" style="margin:auto;" width="512" height="512"/>
+      <p class="mb-2">Tady je příklad. Sleduj postupně obrázky a zkus si neustále pamatovat si poslední dva. Neboť třetí obrázek je stejný, jako byl první (předminulý), tak na něj rychle klikni.</p>
     </div>
   `,
   choices: ['Začít'],
   post_trial_gap: 1000
 })
 
-timeline.push(...planet_sequence)
+timeline.push(...abstract_sequence)
+
+
 timeline.push({
   // button response with a pause screen 
   type: htmlButtonResponse,
   stimulus: `
     <div class="text-center">
       <h2 class="text-xl font-bold mb-4">Výborně! První kus jsi zvládnul/a!</h2>
-      <p> Až budete připraveni, pokračujte dál. V další fázi vás čekají abstraktní obrazce, viz obrázek níže. Úloha zústává stejná, klikněte na obrázek pokaždé, pokud se shoduje s tím, který jste videli předminule</p>
-      <img src="/images/tutorials/n-back/n-back-abstract.png" class="max-w-none" style="margin:auto;" width="512"/>
-    </div>
-  `,
-  choices: ['Pokračovat'],
-  post_trial_gap: 2000
-})
-
-timeline.push(...abstract_sequence)
-
-timeline.push({
-  // button response with a pause screen 
-  type: htmlButtonResponse,
-  stimulus: `
-    <div class="text-center">
-      <h2 class="text-xl font-bold mb-4">A jsi v polovině!</h2>
-      <p> Až budeš připravená/ý, pokračuj dál. V další fázi tě čekají fraktálové tvary a vzory, jako vidíš níž. Úloha zústává stejná, klikni na obrázek pokaždé, pokud se shoduje s tím, který jsi viděl/a předminule</p>
+      <p>V druhé fázi tě čekají fraktálové tvary a vzory, jako vidíš níž. Úloha zústává stejná, klikni na obrázek pokaždé, pokud se shoduje s tím, který jsi viděl/a předminule</p>
       <img src="/images/tutorials/n-back/n-back-fractals.png" class="max-w-none" style="margin:auto;" width="512"/>
+      <p> Až budeš připravený/á, pokračuj dál.</p>
     </div>
   `,
   choices: ['Pokračovat'],
   post_trial_gap: 2000
 })
-
 timeline.push(...fractal_sequence)
 
 timeline.push({
@@ -182,9 +168,10 @@ timeline.push({
   type: htmlButtonResponse,
   stimulus: `
     <div class="text-center">
-      <h2 class="text-xl font-bold mb-4">A jedeme do finále!</h2>
-      <p> Až budeš připravená/ý, pokračuj dál. V poslední fázi tě čekají 3D fraktálové tvary a vzory, jako vidíš níž. Úloha zústává stejná, klikni na obrázek pokaždé, pokud se shoduje s tím, který jsi viděl/a předminule</p>
+      <h2 class="text-xl font-bold mb-4">A jsi v polovině!</h2>
+      <p>V téhle fázi tě čekají 3D fraktálové tvary a vzory, jako vidíš na obrázku. Úloha zústává stejná, klikni na obrázek pokaždé, pokud se shoduje s tím, který jsi viděl/a předminule</p>
       <img src="/images/tutorials/n-back/n-back-3d.png" class="max-w-none" style="margin:auto;" width="512"/>
+      <p> Až budeš připravený/á, pokračuj dál.</p>
     </div>
   `,
   choices: ['Pokračovat'],
@@ -192,6 +179,21 @@ timeline.push({
 })
 timeline.push(...thirdfractal_sequence)
 
+timeline.push({
+  // button response with a pause screen 
+  type: htmlButtonResponse,
+  stimulus: `
+    <div class="text-center">
+      <h2 class="text-xl font-bold mb-4">A jedeme do finále!</h2>
+      <p>V poslední fázi tě čekají planetky. Ty budou asi nejzapeklitější, všechny vypadají tak trochu stejně. Úloha je stejná, klikni na obrázek pokaždé, pokud se shoduje s tím, který jsi viděl/a předminule.</p>
+      <img src="/images/tutorials/n-back/n-back-abstract.png" class="max-w-none" style="margin:auto;" width="512"/>
+      <p> Až budeš připravený/á, pokračuj dál.</p>
+    </div>
+  `,
+  choices: ['Pokračovat'],
+  post_trial_gap: 2000
+})
+timeline.push(...abstract_sequence)
 // push a timeline event which simply saves the data and on finish goes further
 timeline.push({
   type: callFuncion,

@@ -28,29 +28,27 @@ Na obrázku vidíte příklad vizuální 2-back úlohy. Účastník vidí sérii
 Jak to bude probíhat?
 ::
 
-Úloha bude 2-back, tedy budete mít za úkol reagovat na ty podněty, které jste viděli předminule. 
-
-Úloha bude mít několik fází, avšak ty se budou lišit pouze v typu stimulů, které uvidíte. 
+Úloha bude 2-back, tedy budete mít za úkol reagovat na ty podněty, které jsi viděl/a předminule - takže ne minulý obrázek, ale hned ten před ním. Úloha bude mít několik fází, avšak ty se budou lišit pouze v typu stimulů, které uvidíš.
 
 Fáze 1
 
-V první fázi uvidíte obrázky planet. 
+V první fázi uvidíš různé obrázky s vesmírnou tématikou. 
+![n back 3d](/images/tutorials/n-back/n-back-3d.png);
 
-![n back example](/images/tutorials/n-back/n-back-planets.png)
 
 Fáze 2
-Ve druhé fázi uvidíte abstraktní obrázky s vesmírnou tématikou.
+Ve druhé fázi uvidíš barevné fraktálové obrazce
 
 ![n back abstract](/images/tutorials/n-back/n-back-abstract.png)
 
 Fáze 3
 
-Ve třetí fázi uvidíte barevné fraktálové obrazce
+Ve třetí fázi fraktály naberou mimozemský nádech a 3D tvary.
 
 ![n back fractals](/images/tutorials/n-back/n-back-fractals.png)
 
 Fáze  4
 
-A v poslední fázi uvidíte 3D fraktálové obrazy
+A v poslední fázi budeš pozorně sledovat a rozlišovat různé planetky.
 
-![n back 3d](/images/tutorials/n-back/n-back-3d.png);
+![n back example](/images/tutorials/n-back/n-back-planets.png)
