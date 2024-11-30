@@ -1,15 +1,4 @@
 <script setup>
-const user = useSupabaseUser();
-const client = useSupabaseClient();
-
-const TRIAL_DURATION = 1000; // 1 second
-const FIXATION_DURATION = 500; // 0.5 seconds
-const N_GOTRIALS = 5;
-const N_NOGOTRIALS = 2;
-const N_TOTALTRIALS = N_GOTRIALS + N_NOGOTRIALS;
-
-const POST_TRIAL_GAP = 2000;
-
 import 'jspsych/css/jspsych.css';
 import {initJsPsych} from 'jspsych';
 import callFuncion from '@jspsych/plugin-call-function';
@@ -18,6 +7,48 @@ import htmlButtonResponse from '@jspsych/plugin-html-button-response'
 import imageButtonResponse from '@jspsych/plugin-image-button-response'
 import { timeline_hideFooter } from '~/utils/jsPsychUtils';
 import { navigateTo } from 'nuxt/app';
+
+const user = useSupabaseUser();
+const client = useSupabaseClient();
+const testResult = ref(null);
+
+const TEST_NAME = "gonogo";
+const TRIAL_DURATION = 1000; // 1 second
+const FIXATION_DURATION = 500; // 0.5 seconds
+const N_GOTRIALS = 5;
+const N_NOGOTRIALS = 2;
+const N_TOTALTRIALS = N_GOTRIALS + N_NOGOTRIALS;
+const POST_TRIAL_GAP = 2000;
+
+onMounted(() => {
+  checkTestResult();
+  jsPsych.run(timeline)
+})
+
+const checkTestResult = async () => {
+  if (user.value) {
+    try {
+      const { data, error } = await client
+        .from('TestResults')
+        .select('*')
+        .eq('test_name', TEST_NAME)
+        .eq('user_id', user.value.id)
+        .single();
+
+      if (error) {
+        console.error('Error fetching test results:', error);
+      } else {
+        console.log('Test result:', data);
+        return testResult.value = data;
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  } else {
+    console.log("user not logged in");
+    return false;
+  }
+};
 
 // Initialize jsPsych
 jsPsych = initJsPsych({
@@ -188,7 +219,7 @@ timeline.push({
   type: callFuncion,
   async: true,
   func: async (done) => {
-    await save_test_data(jsPsych, client);
+    await save_test_data(jsPsych, TEST_NAME, client);
     done();
   }
 })
@@ -201,11 +232,6 @@ timeline.push({
     navigateTo("/tests");
   }
 });
-
-onMounted(() => {
-  jsPsych.run(timeline)
-})
-
 </script>
 
 <template>
