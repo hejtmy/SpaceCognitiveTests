@@ -42,7 +42,6 @@ const { data } = await useAsyncData('tests', () => queryContent(`tests/${route.p
                           <ContentDoc class="text-slate-400 space-y-6" />
                         </article>
                       </article>
-                      <Quote />
                     </div>
                   </div>
                 </div>
