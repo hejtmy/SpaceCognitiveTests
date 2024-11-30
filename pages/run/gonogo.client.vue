@@ -8,13 +8,16 @@ const N_GOTRIALS = 5;
 const N_NOGOTRIALS = 2;
 const N_TOTALTRIALS = N_GOTRIALS + N_NOGOTRIALS;
 
+const POST_TRIAL_GAP = 2000;
+
 import 'jspsych/css/jspsych.css';
 import {initJsPsych} from 'jspsych';
 import callFuncion from '@jspsych/plugin-call-function';
 import preload from '@jspsych/plugin-preload';
-import instructions from '@jspsych/plugin-instructions';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response'
 import imageButtonResponse from '@jspsych/plugin-image-button-response'
+import { timeline_hideFooter } from '~/utils/jsPsychUtils';
+import { navigateTo } from 'nuxt/app';
 
 // Initialize jsPsych
 jsPsych = initJsPsych({
@@ -28,10 +31,9 @@ const spatialurl = client.storage.from("test-stimuli").getPublicUrl('gonogo/');
 const fixation_cross = client.storage.from("test-stimuli").
   getPublicUrl("fixation_cross.png").data.publicUrl;
 
-console.log(fixation_cross);
 const living_stimuli = [
-  `${spatialurl.data.publicUrl}aliens/alien_trans_1.png`,
   `${spatialurl.data.publicUrl}aliens/astronaut_trans_1.png`,
+  `${spatialurl.data.publicUrl}aliens/alien_trans_1.png`,
 ]
 
 const spaceship_stimuli = [
@@ -41,13 +43,14 @@ for (let i = 1; i <= 10; i++) {
   spaceship_stimuli.push(`${spatialurl.data.publicUrl}ships/UFO_trans_${i}.png`);
 }
 const all_stimuli = living_stimuli.concat(spaceship_stimuli).concat(fixation_cross);
+
 const testpreload = {
   type: preload,
   images: all_stimuli,
 };
 
 function create_living_stimulus(go_stimulus, go) {
-  const go_index = go_stimulus == "astronaut" ? 1 : 0;
+  const go_index = go_stimulus == "astronaut" ? 0 : 1;
   return go ? living_stimuli[go_index] : living_stimuli[1 - go_index];
 }
 
@@ -134,50 +137,64 @@ fourth_block = jsPsych.randomization.shuffle(fourth_block);
 
 // TIMELINE CREATION
 const timeline = [];
+timeline.push(timeline_hideFooter());
 timeline.push(testpreload);
+
 timeline.push({
-  type: instructions,
-  pages: [`
-    <p>V úloze uvidíte obrázky s astronautem a mimozemšťanem. Vaším úkolem bude kliknout na obrázek, pokud uvidíte astronauta.</p>
-  `],
+  type: htmlButtonResponse,
+  stimulus: `<p>V úloze uvidíte obrázky s astronautem a mimozemšťanem. Vaším úkolem bude kliknout na obrázek, pokud uvidíte astronauta.</p>
+    <img src=${living_stimuli[0]} class="max-w-none" style="margin:auto" width="512" height="512"/>`,
   choices: ['Ano, budu klikat jen na astronauta'],
-  show_clickable_nav: true
+  post_trial_gap: POST_TRIAL_GAP,
 });
 
 timeline.push(...first_block.flat());
 timeline.push({
-  type: instructions,
-  pages: [`
-    <p>Nyní se situace trochu obrátí. Klikejte pouze na mimozemšťana a astronauta nechte být :)</p>
-  `],
-  choices: ['Ano, budu klikat jen na astronauta'],
-  show_clickable_nav: true
+  type: htmlButtonResponse,
+  stimulus: `
+  <p>Fáze 1 hotová!</p>
+  <p>Nyní se situace trochu obrátí. Klikejte pouze na mimozemšťana a astronauta nechte být.</p>
+    <img src=${living_stimuli[1]} class="max-w-none" style="margin:auto" width="512" height="512"/>`,
+  choices: ['Ano, budu klikat jen na mimozemšťana'],
+  post_trial_gap: POST_TRIAL_GAP,
 });
 
 timeline.push(...second_block.flat());
 timeline.push({
-  type: instructions,
-  pages: [`
-    <p>A teď to ještě trochu zkomplikujeme. Klikejte pouze na raketu, kterou vidíte níže na obrázku a na nic jiného.</p>
-    <img src=${spaceship_stimuli[0]} class="max-w-none" style="margin:auto" width="512" height="512"/>
-  `],
+  type: htmlButtonResponse,
+  stimulus: `<p>A teď to ještě trochu zkomplikujeme. Klikejte pouze na raketu, kterou vidíte níže na obrázku a na nic jiného.</p>
+    <img src=${spaceship_stimuli[0]} class="max-w-none" style="margin:auto" width="512" height="512"/>`,
   choices: ['Ano, budu klikat jen na raketu'],
-  show_clickable_nav: true
+  post_trial_gap: POST_TRIAL_GAP
 });
 timeline.push(...third_block.flat());
 
 timeline.push({
-  type: instructions,
-  pages: [`
-    <p>A zase naopak. Klikejte na všechno KROMĚ rakety.</p>
-    <img src=${spaceship_stimuli[0]} class="max-w-none" style="margin:auto" width="512" height="512"/>
-  `],
+  type: htmlButtonResponse,
+  stimulus: `<p>A zase naopak. Klikejte na všechno KROMĚ rakety.</p>
+    <img src=${spaceship_stimuli[0]} class="max-w-none" style="margin:auto" width="512" height="512"/>`,
   choices: ['Ano, budu klikat na všechna UFO a ne na raketu'],
-  show_clickable_nav: true
+  post_trial_gap: POST_TRIAL_GAP
 });
-
 timeline.push(...fourth_block.flat());
 
+timeline.push({
+  type: callFuncion,
+  async: true,
+  func: async (done) => {
+    await save_test_data(jsPsych);
+    done();
+  }
+})
+
+timeline.push({
+  type: htmlButtonResponse,
+  stimulus: `<p>Gratulujeme, test je hotový!</p>`,
+  choices: ['Zpět k testům'],
+  on_finish: () => {
+    navigateTo("/tests");
+  }
+});
 
 onMounted(() => {
   jsPsych.run(timeline)
