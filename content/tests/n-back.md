@@ -19,3 +19,7 @@ O Úloze
 ::
 
 N-back task je psychologický test využívající se k měření pracovní paměti, kognitivní flexibility a pozornosti. Účastníkovi je postupně prezentována série podnětů (například písmena, číslice nebo vizuální vzory). Úkolem je reagovat, pokud se aktuální podnět shoduje s podnětem, který se objevil před N kroky - proto N Back. Pro zjednodušení: například v „2-back“ úloze si musíte pamatovat, jaký byl podnět před dvěma kroky a reagovat, pokud se aktuální podnět shoduje s tím, který vidíte nyní. Tedy pokud byste viděli postupně čílsa 1 .. 2 .. 5 .. 2, pak byste na poslední 2 měli zareagovat, protože dva kroky zpět byla zobrazena též 2ka. 
+
+![n back example](/images/tutorials/n-back/n-back-planets.png)
+
+Na obrázku vidíte příklad 2-back úlohy. Na prvním obrázku je zobrazena série podnětů, které se postupně objevují. Neboť pátá planeta se shoduje s tou, která byla dvě planety zpět, máte za úkol na ní kliknout. Ostatní planety se neopakují a neměli byste na ně reagovat.
