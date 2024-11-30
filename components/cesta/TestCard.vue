@@ -20,10 +20,9 @@ const props = defineProps({
     required: true,
   }
 })
-
 const runURL = 'run/' + props.url;
-
 </script>
+
 <template>
   <div class="md:col-span-12" data-aos="fade-down">
     <HighlighterItem>
@@ -51,17 +50,17 @@ const runURL = 'run/' + props.url;
                 <p class="text-slate-400">{{ description }}</p>
               </div>
             </div>
-            <div>
+            <div class="my-4">
               <nuxt-link :to="{name: 'tests-id', params: {id: url}}" class="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none">
                 <span class="relative inline-flex items-center">
                   Dozvědět se víc <span class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
                 </span>
               </nuxt-link>
             </div>
-            <div>
+            <div class="my-4">
               <nuxt-link :to="runURL" class="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none">
                 <span class="relative inline-flex items-center">
-                   Spustit test<span class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+                  Spustit test<span class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
                 </span>
               </nuxt-link>
             </div>
