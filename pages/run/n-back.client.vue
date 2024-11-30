@@ -6,65 +6,8 @@ import 'jspsych/css/jspsych.css';
 import {initJsPsych} from 'jspsych';
 import preload from '@jspsych/plugin-preload';
 import callFuncion from '@jspsych/plugin-call-function';
-import instructions from '@jspsych/plugin-instructions';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response'
-import imageButtonResponse from '@jspsych/plugin-image-button-response'
 import { timeline_confirmOfficialAttempt } from '~/utils/jsPsychUtils';
-
-//CONSTANTS
-const NUMBER_OF_STIMULI = 42
-const NUMBER_OF_TRIALS = 9
-const TRIAL_DURATION = 1000
-const IMAGE_WIDTH = 512
-const IMAGE_HEIGHT = 512
-const N_BACK = 2
-const N_REPEATED_TRIALS = 3
-
-function selectAndDuplicateStrings(arr, n_back, n_back_count) {
-  var newArr = [...arr];
-  newArr.splice(4, 0, arr[2]);
-  newArr.splice(7, 0, arr[4]);
-  newArr.splice(8, 0, arr[5]);
-  return newArr;
-  if (arr.length < n_back + 1) {
-    throw new Error("Array must contain at least n + 1 elements.");
-  }
-  // Select 3 random unique indices
-  const selectedIndices = [];
-  while (selectedIndices.length < n_back_count) {
-    const randomIndex = Math.floor(Math.random() * (arr.length - n_back));
-    if (!selectedIndices.includes(randomIndex)) {
-      selectedIndices.push(randomIndex);
-    }
-  }
-
-  selectedIndices.sort((a, b) => a - b);
-  // create a new array of object with selected indices and new indices
-  let newPositions = selectedIndices.map((index) => {
-    return { element: arr[index], oldIndex: index, newIndex: index + n_back};
-  });
-// for each element in new positions if the old index of the following elements is equal or lower than the new index of the current element, increase the new index of the following elements by 1
-  newPositions.forEach((element, i) => {
-    newPositions.slice(i + 1).forEach((nextElement) => {
-      if (nextElement.oldIndex < element.newIndex) {
-        nextElement.newIndex++;
-      }
-      if (nextElement.oldIndex < element.oldIndex) {
-        nextElement.newIndex++;
-      }
-    });
-  });
-  let newarr = [...arr];
-  // Duplicate the selected strings at index + 2 position
-  newPositions.forEach(obj => {
-    if (obj.newIndex < arr.length) {
-      newarr.splice(obj.newIndex, 0, obj.element);
-    } else {
-      newarr.push(obj.element);
-    }
-  });
-  return newarr;
-}
 
 // Initialize jsPsych
 jsPsych = initJsPsych({
@@ -74,18 +17,59 @@ jsPsych = initJsPsych({
   }
 })
 
-const nbackstimuliurl = client.storage.from("test-stimuli").getPublicUrl('nback/')
+//CONSTANTS
+const TEST_NAME = "n-back";
+const NUMBER_OF_STIMULI = 42
+const NUMBER_OF_TRIALS = 12
+const TRIAL_DURATION = 1500
+const IMAGE_WIDTH = 512
+const IMAGE_HEIGHT = 512
+const N_BACK = 2
+const POST_TRIAL_GAP = 500
+const N_REPEATED_TRIALS = 3
+const NBACKSTIMULIURL = client.storage.from("test-stimuli").getPublicUrl('nback/')
+
+onMounted(() => {
+  jsPsych.run(timeline)
+})
+  
+function selectAndDuplicateStrings(arr, n_back, n_stimuli) {
+  console.log(`original array: ${arr}`);
+  if (arr.length < n_back + 1) {
+    throw new Error("Array must contain at least n + 1 elements.");
+  }
+  //create array of integers from 0 to length of arr
+  let indices = Array.from({length: arr.length-1}, (_, i) => i);
+  //select randomly n_stimuli from them
+  let selected_indices = jsPsych.randomization.sampleWithoutReplacement(indices, n_stimuli);
+  let newarr = [...arr];
+  // add the elements of the selected indices to the newass immediately after the same elements
+  let selected_elements = selected_indices.map(i => arr[i]);
+  // add the elements of the selected indices to the newass immediately after the same elements
+  selected_elements.forEach((element, index) => {
+    //find the position of the element in the newarr
+    let position = newarr.indexOf(element);
+    //add the element to the newarr immediately after the same element
+    newarr.splice(position + 1, 0, element);
+  })
+  // go through the elements of newarr and if the element is the same as the previous element, move the element one position to the right
+  for (let i = 1; i < newarr.length; i++) {
+    if (newarr[i] === newarr[i - 1]) {
+      let element = newarr.splice(i, 1)[0];
+      newarr.splice(i + 1, 0, element);
+    }
+  }
+
+  console.log(`new array: ${newarr}`);
+  return newarr;
+}
+
 function generate_stimuli_sequence (n_trials, n_stimuli, folder, prefix, n_repeated) {
   const randomNumbers = Array.from({length: n_trials}, 
     () => Math.floor(Math.random() * n_stimuli) + 1)
-  const stimuli = randomNumbers.map(num => `${nbackstimuliurl.data.publicUrl}${folder}/${prefix}${num}.png`);
+  const stimuli = randomNumbers.map(num => `${NBACKSTIMULIURL.data.publicUrl}${folder}/${prefix}${num}.png`);
   return stimuli;
 }
-
-let planetstimuli = generate_stimuli_sequence(NUMBER_OF_TRIALS, NUMBER_OF_STIMULI, 'planets', 'nback_planet_')
-planetstimuli = selectAndDuplicateStrings(planetstimuli, N_BACK, N_REPEATED_TRIALS)
-let abstractstimuli = generate_stimuli_sequence(NUMBER_OF_TRIALS, NUMBER_OF_STIMULI, 'abstract', 'nback_abstract_')
-abstractstimuli = selectAndDuplicateStrings(abstractstimuli, N_BACK, N_REPEATED_TRIALS)
 
 function generate_timeline_sequence(stimuli, duration, width, height) {
   let sequence_trials = []
@@ -93,7 +77,7 @@ function generate_timeline_sequence(stimuli, duration, width, height) {
     const isTarget = index >= 2 && stimulus === stimuli[index - 2]
     const trial = {
       type: htmlButtonResponse,
-      button_html: (choice, index) => `<img src=${choice} class="max-w-none" style="margin:auto;" width="512" height="512"/>`,
+      button_html: (choice, index) => `<img src=${choice} class="max-w-none" style="margin:auto;" width="${width}" height="${height}"/>`,
       stimulus: "",
       choices: [stimulus],
       stimulus_duration: duration,
@@ -107,15 +91,28 @@ function generate_timeline_sequence(stimuli, duration, width, height) {
         data.correct = (isTarget && data.response === 1) || 
         (!isTarget && data.response === 0)
       },
-      post_trial_gap: 500
+      post_trial_gap: POST_TRIAL_GAP
     }
     sequence_trials.push(trial);
   })
   return sequence_trials;
 }
 
+let planetstimuli = generate_stimuli_sequence(NUMBER_OF_TRIALS, NUMBER_OF_STIMULI, 'planets', 'nback_planet_')
+planetstimuli = selectAndDuplicateStrings(planetstimuli, N_BACK, N_REPEATED_TRIALS)
 const planet_sequence = generate_timeline_sequence(planetstimuli, TRIAL_DURATION, IMAGE_WIDTH, IMAGE_HEIGHT);
+
+let abstractstimuli = generate_stimuli_sequence(NUMBER_OF_TRIALS, NUMBER_OF_STIMULI, 'abstract', 'nback_abstract_')
+abstractstimuli = selectAndDuplicateStrings(abstractstimuli, N_BACK, N_REPEATED_TRIALS)
 const abstract_sequence = generate_timeline_sequence(abstractstimuli, TRIAL_DURATION, IMAGE_WIDTH, IMAGE_HEIGHT);
+
+let fractalstimuli = generate_stimuli_sequence(NUMBER_OF_TRIALS, NUMBER_OF_STIMULI, 'fractals', 'nback_fractals_')
+fractalstimuli = selectAndDuplicateStrings(fractalstimuli, N_BACK, N_REPEATED_TRIALS)
+const fractal_sequence = generate_timeline_sequence(fractalstimuli, TRIAL_DURATION, IMAGE_WIDTH, IMAGE_HEIGHT);
+
+let thirdfractalstimuli = generate_stimuli_sequence(NUMBER_OF_TRIALS, NUMBER_OF_STIMULI, '3d', 'nback_3d_')
+thirdfractalstimuli = selectAndDuplicateStrings(thirdfractalstimuli, N_BACK, N_REPEATED_TRIALS)
+const thirdfractal_sequence = generate_timeline_sequence(thirdfractalstimuli, TRIAL_DURATION, IMAGE_WIDTH, IMAGE_HEIGHT);
 
 // Timeline generation ------------------
 let timeline = [];
@@ -127,10 +124,8 @@ timeline.push({
 })
 
 if(user.value) {
-  // Check if the user has already completed the test
-
-  // otherwise, add the official attempt confirmation
   timeline.push(timeline_confirmOfficialAttempt());
+  // record official attempt in a database
 }
   
 // Instructions
@@ -139,10 +134,10 @@ timeline.push({
   stimulus: `
     <div class="max-w-2xl mx-auto text-center">
       <h1 class="text-2xl font-bold mb-4">2-Back Task</h1>
-      <p class="mb-2">Postupně uvidíte sérii několika obrázků planet.</p>
-      <p class="mb-2">Vaším úkolem je kliknout na obrázek planety pokaždé, pokud jste jej viděli jako předminulý obrázek. Jinak počkejte až se objeví další.</p>
+      <p class="mb-2">Postupně uvidíš sérii několika obrázků planet.</p>
+      <p class="mb-2">Tvým úkolem je kliknout na obrázek planety pokaždé, pokud jsi jej viděl/a předminule. Jinak neklikej!</p>
       <img src="/images/tutorials/n-back/n-back-planets.png" class="max-w-none" style="margin:auto;" width="512" height="512"/>
-      <p class="mb-2">Zde vidíte příklad. Na planety neklikáte a jen se snažíte si zapamatovat poslední dvě. Neboť pátý obrázek je stejný, jako třetí (předminulá planeta), tak na něj klikněte.</p>
+      <p class="mb-2">Tady je příklad. Sleduj postupně planetky a zkus si neustále pamatovat si poslední dvě. Neboť pátý obrázek je stejný, jako byl třetí (předminulá planeta), tak na něj rychle klikni.</p>
     </div>
   `,
   choices: ['Začít'],
@@ -155,21 +150,54 @@ timeline.push({
   type: htmlButtonResponse,
   stimulus: `
     <div class="text-center">
-      <h2 class="text-xl font-bold mb-4">Pauza</h2>
-      <p>Chvíli si odpočiňte a pak pokračujte dál.</p>
+      <h2 class="text-xl font-bold mb-4">Výborně! První kus jsi zvládnul/a!</h2>
+      <p> Až budete připraveni, pokračujte dál. V další fázi vás čekají abstraktní obrazce, viz obrázek níže. Úloha zústává stejná, klikněte na obrázek pokaždé, pokud se shoduje s tím, který jste videli předminule</p>
+      <img src="/images/tutorials/n-back/n-back-abstract.png" class="max-w-none" style="margin:auto;" width="512"/>
     </div>
   `,
   choices: ['Pokračovat'],
   post_trial_gap: 2000
 })
+
 timeline.push(...abstract_sequence)
+
+timeline.push({
+  // button response with a pause screen 
+  type: htmlButtonResponse,
+  stimulus: `
+    <div class="text-center">
+      <h2 class="text-xl font-bold mb-4">A jsi v polovině!</h2>
+      <p> Až budeš připravená/ý, pokračuj dál. V další fázi tě čekají fraktálové tvary a vzory, jako vidíš níž. Úloha zústává stejná, klikni na obrázek pokaždé, pokud se shoduje s tím, který jsi viděl/a předminule</p>
+      <img src="/images/tutorials/n-back/n-back-fractals.png" class="max-w-none" style="margin:auto;" width="512"/>
+    </div>
+  `,
+  choices: ['Pokračovat'],
+  post_trial_gap: 2000
+})
+
+timeline.push(...fractal_sequence)
+
+timeline.push({
+  // button response with a pause screen 
+  type: htmlButtonResponse,
+  stimulus: `
+    <div class="text-center">
+      <h2 class="text-xl font-bold mb-4">A jedeme do finále!</h2>
+      <p> Až budeš připravená/ý, pokračuj dál. V poslední fázi tě čekají 3D fraktálové tvary a vzory, jako vidíš níž. Úloha zústává stejná, klikni na obrázek pokaždé, pokud se shoduje s tím, který jsi viděl/a předminule</p>
+      <img src="/images/tutorials/n-back/n-back-3d.png" class="max-w-none" style="margin:auto;" width="512"/>
+    </div>
+  `,
+  choices: ['Pokračovat'],
+  post_trial_gap: 2000
+})
+timeline.push(...thirdfractal_sequence)
 
 // push a timeline event which simply saves the data and on finish goes further
 timeline.push({
   type: callFuncion,
   async: true,
   func: async (done) => {
-    await save_test_data(jsPsych);
+    await save_test_data(jsPsych, TEST_NAME, client);
     done();
   }
 })
@@ -179,15 +207,11 @@ timeline.push({
   type: htmlButtonResponse,
   stimulus: `
     <div class="text-center">
-      <h2 class="text-xl font-bold mb-4">Úloha hotova</h2>
+      <h2 class="text-xl font-bold mb-4">Gratulace, úloha splněna!</h2>
     </div>`,
   choices: ['Zpět k testům']
 })
 
-onMounted(() => {
-  jsPsych.run(timeline)
-})
-  
 </script>
 <template>
   <div className="flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
