@@ -8,6 +8,8 @@ import callFuncion from '@jspsych/plugin-call-function';
 import preload from '@jspsych/plugin-preload';
 import instructions from '@jspsych/plugin-instructions';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response'
+import { h } from 'vue';
+import { timeline_hideFooter } from '~/utils/jsPsychUtils';
 
 // Initialize jsPsych
 jsPsych = initJsPsych({
@@ -16,8 +18,6 @@ jsPsych = initJsPsych({
     const data = jsPsych.data.get().json()
   }
 })
-
-const timeline = [];
 
 const spatialurl = client.storage.from("test-stimuli").getPublicUrl('spatialcognition/')
 function imagename (direction, distance, angle) {
@@ -39,12 +39,6 @@ function create_all_stimuli() {
   return all_stimuli;
 }
 const all_stimuli = create_all_stimuli();
-const testpreload = {
-  type: preload,
-  images: all_stimuli,
-};
-
-timeline.unshift(testpreload);
 
 function create_sequence(direction, rotations) {
   const sequence = []
@@ -61,6 +55,8 @@ function create_sequence(direction, rotations) {
   return sequence;
 }
 
+
+
 const first_rotation = Array(6).fill(0);
 const second_rotation = Array(3).fill(0).concat(Array(3).fill(180));
 const third_rotation = [0, 180, 90, 90, 270, 270];
@@ -72,32 +68,14 @@ const second_sequence = jsPsych.randomization.shuffle(seq);
 seq = create_sequence("left", third_rotation).concat(create_sequence("right", third_rotation));
 const third_sequence = jsPsych.randomization.shuffle(seq);
 
-var welcome = {
-  type: htmlButtonResponse,
-  stimulus: "Vítejte v testu prostorové kognice.",
-  choices: ["Pokračovat"]
-};
-
-var testinstructions = {
-  type: instructions,
-  pages: [`
-      <p>V úloze uvidíte obrázky s raketou a vesmírnou stanicí a vaším úkolem bude určit, zda se raketa pohybuje doprava nebo doleva.</p>
-  `],
-   choices: ['Souhlasím, pokračovat'],
-    show_clickable_nav: true
-};
-timeline.push(testinstructions);
-
 function create_trial(stimulus, index) {
   return {
     type: htmlButtonResponse,
     stimulus: `<img src="${stimulus.image}" class="max-w-none rotate_${stimulus.rotation}" width="512" height="512" alt="Mapa">`,
-    choices: ['doleva', 'doprava'],
+    choices: ['< doleva', 'doprava >'],
     stimulus_duration: null, // Show until response
     trial_duration: null, // No timeout
     margin_vertical: '10px',
-    stimulus_height: 512,
-    stimulus_width: 512,
     render_on_canvas: true, // Allows the image to be clickable
     button_class: 'jspsych-btn',
     data: {
@@ -109,6 +87,20 @@ function create_trial(stimulus, index) {
     post_trial_gap: 0
   }
 }
+// TIMELINE ---
+const timeline = [];
+timeline.push(timeline_hideFooter());
+timeline.unshift({
+  type: preload,
+  images: all_stimuli,
+})
+
+imeline.push({
+  type: htmlButtonResponse,
+  stimulus: `<p>V úloze uvidíte obrázky s raketou a vesmírnou stanicí a vaším úkolem bude určit, zda se raketa pohybuje doprava nebo doleva.</p>`,
+  choices: ["Pokračovat"],
+  post_trial_gap: 2000
+});
 
 first_sequence.forEach((stimulus, index) => {
   timeline.push(create_trial(stimulus, index));
@@ -117,8 +109,11 @@ first_sequence.forEach((stimulus, index) => {
 // create a pause trial between the sequences
 timeline.push({
   type: htmlButtonResponse,
-  stimulus: "Přestávka. V další části bude raketka občas směřovat nahoru a občas dolů. Nezapomeňte určit směr, v jakém by letět měla raketa, ne, na jaké straně obrazovky vidíte stanici. Až budete připraveni, můžete pokračovat.",
-  choices: ["Pokračovat"]
+  stimulus: `<p>Přestávka<p/> 
+  <p> V další části bude raketka občas směřovat nahoru a občas dolů.</p>
+  <p>Nezapomeňte určit směr, v jakém by letět měla raketa a ne, na jaké straně obrazovky vidíte stanici. Až budete připraveni, můžete pokračovat.<p/>`,
+  choices: ["Pokračovat"],
+  post_trial_gap: 2000
 });
 
 second_sequence.forEach((stimulus, index) => {
@@ -128,15 +123,15 @@ second_sequence.forEach((stimulus, index) => {
 // create a pause trial between the sequences
 timeline.push({
   type: htmlButtonResponse,
-  stimulus: "Poslední přestávka a poslední kus cesty. Nyní se bude vesmír točit všemy směry. Až budete připraveni, můžete pokračovat.",
-  choices: ["Pokračovat"]
+  stimulus: `Poslední přestávka a poslední kus cesty. Nyní se bude vesmír točit všemy směry. Až budete připraveni, můžete pokračovat.`,
+  choices: ["Pokračovat"],
+  post_trial_gap: 2000
 });
 
 third_sequence.forEach((stimulus, index) => {
   timeline.push(create_trial(stimulus, index));
 })
 
-// push a timeline event which simply saves the data and on finish goes further
 timeline.push({
   type: callFuncion,
   async: true,
@@ -148,36 +143,12 @@ timeline.push({
 
 timeline.push({
   type: htmlButtonResponse,
-  stimulus: "Děkujeme za zvládnutí.",
+  stimulus: "Děkujeme za dokončení.",
   choices: ["K testům"],
-
-  // redirect to list of test on button click
   on_finish: () => {
     navigateTo('/tests')
   }
 });
-
-// create a saving call function
-async function save_test_data(jspsych){
-  if (client == null) {
-    console.error('Supabase client is not available');
-    return
-  }
-  try {
-    const test_data = jspsych.data.get().json();
-    const updates = {
-      test_name: 'Spatial Cognition',
-      test_results: test_data,
-    }
-    const { error } = await client.from('TestResults').insert(updates, {
-      returning: 'minimal', // Don't return the value after inserting
-    })
-    if (error) throw error
-  } catch (error) {
-    alert(error.message)
-  } finally {
-  }
-}
 
 onMounted(() => {
   jsPsych.run(timeline)
