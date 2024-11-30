@@ -11,6 +11,10 @@ export default defineNuxtConfig({
   ],
   vite: {
     server: {
+       watch: {
+        usePolling: true,
+        interval: 100, // Poll files every 100ms
+      },
       hmr: {
         protocol: 'ws',
         host: '0.0.0.0',
