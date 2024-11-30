@@ -9,6 +9,7 @@ import callFuncion from '@jspsych/plugin-call-function';
 import instructions from '@jspsych/plugin-instructions';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response'
 import imageButtonResponse from '@jspsych/plugin-image-button-response'
+import { timeline_confirmOfficialAttempt } from '~/utils/jsPsychUtils';
 
 //CONSTANTS
 const NUMBER_OF_STIMULI = 42
@@ -126,18 +127,10 @@ timeline.push({
 })
 
 if(user.value) {
-  timeline.push({
-    type: instructions,
-    pages: [
-    `<div class="max-w-2xl mx-auto text-center">
-        <h1 class="text-2xl font-bold mb-4">2-Back Task</h1>
-        <p class="mb-4">Neboť jste přihlášení, toto bude váš oficiální pokus. Oficální pokus můžete absolvovat pouze jednou.</p>
-        <p class="mb-4">Pokud si chcete ještě test natrénovat, odhlašte se a můžete trénovat jak dlouho uznáte za vhodné</p>`
-      ],
-      choices: ['Rozumím, chci pokračovat'],
-      show_clickable_nav: true
-    }
-  )
+  // Check if the user has already completed the test
+
+  // otherwise, add the official attempt confirmation
+  timeline.push(timeline_confirmOfficialAttempt());
 }
   
 // Instructions
@@ -154,7 +147,6 @@ timeline.push({
   choices: ['Začít'],
   post_trial_gap: 1000
 })
-
 
 timeline.push(...planet_sequence)
 timeline.push({
@@ -185,34 +177,11 @@ timeline.push({
 timeline.push({
   type: htmlButtonResponse,
   stimulus: `
-        <div class="text-center">
-          <h2 class="text-xl font-bold mb-4">Task Complete!</h2>
-          <p>Thank you for participating.</p>
-        </div>
-`,
+    <div class="text-center">
+      <h2 class="text-xl font-bold mb-4">Úloha hotova</h2>
+    </div>`,
   choices: ['Zpět k testům']
 })
-
-async function save_test_data(jspsych){
-  if (client == null) {
-    console.error('Supabase client is not available');
-    return
-  }
-  try {
-    const test_data = jspsych.data.get().json();
-    const updates = {
-      test_name: '2-Back Task',
-      test_results: test_data,
-    }
-    const { error } = await client.from('TestResults').insert(updates, {
-      returning: 'minimal', // Don't return the value after inserting
-    })
-    if (error) throw error
-  } catch (error) {
-    alert(error.message)
-  } finally {
-  }
-}
 
 onMounted(() => {
   jsPsych.run(timeline)
