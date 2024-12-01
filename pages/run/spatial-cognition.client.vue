@@ -4,7 +4,6 @@ const client = useSupabaseClient();
 
 import 'jspsych/css/jspsych.css';
 import {initJsPsych} from 'jspsych';
-import callFuncion from '@jspsych/plugin-call-function';
 import preload from '@jspsych/plugin-preload';
 import browserCheck from '@jspsych/plugin-browser-check';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response'
@@ -111,10 +110,10 @@ timeline.push({
   type: htmlButtonResponse,
   stimulus: `
     <p>Vítejte v testu Prostorové orientace!<p/>
-    <p>V úloze uvidíte obrázky s raketou a vesmírnou stanicí. Vaším úkolem bude co nejrychleji určit, na kterou stranu musí raketa zatočit, aby ke stanici doletěla.</p>
-    <p>Na obrázcích níže vidíte pár příkladů. V na prvním obrázku musí otočit doleva, a na tom druhém musí zatočit vpravo.</p>
+    <p>V úloze uvidíš obrázky s raketou a vesmírnou stanicí. Tvým úkolem bude co nejrychleji určit, na kterou stranu musí raketa zatočit, aby ke stanici doletěla.</p>
+    <p>Na obrázcích níže vidíš dva příklady. Na prvním obrázku musí raketa otočit doleva, a na tom druhém musí zatočit vpravo.</p>
     <img src="/images/tutorials/spatial-cognition/spatial-simple.png" class="max-w-none" style="margin:auto" width="512" height="512"/>
-    <p> Na odpověď máte dostatek času, ale hodnotí se jak správná odpověď, tak i vaše rychlost.</p>`,
+    <p> Na odpověď máš dostatek času, ale hodnotí se jak správná odpověď, tak i tvoje rychlost!</p>`,
   choices: ["Letíme!"],
   post_trial_gap: POST_INSTRUCTIONS_DELAY
 });
@@ -127,9 +126,9 @@ first_sequence.forEach((stimulus, index) => {
 timeline.push({
   type: htmlButtonResponse,
   stimulus: `<p>Výborně, první fáze hotová!<p/> 
-  <p> V další části raketa občas poletí směrem nahoru a občas směrem dolů. Vaším úkolem je opět správně a rychle určit směr, v jakém by raketa měla zatočit, aby doletěla správně ke stanici.</p>
+  <p> V další části raketa občas poletí směrem nahoru a občas směrem dolů. Tvým úkolem je opět správně a rychle určit směr, v jakém by raketa měla zatočit, aby doletěla ke stanici.</p>
   <img src="/images/tutorials/spatial-cognition/spatial-upsidedown.png" class="max-w-none" style="margin:auto" width="512" height="512"/>
-  <p> Na prvním obrázku výše vidíte příklad, kde raketa letí směrem dolů a musí zatočit doleva, aby ke stanici doletěla. Na druhém obrázku letí nahoru a musí zatočit vpravo.</p>`,
+  <p> Na prvním obrázku vidíš příklad, kde raketa letí směrem dolů a aby ke stanici doletěla, musí zatočit doleva. Na druhém obrázku letí nahoru a musí zatočit vpravo.</p>`,
   choices: ["Letíme!"],
   post_trial_gap: POST_INSTRUCTIONS_DELAY
 });
@@ -142,10 +141,10 @@ second_sequence.forEach((stimulus, index) => {
 timeline.push({
   type: htmlButtonResponse,
   stimulus: `<p>Výborně. Zbývá poslední kus cesty!<p/>
-  <p>Pozor, nyní bude raketa točit bude vesmír točit všemy čtyřmi směry. Občas poletí doprava, občas doleva, někdy nahoru a někdy dolů.</p>
-  <p>Vaším úkolem je opět rychle a přesně určit, kam by měla raketa zatočit, aby doletěla ke stanici.</p>
-  <img src="/images/tutorials/spatial-cognition/spatial-upsidedown.png" class="max-w-none" style="margin:auto" width="512" height="512"/>
-  <p>Na prvním obrázku výše vidíte příklad, kde raketa letí směrem doprava a musí zatočit doleva, aby ke stanici doletěla. Na druhém obrázku musí zatočit doprava.</p>`,
+  <p>Pozor, nyní se bude raketa ve vesmíru točit všemi čtyřmi směry. Občas poletí doprava, občas doleva, někdy nahoru a někdy dolů.</p>
+  <p>Tvým úkolem je opět rychle a přesně určit, kam by měla raketa zatočit, aby doletěla ke stanici.</p>
+  <img src="/images/tutorials/spatial-cognition/spatial-rotated.png" class="max-w-none" style="margin:auto" width="512" height="512"/>
+  <p>Na prvním obrázku výše vidíš příklad, kde raketa letí směrem doprava a musí zatočit doleva, aby ke stanici doletěla. Na druhém obrázku musí zatočit doprava.</p>`,
   choices: ["Letíme!"],
   post_trial_gap: POST_INSTRUCTIONS_DELAY
 });
@@ -162,7 +161,7 @@ timeline.push(timeline_finalMessage());
   <div className="flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
     <CestaHeader />
     <main class="grow">
-      <CestaTestFrame testName="Prostorová kognice"/>
+      <CestaTestFrame testName="Prostorová orientace"/>
     </main>
     <CestaFooter />
   </div>

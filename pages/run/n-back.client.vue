@@ -33,7 +33,7 @@ const NBACKSTIMULIURL = client.storage.from("test-stimuli").getPublicUrl('nback/
 onMounted(() => {
   jsPsych.run(timeline)
 })
-  
+
 function selectAndDuplicateStrings(arr, n_back, n_stimuli) {
   if (arr.length < n_back + 1) {
     throw new Error("Array must contain at least n + 1 elements.");
