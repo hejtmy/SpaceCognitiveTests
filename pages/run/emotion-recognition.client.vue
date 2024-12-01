@@ -12,6 +12,7 @@ import { timeline_pcMouseWarning, timeline_hideFooter, timeline_confirmOfficialA
 
 // CONSTANTS -------
 const N_IMAGES = 21;
+const TEST_NAME = "emotion-recognition";
 const EMOTIONS = ['neutral', 'sad', 'happy', 'surprised', 'angry'];
 const EMOTION_CHOICES = ['Neutrálně', 'Smutně', 'Vesele', 'Překvapeně', 'Naštvaně'];
 const EMOTION_STIMULI_URL = client.storage.from("test-stimuli").getPublicUrl('emotions/');
@@ -172,7 +173,7 @@ timeline.push({
   type: htmlButtonResponse,
   stimulus: `<div class="text-center">
       <h2 class="text-xl font-bold mb-4">A teď finále!</h2>
-      <p>Neboť ve vesmíru se může snadno stát, že uvidíš něčí obličej vzhůru nohama, v této fázi bude tvůj úkol uričt emoci na obličeji, který bude různě natočený. Hodnotíme tvojí rychlost a správnost.</p>
+      <p>Neboť ve vesmíru se může snadno stát, že uvidíš něčí obličej vzhůru nohama, v této fázi bude tvůj úkol určit emoci na různě natočených obličejích. Hodnotíme tvojí rychlost a správnost.</p>
       <p> Až budeš připravený/á, pokračuj dál.</p>
     </div>`,
   choices: ['Pokračovat']

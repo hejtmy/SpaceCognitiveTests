@@ -22,13 +22,15 @@ export const timeline_hideFooter = () => {
 export const timeline_confirmOfficialAttempt = () => {
   const trial = {  
   type: htmlButtonResponse,
-  stimulus: `<div class="max-w-2xl mx-auto text-center">
-        <h2 class="mb-4">Oficiální pokus</h2>
-        <p class="mb-4">Neboť jsi přihlášená/ý, toto jhe tvůj oficiální pokus. Oficální pokus můžeš absolvovat pouze jednou.</p>
-        <p class="mb-4">Pokud si chceš ještě test natrénovat, klidně se odhlaš se a mužeš trénovat jak dlouho je potřeba.</p>
-        <h2 class="mb-4"> Ticho a klid</h2>
-        <p> Měl bys taky být v klidném a tichém prostředí. Úlohy vyžadují koncentraci když tě v průběhu někdo vyruší, může ti pokus pokazit.</p>`,
-      choices: ['Rozumím, jdeme na to'],
+  stimulus: `
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="mb-4">Oficiální pokus</h2>
+      <p class="mb-4">Neboť jsi přihlášená/ý, toto jhe tvůj oficiální pokus. Oficální pokus můžeš absolvovat pouze jednou.</p>
+      <p class="mb-4">Pokud si chceš ještě test natrénovat, klidně se odhlaš se a mužeš trénovat jak dlouho je potřeba.</p>
+      <h2 class="mb-4"> Ticho a klid</h2>
+      <p> Měl bys taky být v klidném a tichém prostředí. Úlohy vyžadují koncentraci když tě v průběhu někdo vyruší, může ti pokus pokazit.</p>
+    </div>`,
+    choices: ['Rozumím, jdeme na to'],
   }
   return trial;
 }
@@ -38,26 +40,28 @@ export const timeline_pcMouseWarning = () => {
   type: htmlButtonResponse,
   // napiš krátké upozornění, že test byl připraven tak, aby byl dělaný na počítači na monitoru s myší
   // dá se udělat na tabletu či pomocí touchpadu, ale myš by měla být nejlepší
-  stimulus: `<div class="max-w-2xl mx-auto text-center">
-  <h1 class="mb-4"> Upozornění </h2>
-    <p> Tato úloha byla je zamýšlena na použití pro počítač/notebook s myší. </p>
-    <p> Pokud máš tablet či mobilní telefon, nemusí se vše zobrazovat správně. Touchpad ti může komplikovat rychlé klikání u některých úloh ti tak přihorší.</p>
+  stimulus: `
+  <div class="max-w-2xl mx-auto text-center">
+    <h1 class="mb-4"> Upozornění </h1>
+    <p> Úloha byly zamýšlena pro použití na počítači/notebooku s myší. </p>
+    <p> Pokud máš tablet či mobilní telefon, nemusí se vše zobrazovat správně. Touchpad ti může komplikovat rychlé klikání u úloh, kde hodnitíme čas, ti tak můžou přihoršit.</p>
+    <p> Obrázky i všechna tlačítka by měla být vždy viditelná na obrazovce. Pokud se ti něco nezobrazuje a musíš scrollovat, zkus ve webovém prohlížeči lehce změnšit zoom na 90% či méně.</p>
     <p> Pokud jsi připraven/a, jdeme na to! </p>
-    </div>`,
+  </div>`,
   choices: ['Beru na vědomí']
   }
   return trial;
 }
 
 // create a saving call function
-export const confirm_attempt = async (client) => {
+export const confirm_attempt = async (client, test_name) => {
   if (client == null) {
     console.error('Supabase client is not available');
     return
   }
   try {
     const updates = {
-      test_name: 'Spatial Cognition',
+      test_name: test_name,
       test_results: test_data,
     }
     const { error } = await client.from('TestResults').insert(updates, {

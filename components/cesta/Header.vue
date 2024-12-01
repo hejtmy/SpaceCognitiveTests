@@ -44,7 +44,7 @@ defineExpose({ isLoggedIn });
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <div class="flex items-center justify-between h-16 md:h-20">
         <div class="flex-1">
-          <router-link class="inline-flex" to="/" aria-label="Cruip">
+          <router-link class="inline-flex" to="/" aria-label="Vzhuru do vesmiru">
             <img class="max-w-none" src="/images/logo.png" width="38" height="38" alt="Stellar">
           </router-link>
         </div>

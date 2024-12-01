@@ -195,7 +195,7 @@ timeline.push({
   type: htmlButtonResponse,
   stimulus: `
     <p>Výborně, druhá fáze hotová!</p>
-    <p>A teď to trochu zkomplikujeme. Budou se zobrazovat obrázky rakety a UFO, ale tvýám úkolem je kliknout jenom na raketu, kterou vidíš na obrázku níže. Neklikej na žádné UFO!</p>
+    <p>A teď to trochu zkomplikujeme. Budou se zobrazovat obrázky rakety a UFO, ale tvým úkolem je kliknout jenom na raketu, kterou vidíš na obrázku níže. Neklikej na žádné UFO!</p>
     <img src="/images/tutorials/gonogo/gonogo-rocket-go-tutorial.png" class="max-w-none" style="margin:auto" width="512" height="512"/>`,
   choices: ['Budu klikat jen na raketu'],
   post_trial_gap: POST_TRIAL_GAP
@@ -206,7 +206,7 @@ timeline.push({
   type: htmlButtonResponse,
   stimulus: `
     <p>Výborně. A teď už poslední fáze!</p>
-    <p>Budou se opět ukazovat obrázky rakety a různých UFO. Tvým úkolem je klikat na všechny obrázky, ale NEKLIKAT na raketu.</p>
+    <p>Budou se opět ukazovat obrázky rakety a různé talíře UFO. Tvým úkolem je klikat na všechny obrázky, ale NEKLIKAT na raketu.</p>
     <img src="/images/tutorials/gonogo/gonogo-ufo-go-tutorial.png" class="max-w-none" style="margin:auto" width="512" height="512"/>`,
   choices: ['Budu klikat na všechna UFO, ne na raketu'],
   post_trial_gap: POST_TRIAL_GAP

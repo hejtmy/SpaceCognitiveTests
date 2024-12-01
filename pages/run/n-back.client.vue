@@ -21,7 +21,7 @@ jsPsych = initJsPsych({
 const TEST_NAME = "n-back";
 const NUMBER_OF_STIMULI = 42
 const NUMBER_OF_TRIALS = 12
-const TRIAL_DURATION = 1500
+const TRIAL_DURATION = 2000
 const IMAGE_WIDTH = 512
 const IMAGE_HEIGHT = 512
 const N_BACK = 2
@@ -134,10 +134,10 @@ timeline.push({
   stimulus: `
     <div class="max-w-2xl mx-auto text-center">
       <h1 class="text-2xl font-bold mb-4">2-Back Task</h1>
-      <p class="mb-2">Postupně uvidíš sérii několika obrázků </p>
-      <p class="mb-2">Tvým úkolem je kliknout na obrázek pokaždé, pokud jsi jej viděl/a předminule. Jinak neklikej!</p>
+      <p class="mb-2">Postupně uvidíš sérii několika obrázků</p>
+      <p class="mb-2">Tvým úkolem je kliknout na obrázek pokaždé, pokud jsi jej viděl/a předminule. Jinak neklikej! Hodnotíme pouze správnost, nikoli rychlost, ale obrázky rychle mizí, takže musíš stihnout kliknout včas.</p>
       <img src="/images/tutorials/n-back/n-back-abstract.png" class="max-w-none" style="margin:auto;" width="512" height="512"/>
-      <p class="mb-2">Tady je příklad. Sleduj postupně obrázky a zkus si neustále pamatovat si poslední dva. Neboť třetí obrázek je stejný, jako byl první (předminulý), tak na něj rychle klikni.</p>
+      <p class="mb-2">Tady je příklad. Neboť třetí obrázek je stejný, jako byl ten první (předminulý), tak máš za úkol na něj rychle kliknout.</p>
     </div>
   `,
   choices: ['Začít'],
@@ -146,14 +146,13 @@ timeline.push({
 
 timeline.push(...abstract_sequence)
 
-
 timeline.push({
   // button response with a pause screen 
   type: htmlButtonResponse,
   stimulus: `
     <div class="text-center">
       <h2 class="text-xl font-bold mb-4">Výborně! První kus jsi zvládnul/a!</h2>
-      <p>V druhé fázi tě čekají fraktálové tvary a vzory, jako vidíš níž. Úloha zústává stejná, klikni na obrázek pokaždé, pokud se shoduje s tím, který jsi viděl/a předminule</p>
+      <p>V druhé fázi tě čekají fraktálové tvary a vzory, jako vidíš dole. Úloha zústává stejná, klikni na obrázek pokaždé, pokud se shoduje s tím, který jsi viděl/a předminule.</p>
       <img src="/images/tutorials/n-back/n-back-fractals.png" class="max-w-none" style="margin:auto;" width="512"/>
       <p> Až budeš připravený/á, pokračuj dál.</p>
     </div>
@@ -169,7 +168,7 @@ timeline.push({
   stimulus: `
     <div class="text-center">
       <h2 class="text-xl font-bold mb-4">A jsi v polovině!</h2>
-      <p>V téhle fázi tě čekají 3D fraktálové tvary a vzory, jako vidíš na obrázku. Úloha zústává stejná, klikni na obrázek pokaždé, pokud se shoduje s tím, který jsi viděl/a předminule</p>
+      <p>V téhle fázi tě čekají 3D fraktálové tvary a vzory, jako vidíš na obrázku. Úloha zústává stejná, klikni na obrázek pokaždé, pokud se shoduje s tím, který jsi viděl/a předminule.</p>
       <img src="/images/tutorials/n-back/n-back-3d.png" class="max-w-none" style="margin:auto;" width="512"/>
       <p> Až budeš připravený/á, pokračuj dál.</p>
     </div>
@@ -193,7 +192,8 @@ timeline.push({
   choices: ['Pokračovat'],
   post_trial_gap: 2000
 })
-timeline.push(...abstract_sequence)
+timeline.push(...planet_sequence)
+
 // push a timeline event which simply saves the data and on finish goes further
 timeline.push({
   type: callFuncion,
@@ -211,7 +211,10 @@ timeline.push({
     <div class="text-center">
       <h2 class="text-xl font-bold mb-4">Gratulujeme, hotovo!</h2>
     </div>`,
-  choices: ['Zpět k testům']
+  choices: ['Zpět k testům'],
+  on_finish: () => {
+    navigateTo('/tests')
+  }
 })
 
 </script>

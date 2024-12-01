@@ -1,9 +1,3 @@
-<template>
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
-</template>
-
 <script setup>
 useHead({
   title: 'Vzhůru do vesmíru: kognitivní testování',
@@ -16,10 +10,14 @@ useHead({
   }
 })
 </script>
+<template>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
+</template>
 
 <script>
 import AOS from 'aos'
-
 export default {
   mounted() {
     AOS.init({

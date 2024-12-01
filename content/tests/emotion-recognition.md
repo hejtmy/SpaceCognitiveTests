@@ -11,7 +11,7 @@ testListShortDescription: V úloze budete mít za úkol rozpoznat emoce na zákl
 url: emotion-recognition
 ---
 
-Možná vás napadne myšlenka: *Proč se vůbec zabývat tím, jak dobře dokáží astronauti rozpoznat emoce?* Není snad důležitější, aby zvládali složité úkoly, uměli pracovat ve stavu beztíže, nebo se efektivně dokázali přizpůsobit neočekáváným situacím? Ano, to všechno jsou klíčové dovednosti, ovšem schopnost rozpoznat, jak se ostatní cítí, je pro úspěch vesmírné mise stejně tak důležitá!
+Možná vás napadá: *Proč se vůbec zabývat tím, jak dobře dokáží astronauti rozpoznat emoce?* Není snad důležitější, aby zvládali složité úkoly, uměli pracovat ve stavu beztíže, nebo se efektivně dokázali přizpůsobit neočekáváným situacím? Ano, to všechno jsou klíčové dovednosti, ovšem schopnost rozpoznat, jak se ostatní cítí, je pro úspěch vesmírné mise stejně tak důležitá!
 
 Dlouhodobý pobyt ve vesmíru je nejen fyzicky, ale i psychicky náročný. Při budoucích vesmírných výpravách mohou astronauti strávit až tři roky v izolaci od zbytku světa, což se podepíše i na jejich duševním stavu. Schopnost rozpoznat a správně reagovat na emoce ostatních je proto VESMÍRNĚ důležitá nejen pro dobré vztahy mezi členy posádky, ale také pro bezpečnost celé mise a úspěšný průzkum hlubokého vesmíru!
 
@@ -37,19 +37,20 @@ Jak to bude probíhat?
 
 V úloze budeš mít za úkol rozpoznat, co za emoci vyjadřuje obličej na obrázku. Úloha bude mít několik fází, ve kterých se bude lišit na jak dlouho nebo v jaké orientaci obrázky uvidíš. Budeš mít na výběr z několika možností, jak se osoba na obrázku může cítit - **Neutrálně, Smutně, Vesele, Překvapeně či Naštvaně**.
 
-Fáze 1
+**Fáze 1**
 
 Na obrazovce se budou objevovat obrázky s obličeji. Tvým úkolem bude určit emoci, kterou v obličeji vidíš.  Na odpověď budeš mít neomezené množství času, ale hodnotíme jak správnost, tak rychlost odpovědi. Tak neotálej!
 
 ![](/images/tutorials/emotions/neutral.png)
 ![](/images/tutorials/emotions/sad.png)
 
-Fáze 2
+**Fáze 2**
 
 Stejná úloha jako minule, ale teď se ti budou obrázky ukazovat jen na malý okamžik. Musíš se proto soustředit a dávat dobrý pozor. V této úloze ale hodnotíme jen odpovědi, takže s výběrem nemusíš spěchat.
 
-Fáze 3
-Neboť ve vesmíru nejsou lidi vždycky orientovaní stejně a členové posádky můžou kolem tebe proplouvat různými směry, v téhle fázi to zkusíme napodobit. úloha bude pprobíhat stejně jako na začátku, tvým úkolem bude co nejrychleji odhadlit emoci vyobrazenou v obličeji, ale obrázky budou v této všelijak natočené, například vzhůru nohama. Hodnotíme správnost ale i rychlost odpovědi.
+**Fáze 3**
 
-![](/images/tutorials/emotions/angry.png){style="transform: rotate(180deg);"}!
-![](/images/tutorials/emotions/happy.png){style="transform: rotate(270deg);"}!
+Neboť ve vesmíru nejsou lidi vždycky orientovaní stejně a členové posádky můžou kolem tebe proplouvat různými směry, v téhle fázi to zkusíme napodobit. Úloha bude probíhat stejně jako na začátku, tvým úkolem bude co nejrychleji odhalit emoci v obličeji, ale obrázky budou všelijak natočené, například vzhůru nohama.
+
+![](/images/tutorials/emotions/angry.png){style="transform: rotate(180deg);"}
+![](/images/tutorials/emotions/happy.png){style="transform: rotate(270deg);"}

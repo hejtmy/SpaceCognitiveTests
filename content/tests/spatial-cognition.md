@@ -10,9 +10,9 @@ testListShortDescription: V úloze budete mít za úkol v duchu otáčet s obrá
 url: spatial-cognition
 ---
 
-Vesmír není místo, kde by bylo snadné se zorientovat. Představ si, že jsi uvnitř vesmírné stanice na oběžné dráze. Všechno kolem vypadá a funguje jinak než na Zemi – neexistuje nahoře ani dole, gravitace nepůsobí, a co není připevněné ke konstrukci lodi, se volně vznáší, včetně tebe a tvých spoluastronautů. A teď si představ, že musíš co nejrychleji najít nářadí, opravit poškozený systém, nebo identifikovat ovládací panel. Každý chybný pohyb nebo ztráta orientace tě stojí drahocenný čas a může mít vážné následky.
+Vesmír není místo, kde by bylo snadné se zorientovat. Představte si, že jste uvnitř vesmírné stanice na oběžné dráze. Všechno kolem vypadá a funguje jinak než na Zemi – neexistuje nahoře ani dole, gravitace nepůsobí, a co není připevněné ke konstrukci lodi, se volně vznáší, včetně vás a tvých spoluastronautů. A teď si představte, že musíte co nejrychleji najít nářadí, opravit poškozený systém, nebo identifikovat ovládací panel. Každý chybný pohyb nebo ztráta orientace vás stojí drahocenný čas a může mít vážné následky.
 
-Proto je trénink a testování prostorové orientace pro astronauty zásadní. Díky prostorové orientaci si umíme „mentální mapu“ svého okolí, což nám umožňuje pohybovat se efektivně a bezpečně i ve stavu beztíže. Tento typ dovednosti je klíčový nejen při běžném pohybu uvnitř stanice, ale také při výstupech do volného vesmíru. Astronauti si musí být schopni udržet přehled o tom, kde se nacházejí vůči stanici, vůči Zemi a vůči svým kolegům. Jakýkoli omyl v orientaci by mohl znamenat ztrátu cenného času nebo ohrožení bezpečnosti celé mise.
+Proto je trénink a testování prostorové orientace pro astronauty zásadní. Díky prostorové orientaci si umíme vytvořit „mentální mapu“ svého okolí, což nám umožňuje pohybovat se efektivně a bezpečně i ve stavu beztíže. Tento typ dovednosti je klíčový nejen při běžném pohybu uvnitř stanice, ale také při výstupech do volného vesmíru. Astronauti si musí být schopni udržet přehled o tom, kde se nacházejí vůči stanici, vůči Zemi a vůči svým kolegům. Jakýkoli omyl v orientaci by mohl znamenat ztrátu cenného času nebo ohrožení bezpečnosti celé mise.
 
 Uvnitř vesmírné stanice se orientace stává každodenní výzvou i rutinou. Astronauti potřebují najít správné moduly, identifikovat své nástroje, nebo rychle reagovat na nouzové situace. Ve stavu beztíže musí přemýšlet ve třech dimenzích a představit si, jak jejich pohyby ovlivní polohu ostatních předmětů. Orientace ve 3D prostoru je rovněž klíčová pro samotné pilotování vesmírných lodí a vozidel, kde je nutné přesně manévrovat při přistání nebo dokování, nebo při výstupech do volného vesmíru, kdy musí astronaut držet přehled o tom, kde je přetlaková komora či bezpečnostní lano.
 
@@ -28,7 +28,7 @@ Test mentální rotace je nástroj určený ke zkoumání schopnosti vnímat a s
 Jak to bude probíhat
 ::
 
-Úloha bude mít tři fáze. Ve všech se budeš rozhodovat, kterým směrem má raketa zatočit, aby doletěla na stanici. V jednotlivých fázích se bude zvyšovat obtížnost, například se budeš muset rozhodnout. Na řešení máte neomezený čas, ale hodnotíme nejen správnost odpovědi, ale i rychlost.
+Úloha bude mít tři fáze. Ve všech se budeš rozhodovat, kterým směrem má zatočit raketa, aby doletěla na stanici. V jednotlivých fázích se bude zvyšovat obtížnost a raketa bude létat různými směry. Na řešení máš neomezený čas, ale hodnotíme nejen správnost odpovědi, ale i tvoji rychlost.
 
 Fáze 1
 

@@ -1,7 +1,5 @@
 <template>
   <section class="relative">
-
-    <!-- Blurred shape -->
     <div class="absolute top-0 -translate-y-1/4 left-1/2 -translate-x-1/2 blur-2xl opacity-50 pointer-events-none -z-10" aria-hidden="true">
       <svg xmlns="http://www.w3.org/2000/svg" width="434" height="427">
         <defs>
