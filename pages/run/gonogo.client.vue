@@ -1,57 +1,29 @@
 <script setup>
 import 'jspsych/css/jspsych.css';
 import {initJsPsych} from 'jspsych';
-import callFuncion from '@jspsych/plugin-call-function';
 import preload from '@jspsych/plugin-preload';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response'
-import imageButtonResponse from '@jspsych/plugin-image-button-response'
-import { timeline_hideFooter, timeline_pcMouseWarning, timeline_confirmOfficialAttempt } from '~/utils/jsPsychUtils';
+import browserCheck from '@jspsych/plugin-browser-check';
 import { navigateTo } from 'nuxt/app';
+import { timeline_finalMessage } from '~/utils/jsPsychUtils';
 
 const user = useSupabaseUser();
 const client = useSupabaseClient();
-const testResult = ref(null);
 
 const TEST_NAME = "gonogo";
 const TRIAL_DURATION = 1000; // 1 second
 const FIXATION_DURATION = 500; // 0.5 seconds
-const N_GOTRIALS = 40;
-const N_NOGOTRIALS = 10;
+const N_GOTRIALS = 4;
+const N_NOGOTRIALS = 1;
 const N_TOTALTRIALS = N_GOTRIALS + N_NOGOTRIALS;
-const POST_TRIAL_GAP = 1500;
+const POST_TRIAL_GAP = 1000;
 
 onMounted(() => {
-  checkTestResult();
   jsPsych.run(timeline)
 })
 
-const checkTestResult = async () => {
-  if (user.value) {
-    try {
-      const { data, error } = await client
-        .from('TestResults')
-        .select('*')
-        .eq('test_name', TEST_NAME)
-        .eq('user_id', user.value.id)
-        .single();
-
-      if (error) {
-        console.error('Error fetching test results:', error);
-      } else {
-        console.log('Test result:', data);
-        return testResult.value = data;
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  } else {
-    console.log("user not logged in");
-    return false;
-  }
-};
-
 // Initialize jsPsych
-jsPsych = initJsPsych({
+var jsPsych = initJsPsych({
   display_element: 'jspsych-target',
   on_finish: () => {
     const data = jsPsych.data.get().json()
@@ -75,11 +47,6 @@ for (let i = 1; i <= 10; i++) {
 }
 const all_stimuli = living_stimuli.concat(spaceship_stimuli).concat(fixation_cross);
 
-const testpreload = {
-  type: preload,
-  images: all_stimuli,
-};
-
 function create_living_stimulus(go_stimulus, go) {
   const go_index = go_stimulus == "astronaut" ? 0 : 1;
   return go ? living_stimuli[go_index] : living_stimuli[1 - go_index];
@@ -93,7 +60,6 @@ function create_spaceship_stimulus(go_stimulus, go, index) {
   if (go_stimulus == "alien") {
     i = go ? (index + 1) : 0;
   }
-  console.log(spaceship_stimuli[i]);
   return spaceship_stimuli[i];
 }
 
@@ -165,14 +131,17 @@ fourth_block = jsPsych.randomization.shuffle(fourth_block);
 
 // TIMELINE CREATION
 const timeline = [];
-timeline.push(testpreload);
+timeline.push({ type: preload, images: all_stimuli });
+timeline.push({type:browserCheck});
 timeline.push(timeline_hideFooter());
 timeline.push(timeline_pcMouseWarning());
 
 if(user.value) {
   timeline.push(timeline_confirmOfficialAttempt());
-  // record official attempt in a database
+  timeline.push(timeline_checkValidAttempt(client, user.value, TEST_NAME, jsPsych));
+  timeline.push(timeline_abortOrCreateAttempt(client, user.value, TEST_NAME, jsPsych));
 }
+
 timeline.push({
   type: htmlButtonResponse,
   stimulus: `
@@ -217,23 +186,9 @@ timeline.push({
 });
 timeline.push(...fourth_block.flat());
 
-timeline.push({
-  type: callFuncion,
-  async: true,
-  func: async (done) => {
-    await save_test_data(jsPsych, TEST_NAME, client);
-    done();
-  }
-})
+timeline.push(timeline_saveAttemptData(client, user.value, TEST_NAME, jsPsych));
+timeline.push(timeline_finalMessage());
 
-timeline.push({
-  type: htmlButtonResponse,
-  stimulus: `<p>Gratulujeme, test je hotový!</p>`,
-  choices: ['Zpět k testům'],
-  on_finish: () => {
-    navigateTo("/tests");
-  }
-});
 </script>
 
 <template>

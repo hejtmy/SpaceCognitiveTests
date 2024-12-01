@@ -1,7 +1,5 @@
 <script setup>
 const { data } = await useAsyncData('tests', () => queryContent('/tests/').find())
-console.log(data.value[0]);
-
 const tests = data.value;
 
 </script>

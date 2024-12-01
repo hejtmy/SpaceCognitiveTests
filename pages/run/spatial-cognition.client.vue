@@ -6,25 +6,25 @@ import 'jspsych/css/jspsych.css';
 import {initJsPsych} from 'jspsych';
 import callFuncion from '@jspsych/plugin-call-function';
 import preload from '@jspsych/plugin-preload';
+import browserCheck from '@jspsych/plugin-browser-check';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response'
-import { timeline_hideFooter, timeline_pcMouseWarning, timeline_confirmOfficialAttempt } from '~/utils/jsPsychUtils';
+import { timeline_hideFooter, timeline_pcMouseWarning, timeline_confirmOfficialAttempt, timeline_saveAttemptData } from '~/utils/jsPsychUtils';
 
 // CONSTANTS
 const TEST_NAME = "spatial-cognition";
-const N_TRIALS = 6;
 const POST_INSTRUCTIONS_DELAY = 2000;
 const spatialurl = client.storage.from("test-stimuli").getPublicUrl('spatialcognition/')
 
-onMounted(() => {
-  jsPsych.run(timeline)
-})
-
 // Initialize jsPsych
-jsPsych = initJsPsych({
+const jsPsych = initJsPsych({
   display_element: 'jspsych-target',
   on_finish: () => {
     const data = jsPsych.data.get().json()
   }
+})
+
+onMounted(() => {
+  jsPsych.run(timeline)
 })
 
 function imagename (direction, distance, angle) {
@@ -93,19 +93,18 @@ function create_trial(stimulus, index) {
   }
 }
 
-// TIMELINE ---
+// TIMELINE ------------------
 const timeline = [];
-timeline.unshift({
-  type: preload,
-  images: all_stimuli,
-})
-
+timeline.push({type:browserCheck});
+timeline.push({type: preload, images: all_stimuli})
 timeline.push(timeline_hideFooter());
 timeline.push(timeline_pcMouseWarning());
 
 if(user.value) {
   timeline.push(timeline_confirmOfficialAttempt());
-  // record official attempt in a database
+  timeline.push(timeline_checkValidAttempt(client, user.value, TEST_NAME, jsPsych));
+  timeline.push(timeline_abortOrCreateAttempt(client, user.value, TEST_NAME, jsPsych));
+  
 }
 
 timeline.push({
@@ -155,23 +154,8 @@ third_sequence.forEach((stimulus, index) => {
   timeline.push(create_trial(stimulus, index));
 })
 
-timeline.push({
-  type: callFuncion,
-  async: true,
-  func: async (done) => {
-    await save_test_data(jsPsych, TEST_NAME, client);
-    done();
-  }
-})
-
-timeline.push({
-  type: htmlButtonResponse,
-  stimulus: "Výborně. Test Prostorové kognice je hotový!",
-  choices: ["Zpět k testům"],
-  on_finish: () => {
-    navigateTo('/tests')
-  }
-});
+timeline.push(timeline_saveAttemptData(client, user.value, TEST_NAME, jsPsych));
+timeline.push(timeline_finalMessage());
 
 </script>
 <template>

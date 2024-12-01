@@ -6,6 +6,7 @@ import 'jspsych/css/jspsych.css';
 import {initJsPsych} from 'jspsych';
 import preload from '@jspsych/plugin-preload';
 import callFuncion from '@jspsych/plugin-call-function';
+import browserCheck from '@jspsych/plugin-browser-check';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response'
 import { timeline_confirmOfficialAttempt, timeline_pcMouseWarning, timeline_hideFooter } from '~/utils/jsPsychUtils';
 
@@ -34,7 +35,6 @@ onMounted(() => {
 })
   
 function selectAndDuplicateStrings(arr, n_back, n_stimuli) {
-  console.log(`original array: ${arr}`);
   if (arr.length < n_back + 1) {
     throw new Error("Array must contain at least n + 1 elements.");
   }
@@ -59,8 +59,6 @@ function selectAndDuplicateStrings(arr, n_back, n_stimuli) {
       newarr.splice(i + 1, 0, element);
     }
   }
-
-  console.log(`new array: ${newarr}`);
   return newarr;
 }
 
@@ -114,18 +112,19 @@ let thirdfractalstimuli = generate_stimuli_sequence(NUMBER_OF_TRIALS, NUMBER_OF_
 thirdfractalstimuli = selectAndDuplicateStrings(thirdfractalstimuli, N_BACK, N_REPEATED_TRIALS)
 const thirdfractal_sequence = generate_timeline_sequence(thirdfractalstimuli, TRIAL_DURATION, IMAGE_WIDTH, IMAGE_HEIGHT);
 
+const all_stimuli = planetstimuli.concat(abstractstimuli).concat(fractalstimuli).concat(thirdfractalstimuli);
 // Timeline generation ------------------
 let timeline = [];
+timeline.push({type:browserCheck});
+timeline.unshift({ type: preload, images: all_stimuli});
+
 timeline.push(timeline_hideFooter());
 timeline.push(timeline_pcMouseWarning());
-timeline.unshift({
-  type: preload,
-  images: planetstimuli.concat(abstractstimuli).concat(fractalstimuli).concat(thirdfractalstimuli),
-})
 
 if(user.value) {
   timeline.push(timeline_confirmOfficialAttempt());
-  // record official attempt in a database
+  timeline.push(timeline_checkValidAttempt(client, user.value, TEST_NAME, jsPsych));
+  timeline.push(timeline_abortOrCreateAttempt(client, user.value, TEST_NAME, jsPsych));
 }
   
 // Instructions
@@ -194,28 +193,8 @@ timeline.push({
 })
 timeline.push(...planet_sequence)
 
-// push a timeline event which simply saves the data and on finish goes further
-timeline.push({
-  type: callFuncion,
-  async: true,
-  func: async (done) => {
-    await save_test_data(jsPsych, TEST_NAME, client);
-    done();
-  }
-})
-
-// End message
-timeline.push({
-  type: htmlButtonResponse,
-  stimulus: `
-    <div class="text-center">
-      <h2 class="text-xl font-bold mb-4">Gratulujeme, hotovo!</h2>
-    </div>`,
-  choices: ['Zpět k testům'],
-  on_finish: () => {
-    navigateTo('/tests')
-  }
-})
+timeline.push(timeline_saveAttemptData(client, user.value, TEST_NAME, jsPsych));
+timeline.push(timeline_finalMessage());
 
 </script>
 <template>

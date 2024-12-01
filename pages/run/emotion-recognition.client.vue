@@ -7,6 +7,7 @@ import 'jspsych/css/jspsych.css';
 import {initJsPsych} from 'jspsych';
 import preload from '@jspsych/plugin-preload';
 import callFuncion from '@jspsych/plugin-call-function';
+import browserCheck from '@jspsych/plugin-browser-check';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response';
 import { timeline_pcMouseWarning, timeline_hideFooter, timeline_confirmOfficialAttempt } from '~/utils/jsPsychUtils';
 
@@ -25,14 +26,15 @@ jsPsych = initJsPsych({
   }
 })
 
+onMounted(() => {
+  jsPsych.run(timeline)
+})
+
 function create_stimuli(emotionurl, mode, emotion, n_images){
   const possible_images = Array.from({length: N_IMAGES}, (_, i) => i + 1)
   const selected_images = jsPsych.randomization.sampleWithoutReplacement(possible_images, n_images);
   const stimuli = selected_images.map(num => `${emotionurl.data.publicUrl}/${mode}/${emotion}_${num}.png`);
   return stimuli;
-}
-
-function create_final_stimuli(emotionurl, mode, n_images){
 }
 
 function extract_emotion(url){
@@ -132,17 +134,15 @@ const third_block = stimuli.map((stimulus, index) => {
 // TIMELINE -------
 
 var timeline = [];
-timeline.push(timeline_hideFooter());
+timeline.push({type:browserCheck});
 timeline.push(timeline_pcMouseWarning());
-
-timeline.unshift({
-  type: preload,
-  images: all_stimuli,
-});
+timeline.unshift({type: preload, images: all_stimuli});
+timeline.push(timeline_hideFooter());
 
 if(user.value) {
   timeline.push(timeline_confirmOfficialAttempt());
-  // record official attempt in a database
+  timeline.push(timeline_checkValidAttempt(client, user.value, TEST_NAME, jsPsych));
+  timeline.push(timeline_abortOrCreateAttempt(client, user.value, TEST_NAME, jsPsych));
 }
 
 var testinstructions = {
@@ -187,30 +187,9 @@ timeline.push({
 })
 timeline.push(third_block);
 
-timeline.push({
-  type: callFuncion,
-  async: true,
-  func: async (done) => {
-    await save_test_data(jsPsych, TEST_NAME, client);
-    done();
-  }
-})
+timeline.push(timeline_saveAttemptData(client, user.value, TEST_NAME, jsPsych));
+timeline.push(timeline_finalMessage());
 
-timeline.push({
-  type: htmlButtonResponse,
-  stimulus: `<div class="text-center">
-      <h2 class="text-xl font-bold mb-4">Perketní!</h2>
-      <p>Gratulujeme k úspšššnému zakončení</p>
-    </div>`,
-  choices: ['Ukončit test'],
-  on_finish: () => {
-    navigateTo('/tests');
-  }
-})
-
-onMounted(() => {
-  jsPsych.run(timeline)
-})
 
 </script>
 <template>

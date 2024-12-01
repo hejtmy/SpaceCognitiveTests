@@ -35,8 +35,6 @@ const links = [
 
 const isLoggedIn = computed(() => !!user.value);
 
-console.log(isLoggedIn.value);
-
 defineExpose({ isLoggedIn });
 </script>
 <template>

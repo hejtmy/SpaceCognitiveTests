@@ -25,8 +25,8 @@ export const timeline_confirmOfficialAttempt = () => {
   stimulus: `
     <div class="max-w-2xl mx-auto text-center">
       <h2 class="mb-4">Oficiální pokus</h2>
-      <p class="mb-4">Neboť jsi přihlášená/ý, toto bude tvůj oficiální pokus. Oficální pokus můžeš absolvovat pouze jednou.</p>
-      <p class="mb-4">Pokud si chceš ještě test natrénovat, klidně se odhlaš se a mužeš trénovat jak dlouho je potřeba.</p>
+      <p class="mb-4">Neboť jsi přihlášená/ý, toto bude tvůj oficiální pokus. Oficální pokus můžeš absolvovat pouze jednou a musíte jej absolvovat teď a to až do konce. Pokud jej náhodou přerušíš, již ti nebude umožněno jej opakovat znovu.</p>
+      <p class="mb-4">Pokud si chceš ještě test natrénovat, klidně se odhlaš se a mužeš trénovat anonymně jak dlouho je potřeba.</p>
       <h2 class="mb-4">Pro tvůj oficiální pokus doporučujeme ticho a klid</h2>
       <p> Měl/a bys být v klidném, tichém prostředí. Úlohy vyžadují koncentraci, a když tě v průběhu někdo vyruší, může ti pokus pokazit.</p>
     </div>`,
@@ -53,6 +53,38 @@ export const timeline_pcMouseWarning = () => {
   return trial;
 }
 
+export const timeline_checkValidAttempt = (client, user, test_name, jsPsych) => {
+  const trial = {
+    type: callFuncion,
+    async: true,
+    func: async (done) => {
+      const has_attempt = await has_valid_attempt(client, user, test_name);
+      jsPsych.data.addProperties({ attempted: has_attempt });
+      done();
+    }
+  }
+  return trial;
+}
+
+export const timeline_abortOrCreateAttempt = (client, user, test_name, jsPsych) => {
+  const trial = { 
+    type: callFuncion,
+    async: true,
+    func: async (done) => {
+      if (jsPsych.data.get().values()[0].attempted) {
+        jsPsych.abortExperiment(`V tomto testu již evidujeme zaznamenaný pokus. 
+        Pokud si chcete test zopakovat pro zábavu, můžete se odhlásit a zkoušet si jej anonymně.
+        Pokud se jedná o omyl a test jste neabsolvovali, prosím ozvěte se na hejtmanek@praha.psu.cas.cz`);
+      } else {
+        await save_attempt(client, user, test_name);
+        done()
+      }
+    }
+  }
+  return trial;
+}
+
+
 // create a saving call function
 export const confirm_attempt = async (client, test_name) => {
   if (client == null) {
@@ -76,13 +108,13 @@ export const confirm_attempt = async (client, test_name) => {
 }
 
 // create a saving call function
-export const save_test_data = async (jspsych, test_name, client) => {
+export const save_test_data = async (client, test_name, jsPsych) => {
   if (client == null) {
     console.error('Supabase client is not available');
     return
   }
   try {
-    const test_data = jspsych.data.get().json();
+    const test_data = jsPsych.data.get().json();
     const updates = {
       test_name: test_name,
       test_results: test_data,
@@ -96,4 +128,112 @@ export const save_test_data = async (jspsych, test_name, client) => {
   } finally {
 
   }
+}
+
+export async function save_attempt(client, user, test_name) {
+  try {
+    const updates = {
+      test_name: test_name,
+      user_id: user.id,
+    }
+    const { error } = await client.from('OfficialResults').insert(updates, {
+      returning: 'minimal', // Don't return the value after inserting
+    })
+    if (error) throw error
+  } catch (error) {
+    alert(error.message);
+  } finally {
+  }
+}
+
+export async function has_valid_attempt(client, user, test_name){
+  if(user == null) return false;
+  try {
+    const { data: attempts, error } = await client.from('OfficialResults').
+      select('id').
+      eq('test_name', test_name).
+      eq('user_id', user.id)
+    if (error) throw error
+    return attempts.length > 0
+  } catch (error) {
+    alert(error.message)
+  }
+}
+
+export async function save_attempt_data(client, user, test_name, jsPsych) {
+  try {
+    const updates = {
+      results: jsPsych.data.get().json(),
+    }
+    // find record with the same test_name and user_id
+    const { data: attempts, searchError } = await client.from('OfficialResults').
+      select('id').
+      eq('test_name', test_name).
+      eq('user_id', user.id)
+    if (searchError) throw error
+    if (attempts.length == 1) {
+      // update the record
+      const { updateError } = await client.from('OfficialResults').
+        update(updates).
+        eq('id', attempts[0].id)
+      if (updateError) throw updateError
+    } 
+    if (attempts.length > 1){
+      throw new Error("Multiple attempts found")
+    }
+    if (attempts.length == 0) {
+      // insert a new record
+      const updates = {
+        test_name: test_name,
+        user_id: user.id,
+        data: data
+      }
+      const { insertError } = await client.from('OfficialResults').insert(updates, {
+        returning: 'minimal', // Don't return the value after inserting
+      })
+      if (insertError) throw insertError;
+    }
+  }
+  catch (error) {
+    alert(error.message)
+  }
+}
+
+export const timeline_finalMessage = () => {
+  const trial = {
+    type: htmlButtonResponse,
+    stimulus: `<div class="text-center">
+        <h2 class="text-xl font-bold mb-4">Perketní!</h2>
+        <p>Gratulujeme k úspěšnému zakončení.</p>
+      </div>`,
+    choices: ['Zpět k testům'],
+    on_finish: () => {
+      navigateTo('/tests');
+    }
+  }
+  return trial;
+}
+
+export const timeline_saveAttemptData = (client, user, test_name, jsPsych) => {
+  let trial = {}
+  if(user) {
+    trial = {
+      type: callFuncion,
+      async: true,
+      func: async (done) => {
+        await save_attempt_data(client, user, test_name, jsPsych)
+        done();
+      }
+    }
+  } else {
+    trial = { 
+      type: callFuncion,
+      async: true,
+      func: async (done) => {
+        await save_test_data(client, test_name, jsPsych);
+        done();
+      }
+    }
+  }
+  return trial;
 }
