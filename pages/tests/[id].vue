@@ -1,6 +1,7 @@
 <script setup>
 const route = useRoute()
 const { data } = await useAsyncData('tests', () => queryContent(`tests/${route.params.id}`).findOne())
+const cardThumb = data?.value.cardThumb;
 </script>
 
 <template>
@@ -35,7 +36,9 @@ const { data } = await useAsyncData('tests', () => queryContent(`tests/${route.p
                     <div>
                       <article class="pb-12 mb-12 border-b [border-image:linear-gradient(to_right,transparent,theme(colors.slate.800),transparent)1]">
                         <figure class="bg-slate-700/20 border border-slate-300/10 p-4 rounded-3xl mb-8">
-                          <img class="w-full rounded-2xl" src="/images/integration-image.png" width="586" height="316" alt="Integration image" />
+                          <ContentRenderer :value="data">
+                            <img class="w-full rounded-2xl" :src="cardThumb" width="586" height="316" alt="Illustration image" />
+                          </ContentRenderer>
                         </figure>
                         <div class="prose max-w-none text-slate-400 prose-headings:text-slate-50 prose-h2:text-xl prose-h2:mt-8 prose-h2:mb-4 prose-p:leading-relaxed prose-a:text-purple-500 prose-a:no-underline hover:prose-a:underline prose-strong:text-slate-50 prose-strong:font-medium prose-blockquote:pl-5 prose-blockquote:xl:-ml-5 prose-blockquote:border-l-2 prose-blockquote:border-purple-500 prose-blockquote:font-medium prose-blockquote:text-slate-300 prose-blockquote:italic"></div>
                         <article>
@@ -48,11 +51,8 @@ const { data } = await useAsyncData('tests', () => queryContent(`tests/${route.p
               </div>
               <aside class="md:w-64 lg:w-80 md:shrink-0 md:pt-[3.75rem] lg:pt-0 pb-12 md:pb-20">
                 <ContentDoc>
-                  <template #not-found>
-                    <TestSideCard />
-                  </template>
                   <template v-slot="{doc}">
-                    <TestSideCard :icon="doc.icon" :url="doc.url" :name="doc.name"/>
+                    <CestaTestSideCard :icon="doc.icon" :url="doc.url" :name="doc.name" :duration="doc.duration" :skill="doc.skill"/>
                   </template>
                 </ContentDoc> 
               </aside>

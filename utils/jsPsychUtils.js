@@ -23,10 +23,28 @@ export const timeline_confirmOfficialAttempt = () => {
   const trial = {  
   type: htmlButtonResponse,
   stimulus: `<div class="max-w-2xl mx-auto text-center">
-        <h1 class="text-2xl font-bold mb-4">2-Back Task</h1>
-        <p class="mb-4">Neboť jste přihlášení, toto bude váš oficiální pokus. Oficální pokus můžete absolvovat pouze jednou.</p>
-        <p class="mb-4">Pokud si chcete ještě test natrénovat, odhlašte se a můžete trénovat jak dlouho uznáte za vhodné</p>`,
-      choices: ['Rozumím, chci pokračovat'],
+        <h2 class="mb-4">Oficiální pokus</h2>
+        <p class="mb-4">Neboť jsi přihlášená/ý, toto jhe tvůj oficiální pokus. Oficální pokus můžeš absolvovat pouze jednou.</p>
+        <p class="mb-4">Pokud si chceš ještě test natrénovat, klidně se odhlaš se a mužeš trénovat jak dlouho je potřeba.</p>
+        <h2 class="mb-4"> Ticho a klid</h2>
+        <p> Měl bys taky být v klidném a tichém prostředí. Úlohy vyžadují koncentraci když tě v průběhu někdo vyruší, může ti pokus pokazit.</p>`,
+      choices: ['Rozumím, jdeme na to'],
+  }
+  return trial;
+}
+
+export const timeline_pcMouseWarning = () => {
+  const trial = {
+  type: htmlButtonResponse,
+  // napiš krátké upozornění, že test byl připraven tak, aby byl dělaný na počítači na monitoru s myší
+  // dá se udělat na tabletu či pomocí touchpadu, ale myš by měla být nejlepší
+  stimulus: `<div class="max-w-2xl mx-auto text-center">
+  <h1 class="mb-4"> Upozornění </h2>
+    <p> Tato úloha byla je zamýšlena na použití pro počítač/notebook s myší. </p>
+    <p> Pokud máš tablet či mobilní telefon, nemusí se vše zobrazovat správně. Touchpad ti může komplikovat rychlé klikání u některých úloh ti tak přihorší.</p>
+    <p> Pokud jsi připraven/a, jdeme na to! </p>
+    </div>`,
+  choices: ['Beru na vědomí']
   }
   return trial;
 }

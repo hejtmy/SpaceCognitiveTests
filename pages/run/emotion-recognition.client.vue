@@ -8,6 +8,7 @@ import {initJsPsych} from 'jspsych';
 import preload from '@jspsych/plugin-preload';
 import callFuncion from '@jspsych/plugin-call-function';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response';
+import { timeline_pcMouseWarning, timeline_hideFooter, timeline_confirmOfficialAttempt } from '~/utils/jsPsychUtils';
 
 // CONSTANTS -------
 const N_IMAGES = 21;
@@ -130,8 +131,9 @@ const third_block = stimuli.map((stimulus, index) => {
 // TIMELINE -------
 
 var timeline = [];
-
 timeline.push(timeline_hideFooter());
+timeline.push(timeline_pcMouseWarning());
+
 timeline.unshift({
   type: preload,
   images: all_stimuli,
@@ -139,9 +141,15 @@ timeline.unshift({
 
 var testinstructions = {
   type: htmlButtonResponse,
-  stimulus: `<p>V tomto testu budete mít za úkol rozlišit základní emoce.</p>
-    <p>Na obrazovce se vám zobrazí obrázek s obličejem, který vyjadřuje jednu ze čtyř emocí - smutek, radost, překvapení nebo zlost či neutrální výraz </p>.
-    <p> Vaším úkolem bude určit, o jakou emoci se jedná a vybrat správnou odpověď z nabídky. Měříme jak správnost, tak i vaši rychlost odpovědi.</p>`,
+  stimulus: `<p>V tomto testu budeš mít za úkol rozlišit základní emoce</p>
+    <p>Na obrazovce se ti vždy zobrazí jeden obrázek s obličejem. Tvým úkolem je určit, jak se asi osoba cítí </p>.
+    <div class="flex justify-center">
+      <img src="/images/tutorials/emotions/happy.png" class="max-w-none" width="256" height="256" alt="happy">
+      <img src="/images/tutorials/emotions/sad.png" class="max-w-none" width="256" height="256" alt="sad">
+    </div>
+    <p> Budeš mít na výběr z: <p/> 
+    <p> <b> ${EMOTION_CHOICES.join(", ")}</b> </p>
+    <p> Měříme jak správnost, tak i rychlost odpovědi.</p>`,
    choices: ['Jdeme na to!'],
    show_clickable_nav: true
 };
@@ -153,7 +161,7 @@ timeline.push({
   type: htmlButtonResponse,
   stimulus: `<div class="text-center">
       <h2 class="text-xl font-bold mb-4">První fáze hotová!</h2>
-      <p>Teď to bude trochu těžší. Obrázek se ti ukáže jen na chvilku. Tvým úkolem bude určit, co za emoci jsi na obrázku viděl/a. </p>
+      <p>Teď to bude trochu těžší. Obrázek se ti ukáže jen na chvilku. Tvým úkolem bude opět určit, jak se osoba cítila. Výběr emocí je stejný. Hodnotíme pouze správnost odpovědi. </p>
       <p> Až budeš připravený/á, pokračuj dál.</p>
     </div>`,
   choices: ['Pokračovat']
@@ -163,8 +171,8 @@ timeline.push(second_block);
 timeline.push({
   type: htmlButtonResponse,
   stimulus: `<div class="text-center">
-      <h2 class="text-xl font-bold mb-4">A teď finále.</h2>
-      <p>Neboť ve vesmíru se může snadno stát, že uvidíš něčí obličej vzhůru nohama, v této fázi bude tvůj úkol uričt co nejrychleji emoci na obličeji, který bude různě natočený.</p>
+      <h2 class="text-xl font-bold mb-4">A teď finále!</h2>
+      <p>Neboť ve vesmíru se může snadno stát, že uvidíš něčí obličej vzhůru nohama, v této fázi bude tvůj úkol uričt emoci na obličeji, který bude různě natočený. Hodnotíme tvojí rychlost a správnost.</p>
       <p> Až budeš připravený/á, pokračuj dál.</p>
     </div>`,
   choices: ['Pokračovat']

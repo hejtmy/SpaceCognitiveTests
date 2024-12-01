@@ -5,7 +5,7 @@ import callFuncion from '@jspsych/plugin-call-function';
 import preload from '@jspsych/plugin-preload';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response'
 import imageButtonResponse from '@jspsych/plugin-image-button-response'
-import { timeline_hideFooter } from '~/utils/jsPsychUtils';
+import { timeline_hideFooter, timeline_pcMouseWarning, timeline_confirmOfficialAttempt } from '~/utils/jsPsychUtils';
 import { navigateTo } from 'nuxt/app';
 
 const user = useSupabaseUser();
@@ -15,10 +15,10 @@ const testResult = ref(null);
 const TEST_NAME = "gonogo";
 const TRIAL_DURATION = 1000; // 1 second
 const FIXATION_DURATION = 500; // 0.5 seconds
-const N_GOTRIALS = 5;
-const N_NOGOTRIALS = 2;
+const N_GOTRIALS = 40;
+const N_NOGOTRIALS = 10;
 const N_TOTALTRIALS = N_GOTRIALS + N_NOGOTRIALS;
-const POST_TRIAL_GAP = 2000;
+const POST_TRIAL_GAP = 1500;
 
 onMounted(() => {
   checkTestResult();
@@ -108,7 +108,7 @@ function create_trial_gonogo(index, block, go, type, go_stimulus, stimulus_index
   return {
     type: htmlButtonResponse,
     stimulus: "",
-    button_html: (choice, index) => `<img src=${choice} class="max-w-none" style="margin:auto;" width="512" height="512"/>`,
+    button_html: (choice, index) => `<img src=${choice} class="max-w-none border-solid border-2 border-indigo-600" style="margin:auto;" width="512" height="512"/>`,
     choices: [stimulus],
     stimulus_duration: TRIAL_DURATION, // Show until response
     trial_duration: TRIAL_DURATION, // No timeout
@@ -119,17 +119,14 @@ function create_trial_gonogo(index, block, go, type, go_stimulus, stimulus_index
       block_number: block,
       image: stimulus,
     },
-    on_finish: (data) => { },
     post_trial_gap: 0
   }
 }
 
 function create_fixation_cross() {
   return {
-    type: imageButtonResponse,
-    stimulus: fixation_cross,
-    stimulus_height: 512,
-    stimulus_width: 512,
+    type: htmlButtonResponse,
+    stimulus: `<img src="${fixation_cross}" class="max-w-none" style="display:none" width="512" height="512" alt="Mapa">`,
     choices: [],
     trial_duration: FIXATION_DURATION,
     post_trial_gap: 0
@@ -168,14 +165,15 @@ fourth_block = jsPsych.randomization.shuffle(fourth_block);
 
 // TIMELINE CREATION
 const timeline = [];
-timeline.push(timeline_hideFooter());
 timeline.push(testpreload);
+timeline.push(timeline_hideFooter());
+timeline.push(timeline_pcMouseWarning());
 
 timeline.push({
   type: htmlButtonResponse,
   stimulus: `
-    <p>Vítejte v testu reakčního času a pozornosti!</p>
-    <p>V úloze uvidíte obrázky s astronautem a mimozemšťanem. Vaším úkolem je kliknout co nejrychleji na obrázek astronauta a neklikat na mimozemšťana.</p>
+    <p> Vítej v testu reakčního času a pozornosti!</p>
+    <p>V úloze uvidíš obrázky s astronautem a mimozemšťanem. Tvým úkolem je kliknout co nejrychleji na obrázek astronauta a nechat mimozemšťana být (neklikej na něj!)</p>
     <img src="/images/tutorials/gonogo/gonogo-astronaut-go-tutorial.png" class="max-w-none" style="margin:auto" width="512" height="512"/>`,
   choices: ['Budu klikat jen na astronauta'],
   post_trial_gap: POST_TRIAL_GAP,
@@ -186,7 +184,7 @@ timeline.push({
   type: htmlButtonResponse,
   stimulus: `
     <p>Výborně, první fáze hotová!</p>
-    <p>V další fázi se situace obrátí. Klikejte pouze na mimozemšťana a astronauta nechte být!</p>
+    <p>V další fázi se situace obrátí. Teď klikej pouze na mimozemšťana a astronauta nech být!</p>
     <img src="/images/tutorials/gonogo/gonogo-alien-go-tutorial.png" class="max-w-none" style="margin:auto" width="512" height="512"/>`,
   choices: ['Budu klikat jen na mimozemšťana'],
   post_trial_gap: POST_TRIAL_GAP,
@@ -197,7 +195,7 @@ timeline.push({
   type: htmlButtonResponse,
   stimulus: `
     <p>Výborně, druhá fáze hotová!</p>
-    <p>A teď to trochu zkomplikujeme. Budou se zobrazovat obrázky rakety a UFO, ale vaším úkolem je kliknout pouze na raketu, kterou vidíte na obrázku níže, a neklikat na žádné UFO.</p>
+    <p>A teď to trochu zkomplikujeme. Budou se zobrazovat obrázky rakety a UFO, ale tvýám úkolem je kliknout jenom na raketu, kterou vidíš na obrázku níže. Neklikej na žádné UFO!</p>
     <img src="/images/tutorials/gonogo/gonogo-rocket-go-tutorial.png" class="max-w-none" style="margin:auto" width="512" height="512"/>`,
   choices: ['Budu klikat jen na raketu'],
   post_trial_gap: POST_TRIAL_GAP
@@ -208,7 +206,7 @@ timeline.push({
   type: htmlButtonResponse,
   stimulus: `
     <p>Výborně. A teď už poslední fáze!</p>
-    <p>Budou se opět ukazovat obrázky rakety a různých UFO. Vaším úkolem je klikat na všechny obrázky, ale NEKLIKAT na raketu.</p>
+    <p>Budou se opět ukazovat obrázky rakety a různých UFO. Tvým úkolem je klikat na všechny obrázky, ale NEKLIKAT na raketu.</p>
     <img src="/images/tutorials/gonogo/gonogo-ufo-go-tutorial.png" class="max-w-none" style="margin:auto" width="512" height="512"/>`,
   choices: ['Budu klikat na všechna UFO, ne na raketu'],
   post_trial_gap: POST_TRIAL_GAP

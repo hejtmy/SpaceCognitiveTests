@@ -7,7 +7,7 @@ import {initJsPsych} from 'jspsych';
 import preload from '@jspsych/plugin-preload';
 import callFuncion from '@jspsych/plugin-call-function';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response'
-import { timeline_confirmOfficialAttempt } from '~/utils/jsPsychUtils';
+import { timeline_confirmOfficialAttempt, timeline_pcMouseWarning, timeline_hideFooter } from '~/utils/jsPsychUtils';
 
 // Initialize jsPsych
 jsPsych = initJsPsych({
@@ -116,9 +116,9 @@ const thirdfractal_sequence = generate_timeline_sequence(thirdfractalstimuli, TR
 
 // Timeline generation ------------------
 let timeline = [];
-timeline.push(timeline_hideFooter())
-
-timeline.push({
+timeline.push(timeline_hideFooter());
+timeline.push(timeline_pcMouseWarning());
+timeline.unshift({
   type: preload,
   images: planetstimuli.concat(abstractstimuli).concat(fractalstimuli).concat(thirdfractalstimuli),
 })
@@ -209,7 +209,7 @@ timeline.push({
   type: htmlButtonResponse,
   stimulus: `
     <div class="text-center">
-      <h2 class="text-xl font-bold mb-4">Gratulace, úloha splněna!</h2>
+      <h2 class="text-xl font-bold mb-4">Gratulujeme, hotovo!</h2>
     </div>`,
   choices: ['Zpět k testům']
 })

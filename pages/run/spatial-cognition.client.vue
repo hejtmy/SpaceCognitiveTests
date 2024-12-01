@@ -7,7 +7,7 @@ import {initJsPsych} from 'jspsych';
 import callFuncion from '@jspsych/plugin-call-function';
 import preload from '@jspsych/plugin-preload';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response'
-import { timeline_hideFooter } from '~/utils/jsPsychUtils';
+import { timeline_hideFooter, timeline_pcMouseWarning, timeline_confirmOfficialAttempt } from '~/utils/jsPsychUtils';
 
 // CONSTANTS
 const TEST_NAME = "spatial-cognition";
@@ -95,11 +95,13 @@ function create_trial(stimulus, index) {
 
 // TIMELINE ---
 const timeline = [];
-timeline.push(timeline_hideFooter());
 timeline.unshift({
   type: preload,
   images: all_stimuli,
 })
+
+timeline.push(timeline_hideFooter());
+timeline.push(timeline_pcMouseWarning());
 
 timeline.push({
   type: htmlButtonResponse,

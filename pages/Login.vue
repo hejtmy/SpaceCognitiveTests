@@ -20,25 +20,21 @@
                 </div>
               </router-link>
             </div>
-            <!-- Page title -->
             <h1 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60">Přihlašte se</h1>
           <p>Testy si můžete natrénovat kolikrát chcete bez přihlášení.</p>
           <p>Pokud chcete zaznamenat své oficální výsledky, přihlašte se zde se zaslanými údaji.</p>
           </div>
-          <!-- Form -->
           <div class="max-w-sm mx-auto">
             <CestaLoginForm/>
             <div class="text-center mt-4">
               <div class="text-sm text-slate-400">
                 Přihlášení je pouze pro registrované uživatele. 
-                
                 Přihlašovací údaje by vám měly přijít na zaregistrovaný email. Pokud ne, ozvěte se prosím organizárům Cesty do Vesmíru.
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </section>
     <CestaFooter/>
   </main>
