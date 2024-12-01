@@ -25,10 +25,10 @@ export const timeline_confirmOfficialAttempt = () => {
   stimulus: `
     <div class="max-w-2xl mx-auto text-center">
       <h2 class="mb-4">Oficiální pokus</h2>
-      <p class="mb-4">Neboť jsi přihlášená/ý, toto jhe tvůj oficiální pokus. Oficální pokus můžeš absolvovat pouze jednou.</p>
+      <p class="mb-4">Neboť jsi přihlášená/ý, toto bude tvůj oficiální pokus. Oficální pokus můžeš absolvovat pouze jednou.</p>
       <p class="mb-4">Pokud si chceš ještě test natrénovat, klidně se odhlaš se a mužeš trénovat jak dlouho je potřeba.</p>
-      <h2 class="mb-4"> Ticho a klid</h2>
-      <p> Měl bys taky být v klidném a tichém prostředí. Úlohy vyžadují koncentraci když tě v průběhu někdo vyruší, může ti pokus pokazit.</p>
+      <h2 class="mb-4">Pro tvůj oficiální pokus doporučujeme ticho a klid</h2>
+      <p> Měl/a bys být v klidném, tichém prostředí. Úlohy vyžadují koncentraci, a když tě v průběhu někdo vyruší, může ti pokus pokazit.</p>
     </div>`,
     choices: ['Rozumím, jdeme na to'],
   }
@@ -41,10 +41,10 @@ export const timeline_pcMouseWarning = () => {
   // napiš krátké upozornění, že test byl připraven tak, aby byl dělaný na počítači na monitoru s myší
   // dá se udělat na tabletu či pomocí touchpadu, ale myš by měla být nejlepší
   stimulus: `
-  <div class="max-w-2xl mx-auto text-center">
+  <div class="max-w-4xl mx-auto text-center">
     <h1 class="mb-4"> Upozornění </h1>
-    <p> Úloha byly zamýšlena pro použití na počítači/notebooku s myší. </p>
-    <p> Pokud máš tablet či mobilní telefon, nemusí se vše zobrazovat správně. Touchpad ti může komplikovat rychlé klikání u úloh, kde hodnitíme čas, ti tak můžou přihoršit.</p>
+    <p> Úlohy byly připravovány pro použití na počítači/notebooku s myší.</p>
+    <p> Pokud máš tablet či mobilní telefon, nemusí se vše zobrazovat správně. Touchpad ti může komplikovat rychlé klikání u úloh, kde hodnotíme čas, ti tak můžou přihoršit.</p>
     <p> Obrázky i všechna tlačítka by měla být vždy viditelná na obrazovce. Pokud se ti něco nezobrazuje a musíš scrollovat, zkus ve webovém prohlížeči lehce změnšit zoom na 90% či méně.</p>
     <p> Pokud jsi připraven/a, jdeme na to! </p>
   </div>`,

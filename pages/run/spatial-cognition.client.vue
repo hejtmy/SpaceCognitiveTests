@@ -103,6 +103,11 @@ timeline.unshift({
 timeline.push(timeline_hideFooter());
 timeline.push(timeline_pcMouseWarning());
 
+if(user.value) {
+  timeline.push(timeline_confirmOfficialAttempt());
+  // record official attempt in a database
+}
+
 timeline.push({
   type: htmlButtonResponse,
   stimulus: `

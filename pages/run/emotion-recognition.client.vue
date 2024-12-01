@@ -140,6 +140,11 @@ timeline.unshift({
   images: all_stimuli,
 });
 
+if(user.value) {
+  timeline.push(timeline_confirmOfficialAttempt());
+  // record official attempt in a database
+}
+
 var testinstructions = {
   type: htmlButtonResponse,
   stimulus: `<p>V tomto testu budeš mít za úkol rozlišit základní emoce</p>
