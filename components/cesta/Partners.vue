@@ -10,8 +10,6 @@ const partners = [
 <template>
   <section>
     <div class="relative max-w-6xl mx-auto px-4 sm:px-6">
-
-      <!-- Particles animation -->
       <div class="absolute inset-0 max-w-6xl mx-auto px-4 sm:px-6">
         <Particles class="absolute inset-0 -z-10" :quantity="5" />
       </div>

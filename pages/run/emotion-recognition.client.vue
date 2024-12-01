@@ -6,13 +6,15 @@ const client = useSupabaseClient();
 import 'jspsych/css/jspsych.css';
 import {initJsPsych} from 'jspsych';
 import preload from '@jspsych/plugin-preload';
-import instructions from '@jspsych/plugin-instructions';
+import callFuncion from '@jspsych/plugin-call-function';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response';
 
 // CONSTANTS -------
-const N_IMAGES = 40;
-const EMOTIONS = ['Fear', 'Happiness', 'Surprise', 'Anger', 'Sadness', 'Neutral'];
+const N_IMAGES = 21;
+const EMOTIONS = ['neutral', 'sad', 'happy', 'surprised', 'angry'];
+const EMOTION_CHOICES = ['Neutrálně', 'Smutně', 'Vesele', 'Překvapeně', 'Naštvaně'];
 const EMOTION_STIMULI_URL = client.storage.from("test-stimuli").getPublicUrl('emotions/');
+const DURATION = 500;
 
 jsPsych = initJsPsych({
   display_element: 'jspsych-target',
@@ -21,73 +23,174 @@ jsPsych = initJsPsych({
   }
 })
 
-function create_stimuli(emotionurl, emotion, n_images){
+function create_stimuli(emotionurl, mode, emotion, n_images){
   const possible_images = Array.from({length: N_IMAGES}, (_, i) => i + 1)
   const selected_images = jsPsych.randomization.sampleWithoutReplacement(possible_images, n_images);
-  const stimuli = selected_images.map(num => `${emotionurl.data.publicUrl}/${emotion}/${emotion}_${num}.jpg`);
+  const stimuli = selected_images.map(num => `${emotionurl.data.publicUrl}/${mode}/${emotion}_${num}.png`);
   return stimuli;
 }
 
+function create_final_stimuli(emotionurl, mode, n_images){
+}
+
 function extract_emotion(url){
-  const emotion = url.split('/').slice(-2, -1)[0];
-  return emotion;
+  return url;
 } 
 
-function create_emotion_trial(index, stimulus, duration, rotation) { 
+function create_long_trial(index, stimulus, rotation) { 
   const emotion = extract_emotion(stimulus);
   const trial = {
     type: htmlButtonResponse,
-    stimulus: `<img src="${stimulus.image}" class="max-w-none rotate_${rotation}" width="512" height="512" alt="Mapa">`,
-    stimulus_duration: duration,
-    trial_duration: duration,
-    choices: ['Fear', 'Happiness', 'Surprise', 'Anger', 'Sadness', 'Neutral'],
+    stimulus: `<img src="${stimulus}" class="max-w-none rotate_${rotation}" width="512" height="512" alt="Mapa">`,
+    choices: EMOTION_CHOICES,
     button_html: (choice) => `<button class="jspsych-btn">${choice}</button>`,
     post_trial_gap: 1000,
     data: {
       index: index,
-      task: 'emotion_recognition',
       emotion: emotion,
     }
   }
   return trial;
-};
+}
+
+function create_short_trial(index, stimulus, duration) {
+  const emotion = extract_emotion(stimulus);
+  const trial = {
+    type: htmlButtonResponse,
+    stimulus: `<img src="${stimulus}" class="max-w-none" width="512" height="512" alt="Mapa">`,
+    stimulus_duration: duration,
+    trial_duration: duration,
+    choices: [],
+    data: {
+      index: index,
+      emotion: emotion,
+    }
+  };
+
+  const answer = {
+    type: htmlButtonResponse,
+    stimulus: `<p>Jakou emoci jste postřehli na obrázku?</p>`,
+    choices: EMOTION_CHOICES,
+    button_html: (choice) => `<button class="jspsych-btn">${choice}</button>`,
+    post_trial_gap: 500,
+    data: {
+      emotion: emotion,
+    }
+  }
+  return [trial, answer];
+
+}
 // All stimuli for preload
 let all_stimuli = [];
 
 // First block -----------
 // Long trials 
 let stimuli = [];
+
 EMOTIONS.forEach((emotion, index) => {
-  const emotion_stimuli = create_stimuli(EMOTION_STIMULI_URL, emotion, 3);
+  const emotion_stimuli = create_stimuli(EMOTION_STIMULI_URL, "training", emotion, 3);
   stimuli = stimuli.concat(emotion_stimuli);
 });
-
 stimuli = jsPsych.randomization.shuffle(stimuli);
 const first_block = stimuli.map((stimulus, index) => {
-  return create_emotion_trial(index, stimulus, null, 0);
+  return create_long_trial(index, stimulus, 0);
+});
+all_stimuli = all_stimuli.concat(stimuli);
+
+// second block -----------
+stimuli = [];
+EMOTIONS.forEach((emotion, index) => {
+  const emotion_stimuli = create_stimuli(EMOTION_STIMULI_URL, "training", emotion, 3);
+  stimuli = stimuli.concat(emotion_stimuli);
+});
+all_stimuli = all_stimuli.concat(stimuli);
+stimuli = jsPsych.randomization.shuffle(stimuli);
+
+const second_block = stimuli.map((stimulus, index) => {
+  return create_short_trial(index, stimulus, DURATION);
 });
 
-console.log(first_block);
+// third block -----------
+stimuli = [];
+EMOTIONS.forEach((emotion, index) => {
+  const emotion_stimuli = create_stimuli(EMOTION_STIMULI_URL, "training", emotion, 3);
+  stimuli = stimuli.concat(emotion_stimuli);
+});
+all_stimuli = all_stimuli.concat(stimuli);
+stimuli = jsPsych.randomization.shuffle(stimuli);
+const rotations = jsPsych.randomization.shuffle(
+                  [0, 0, 0, 
+                   90, 90, 90, 90, 90,
+                   180, 180, 180, 180, 180, 
+                   270, 270, 270, 270, 270]);
+const third_block = stimuli.map((stimulus, index) => {
+  return create_long_trial(index, stimulus, rotations[index]);
+});
+
 // TIMELINE -------
 
 var timeline = [];
+
+timeline.push(timeline_hideFooter());
 timeline.unshift({
   type: preload,
   images: all_stimuli,
 });
 
 var testinstructions = {
-  type: instructions,
-  pages: [`
-    <p>In this experiment, you will see faces displaying different emotions.</p>
-    <p>Select the emotion you think is being displayed by clicking one of the buttons.</p>
-    <p>Press any key to begin.</p>
-  `],
-   choices: ['Souhlasím, pokračovat'],
+  type: htmlButtonResponse,
+  stimulus: `<p>V tomto testu budete mít za úkol rozlišit základní emoce.</p>
+    <p>Na obrazovce se vám zobrazí obrázek s obličejem, který vyjadřuje jednu ze čtyř emocí - smutek, radost, překvapení nebo zlost či neutrální výraz </p>.
+    <p> Vaším úkolem bude určit, o jakou emoci se jedná a vybrat správnou odpověď z nabídky. Měříme jak správnost, tak i vaši rychlost odpovědi.</p>`,
+   choices: ['Jdeme na to!'],
    show_clickable_nav: true
 };
 
 timeline.push(testinstructions);
+timeline.push(first_block);
+
+timeline.push({
+  type: htmlButtonResponse,
+  stimulus: `<div class="text-center">
+      <h2 class="text-xl font-bold mb-4">První fáze hotová!</h2>
+      <p>Teď to bude trochu těžší. Obrázek se ti ukáže jen na chvilku. Tvým úkolem bude určit, co za emoci jsi na obrázku viděl/a. </p>
+      <p> Až budeš připravený/á, pokračuj dál.</p>
+    </div>`,
+  choices: ['Pokračovat']
+})
+timeline.push(second_block);
+
+timeline.push({
+  type: htmlButtonResponse,
+  stimulus: `<div class="text-center">
+      <h2 class="text-xl font-bold mb-4">A teď finále.</h2>
+      <p>Neboť ve vesmíru se může snadno stát, že uvidíš něčí obličej vzhůru nohama, v této fázi bude tvůj úkol uričt co nejrychleji emoci na obličeji, který bude různě natočený.</p>
+      <p> Až budeš připravený/á, pokračuj dál.</p>
+    </div>`,
+  choices: ['Pokračovat']
+})
+timeline.push(third_block);
+
+timeline.push({
+  type: callFuncion,
+  async: true,
+  func: async (done) => {
+    await save_test_data(jsPsych, TEST_NAME, client);
+    done();
+  }
+})
+
+timeline.push({
+  type: htmlButtonResponse,
+  stimulus: `<div class="text-center">
+      <h2 class="text-xl font-bold mb-4">Perketní!</h2>
+      <p>Gratulujeme k úspšššnému zakončení</p>
+    </div>`,
+  choices: ['Ukončit test'],
+  on_finish: () => {
+    navigateTo('/tests');
+  }
+})
 
 onMounted(() => {
   jsPsych.run(timeline)

@@ -19,7 +19,7 @@ const props = defineProps({
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <div class="pt-32 pb-10 md:pt-40">
         <div class="text-center">
-          <h1 class="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-6">{{ testName }}</h1>
+          <h1 id="test-name-header" class="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-6">{{ testName }}</h1>
           <div class="inline-flex items-center justify-center relative">
             <Particles class="absolute inset-0 -z-10" :quantity="10" />
             <div id="jspych-wrapper" class="inline-flex">

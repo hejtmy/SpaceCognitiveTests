@@ -6,11 +6,13 @@ export const timeline_hideFooter = () => {
   const trial = {
     type: callFuncion,
     func: () => {
-     const element = document.getElementById("footer-div");
-     if (element) {
-       element.style.display = "none";
+     const footer = document.getElementById("footer-div");
+     const header = document.getElementById("test-name-header");
+     if (footer != null && header != null) {
+       footer.style.display = "none";
+       header.style.display = "none";
      } else {
-       console.error("Footer (footer-div) not found");
+       console.error("Footer (footer-div) or header (test-name-header) not found");
      }
     }
   }
@@ -30,7 +32,29 @@ export const timeline_confirmOfficialAttempt = () => {
 }
 
 // create a saving call function
-export const save_test_data = async (jspsych, client) => {
+export const confirm_attempt = async (client) => {
+  if (client == null) {
+    console.error('Supabase client is not available');
+    return
+  }
+  try {
+    const updates = {
+      test_name: 'Spatial Cognition',
+      test_results: test_data,
+    }
+    const { error } = await client.from('TestResults').insert(updates, {
+      returning: 'minimal', // Don't return the value after inserting
+    })
+    if (error) throw error
+  } catch (error) {
+    alert(error.message)
+  } finally {
+
+  }
+}
+
+// create a saving call function
+export const save_test_data = async (jspsych, test_name, client) => {
   if (client == null) {
     console.error('Supabase client is not available');
     return
@@ -38,7 +62,7 @@ export const save_test_data = async (jspsych, client) => {
   try {
     const test_data = jspsych.data.get().json();
     const updates = {
-      test_name: 'Spatial Cognition',
+      test_name: test_name,
       test_results: test_data,
     }
     const { error } = await client.from('TestResults').insert(updates, {
