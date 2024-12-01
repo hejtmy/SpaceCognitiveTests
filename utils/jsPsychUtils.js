@@ -25,12 +25,11 @@ export const timeline_confirmOfficialAttempt = () => {
   stimulus: `
     <div class="max-w-2xl mx-auto text-center">
       <h2 class="mb-4">Oficiální pokus</h2>
-      <p class="mb-4">Neboť jsi přihlášená/ý, toto bude tvůj oficiální pokus. Oficální pokus můžeš absolvovat pouze jednou a musíte jej absolvovat teď a to až do konce. Pokud jej náhodou přerušíš, již ti nebude umožněno jej opakovat znovu.</p>
-      <p class="mb-4">Pokud si chceš ještě test natrénovat, klidně se odhlaš se a mužeš trénovat anonymně jak dlouho je potřeba.</p>
-      <h2 class="mb-4">Pro tvůj oficiální pokus doporučujeme ticho a klid</h2>
-      <p> Měl/a bys být v klidném, tichém prostředí. Úlohy vyžadují koncentraci, a když tě v průběhu někdo vyruší, může ti pokus pokazit.</p>
+      <p class="mb-4">Neboť jsi přihlášená/ý, toto bude tvůj oficiální pokus. Oficální pokus můžeš absolvovat pouze jednou. Jakmile začneš, musíš jej dokončit. Pokud pokus přerušíš, vypneš počítač či prohlížeč, již ti nepůjde test začít znovu.</p>
+      <p class="mb-4">Pokud si chceš test ještě ozkoušet či natrénovat, tak se odhlaš se a mužeš trénovat anonymně jak dlouho budeš chtít.</p>
+      <h2 class="mb-4">Pro tvůj oficiální pokus doporučujeme být v klidném, tichém prostředí. Úlohy vyžadují koncentraci, a když tě v průběhu někdo vyruší, může ti pokus pokazit.</p>
     </div>`,
-    choices: ['Rozumím, jdeme na to'],
+    choices: ['Rozumím a jsem připraven/a'],
   }
   return trial;
 }
@@ -43,9 +42,10 @@ export const timeline_pcMouseWarning = () => {
   stimulus: `
   <div class="max-w-4xl mx-auto text-center">
     <h1 class="mb-4"> Upozornění </h1>
-    <p> Úlohy byly připravovány pro použití na počítači/notebooku s myší.</p>
-    <p> Pokud máš tablet či mobilní telefon, nemusí se vše zobrazovat správně. Touchpad ti může komplikovat rychlé klikání u úloh, kde hodnotíme čas, ti tak můžou přihoršit.</p>
-    <p> Obrázky i všechna tlačítka by měla být vždy viditelná na obrazovce. Pokud se ti něco nezobrazuje a musíš scrollovat, zkus ve webovém prohlížeči lehce změnšit zoom na 90% či méně.</p>
+    <p> Úlohy byly zamýšleny pro použití na počítači/notebooku s myší.</p>
+    <p> Pokud máš tablet či mobilní telefon, nemusí se ti vše zobrazovat správně. Pokud nemáš myš, ale touchpad, tak tě to může zpomalit a u mnohých úloh hodnotíme čas.</p>
+    <p> Obrázky i všechna tlačítka s odpověďmi by měla u všech úloh snadno dostupná a viditelná na obrazovce. Pokud se ti něco nezobrazuje a musíš třeba scrollovat, aby ses k tlačítku dostal, zkus ve svém prohlížeči lehce změnšit zoom na 90% či méně.</p>
+    <p> Pokud nejsi přihlášen/a, můžeš testovat úlohy jak dlouho chceš a najít si tak ideální podmínky pro svůj oficiální pokus :) </p>
     <p> Pokud jsi připraven/a, jdeme na to! </p>
   </div>`,
   choices: ['Beru na vědomí']
@@ -72,9 +72,9 @@ export const timeline_abortOrCreateAttempt = (client, user, test_name, jsPsych) 
     async: true,
     func: async (done) => {
       if (jsPsych.data.get().values()[0].attempted) {
-        jsPsych.abortExperiment(`V tomto testu již evidujeme zaznamenaný pokus. 
-        Pokud si chcete test zopakovat pro zábavu, můžete se odhlásit a zkoušet si jej anonymně.
-        Pokud se jedná o omyl a test jste neabsolvovali, prosím ozvěte se na hejtmanek@praha.psu.cas.cz`);
+        jsPsych.abortExperiment(`<p>V tomto testu již evidujeme tvůj oficiální pokus.</p> 
+        <p>Pokud si chceš test zopakovat pro zábavu, můžete se odhlásit a zkoušet si jej i dál anonymně.</p>
+        </>Pokud se jedná o omyl a o pokus jsi se oficiálně ještě nepokusil/a, prosím ozvi se na hejtmanek@praha.psu.cas.cz</p>`);
       } else {
         await save_attempt(client, user, test_name);
         done()
@@ -83,7 +83,6 @@ export const timeline_abortOrCreateAttempt = (client, user, test_name, jsPsych) 
   }
   return trial;
 }
-
 
 // create a saving call function
 export const confirm_attempt = async (client, test_name) => {
