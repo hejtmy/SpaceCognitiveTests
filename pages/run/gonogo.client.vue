@@ -13,8 +13,8 @@ const client = useSupabaseClient();
 const TEST_NAME = "gonogo";
 const TRIAL_DURATION = 1000; // 1 second
 const FIXATION_DURATION = 500; // 0.5 seconds
-const N_GOTRIALS = 4;
-const N_NOGOTRIALS = 1;
+const N_GOTRIALS = 40;
+const N_NOGOTRIALS = 10;
 const N_TOTALTRIALS = N_GOTRIALS + N_NOGOTRIALS;
 const POST_TRIAL_GAP = 1000;
 
@@ -98,7 +98,11 @@ function create_fixation_cross() {
     post_trial_gap: 0
   }
 }
-
+// OFFICIAL ATTEMPT -------
+// we are just setting seed value
+if (user.value){
+  jsPsych.randomization.set_seed(1969);
+}
 // FIRST BLOCK ------------
 let first_block = Array(N_GOTRIALS).fill(true).concat(Array(N_NOGOTRIALS).fill(false)).map((value, index) => {
   var out = [create_trial_gonogo(index, 1, value, "living", "astronaut"), create_fixation_cross()];
@@ -114,7 +118,8 @@ let second_block = Array(N_GOTRIALS).fill(true).concat(Array(N_NOGOTRIALS).fill(
 second_block = jsPsych.randomization.shuffle(second_block);
 
 // THIRD BLOCK -----------
-let nogotrials = Array.from({length: N_TOTALTRIALS}, () => Math.floor(Math.random() * 10));
+// usign jspsych sample with replacement select N_NOGO trials from 0-9
+let nogotrials = jsPsych.randomization.sampleWithReplacement(Array.from({length: 10}, (_, i) => i), N_TOTALTRIALS);
 let third_block = Array(N_GOTRIALS).fill(true).concat(Array(N_NOGOTRIALS).fill(false)).map((value, index) => {
   var out = [create_trial_gonogo(index, 3, value, "spaceship", "rocket", nogotrials[index]), create_fixation_cross()];
   return out;
@@ -122,7 +127,7 @@ let third_block = Array(N_GOTRIALS).fill(true).concat(Array(N_NOGOTRIALS).fill(f
 third_block = jsPsych.randomization.shuffle(third_block);
 
 // FOURTH BLOCK ----------
-nogotrials = Array.from({length: N_TOTALTRIALS}, () => Math.floor(Math.random() * 10));
+nogotrials = jsPsych.randomization.sampleWithReplacement(Array.from({length: 10}, (_, i) => i), N_TOTALTRIALS);
 let fourth_block = Array(N_GOTRIALS).fill(true).concat(Array(N_NOGOTRIALS).fill(false)).map((value, index) => {
   var out = [create_trial_gonogo(index, 4, value, "spaceship", "alien", nogotrials[index]), create_fixation_cross()];
   return out;
@@ -131,7 +136,7 @@ fourth_block = jsPsych.randomization.shuffle(fourth_block);
 
 // TIMELINE CREATION
 const timeline = [];
-timeline.push({ type: preload, images: all_stimuli });
+timeline.push({type: preload, images: all_stimuli });
 timeline.push({type:browserCheck});
 timeline.push(timeline_hideFooter());
 timeline.push(timeline_pcMouseWarning());
