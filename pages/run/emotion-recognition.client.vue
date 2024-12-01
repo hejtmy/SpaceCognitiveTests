@@ -6,7 +6,6 @@ const client = useSupabaseClient();
 import 'jspsych/css/jspsych.css';
 import {initJsPsych} from 'jspsych';
 import preload from '@jspsych/plugin-preload';
-import callFuncion from '@jspsych/plugin-call-function';
 import browserCheck from '@jspsych/plugin-browser-check';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response';
 import { timeline_pcMouseWarning, timeline_hideFooter, timeline_confirmOfficialAttempt } from '~/utils/jsPsychUtils';
@@ -18,6 +17,7 @@ const EMOTIONS = ['neutral', 'sad', 'happy', 'surprised', 'angry'];
 const EMOTION_CHOICES = ['Neutrálně', 'Smutně', 'Vesele', 'Překvapeně', 'Naštvaně'];
 const EMOTION_STIMULI_URL = client.storage.from("test-stimuli").getPublicUrl('emotions/');
 const DURATION = 500;
+let OFFICIAL = false;
 
 jsPsych = initJsPsych({
   display_element: 'jspsych-target',
@@ -30,10 +30,20 @@ onMounted(() => {
   jsPsych.run(timeline)
 })
 
-function create_stimuli(emotionurl, mode, emotion, n_images){
+if(user.value) {
+  jsPsych.randomization.setSeed(1969);
+  OFFICIAL = true;
+}
+
+function create_stimuli(emotionurl, emotion, n_images) {
   const possible_images = Array.from({length: N_IMAGES}, (_, i) => i + 1)
   const selected_images = jsPsych.randomization.sampleWithoutReplacement(possible_images, n_images);
-  const stimuli = selected_images.map(num => `${emotionurl.data.publicUrl}/${mode}/${emotion}_${num}.png`);
+  const stimuli = selected_images.map(num => `${emotionurl.data.publicUrl}/training/${emotion}_${num}.png`);
+  return stimuli;
+}
+
+function create_official_stimuli(emotionurl, emotion, indices){
+  const stimuli = indices.map(num => `${emotionurl.data.publicUrl}/final/${emotion}_${num}.png`);
   return stimuli;
 }
 
@@ -84,15 +94,20 @@ function create_short_trial(index, stimulus, duration) {
   return [trial, answer];
 
 }
+
 // All stimuli for preload
 let all_stimuli = [];
 
 // First block -----------
-// Long trials 
 let stimuli = [];
 
 EMOTIONS.forEach((emotion, index) => {
-  const emotion_stimuli = create_stimuli(EMOTION_STIMULI_URL, "training", emotion, 3);
+  let emotion_stimuli = [];
+  if(OFFICIAL) {
+    emotion_stimuli = create_official_stimuli(EMOTION_STIMULI_URL, emotion, [1, 2, 3]);
+  } else {
+    emotion_stimuli = create_stimuli(EMOTION_STIMULI_URL, emotion, 3);
+  }
   stimuli = stimuli.concat(emotion_stimuli);
 });
 stimuli = jsPsych.randomization.shuffle(stimuli);
@@ -104,20 +119,30 @@ all_stimuli = all_stimuli.concat(stimuli);
 // second block -----------
 stimuli = [];
 EMOTIONS.forEach((emotion, index) => {
-  const emotion_stimuli = create_stimuli(EMOTION_STIMULI_URL, "training", emotion, 3);
+  let emotion_stimuli = [];
+  if(OFFICIAL) {
+    emotion_stimuli = create_official_stimuli(EMOTION_STIMULI_URL, emotion, [4, 5, 6]);
+  } else {
+    emotion_stimuli = create_stimuli(EMOTION_STIMULI_URL, emotion, 3);
+  }
   stimuli = stimuli.concat(emotion_stimuli);
 });
-all_stimuli = all_stimuli.concat(stimuli);
 stimuli = jsPsych.randomization.shuffle(stimuli);
 
 const second_block = stimuli.map((stimulus, index) => {
   return create_short_trial(index, stimulus, DURATION);
 });
 
+all_stimuli = all_stimuli.concat(stimuli);
 // third block -----------
 stimuli = [];
 EMOTIONS.forEach((emotion, index) => {
-  const emotion_stimuli = create_stimuli(EMOTION_STIMULI_URL, "training", emotion, 3);
+  let emotion_stimuli = [];
+  if(OFFICIAL) {
+    emotion_stimuli = create_official_stimuli(EMOTION_STIMULI_URL, emotion, [7, 8, 9]);
+  } else {
+    emotion_stimuli = create_stimuli(EMOTION_STIMULI_URL, emotion, 3);
+  }
   stimuli = stimuli.concat(emotion_stimuli);
 });
 all_stimuli = all_stimuli.concat(stimuli);
@@ -178,9 +203,11 @@ timeline.push({
   type: htmlButtonResponse,
   stimulus: `<div class="text-center">
       <h2 class="text-xl font-bold mb-4">A teď finále!</h2>
-      <p>Neboť ve vesmíru se může snadno stát, že uvidíš něčí obličej vzhůru nohama, v této fázi bude tvůj úkol určit emoci na různě natočených obličejích. Hodnotíme tvojí rychlost a správnost.</p>
+      <p>Neboť ve vesmíru se může snadno stát, že uvidíš něčí obličej vzhůru nohama, v této fázi bude tvůj úkol určit emoci na různě natočených obličejích. Hodnotíme správnost odpovědi, ale i rychlost.</p>
+    <div class="flex justify-center">
       <img src="/images/tutorials/emotions/happy.png" class="max-w-none rotate_90" width="256" height="256" alt="happy">
       <img src="/images/tutorials/emotions/sad.png" class="max-w-none rotate_180" width="256" height="256" alt="sad">
+    </div>
       <p> Až budeš připravený/á, pokračuj dál.</p>
     </div>`,
   choices: ['Pokračovat']
@@ -189,7 +216,6 @@ timeline.push(third_block);
 
 timeline.push(timeline_saveAttemptData(client, user.value, TEST_NAME, jsPsych));
 timeline.push(timeline_finalMessage());
-
 
 </script>
 <template>

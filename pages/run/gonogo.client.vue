@@ -17,11 +17,18 @@ const N_GOTRIALS = 40;
 const N_NOGOTRIALS = 10;
 const N_TOTALTRIALS = N_GOTRIALS + N_NOGOTRIALS;
 const POST_TRIAL_GAP = 1000;
+let OFFICIAL = false;
 
 onMounted(() => {
   jsPsych.run(timeline)
 })
 
+// OFFICIAL ATTEMPT -------
+// we are just setting seed value
+if (user.value){
+  jsPsych.randomization.setSeed(1969);
+  OFFICIAL = true;
+}
 // Initialize jsPsych
 var jsPsych = initJsPsych({
   display_element: 'jspsych-target',
@@ -98,11 +105,7 @@ function create_fixation_cross() {
     post_trial_gap: 0
   }
 }
-// OFFICIAL ATTEMPT -------
-// we are just setting seed value
-if (user.value){
-  jsPsych.randomization.set_seed(1969);
-}
+
 // FIRST BLOCK ------------
 let first_block = Array(N_GOTRIALS).fill(true).concat(Array(N_NOGOTRIALS).fill(false)).map((value, index) => {
   var out = [create_trial_gonogo(index, 1, value, "living", "astronaut"), create_fixation_cross()];

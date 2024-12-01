@@ -27,7 +27,7 @@ export const timeline_confirmOfficialAttempt = () => {
       <h2 class="mb-4">Oficiální pokus</h2>
       <p class="mb-4">Neboť jsi přihlášená/ý, toto bude tvůj oficiální pokus. Oficální pokus můžeš absolvovat pouze jednou. Jakmile začneš, musíš jej dokončit. Pokud pokus přerušíš, vypneš počítač či prohlížeč, již ti nepůjde test začít znovu.</p>
       <p class="mb-4">Pokud si chceš test ještě ozkoušet či natrénovat, tak se odhlaš se a mužeš trénovat anonymně jak dlouho budeš chtít.</p>
-      <h2 class="mb-4">Pro tvůj oficiální pokus doporučujeme být v klidném, tichém prostředí. Úlohy vyžadují koncentraci, a když tě v průběhu někdo vyruší, může ti pokus pokazit.</p>
+      <h2 class="mb-4">Pro tvůj oficiální pokus doporučujeme být v klidném, tichém prostředí. Úlohy vyžadují koncentraci, a když tě v průběhu někdo vyruší, může ti to pokus pokazit.</p>
     </div>`,
     choices: ['Rozumím a jsem připraven/a'],
   }

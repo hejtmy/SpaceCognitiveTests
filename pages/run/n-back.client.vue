@@ -5,7 +5,6 @@ const client = useSupabaseClient();
 import 'jspsych/css/jspsych.css';
 import {initJsPsych} from 'jspsych';
 import preload from '@jspsych/plugin-preload';
-import callFuncion from '@jspsych/plugin-call-function';
 import browserCheck from '@jspsych/plugin-browser-check';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response'
 import { timeline_confirmOfficialAttempt, timeline_pcMouseWarning, timeline_hideFooter } from '~/utils/jsPsychUtils';
@@ -29,10 +28,17 @@ const N_BACK = 2
 const POST_TRIAL_GAP = 500
 const N_REPEATED_TRIALS = 3
 const NBACKSTIMULIURL = client.storage.from("test-stimuli").getPublicUrl('nback/')
+let OFFICIAL = false;
 
 onMounted(() => {
   jsPsych.run(timeline)
 })
+
+
+if(user.value) {
+  jsPsych.randomization.setSeed(1969);
+  OFFICIAL = true;
+}
 
 function selectAndDuplicateStrings(arr, n_back, n_stimuli) {
   if (arr.length < n_back + 1) {
@@ -62,10 +68,16 @@ function selectAndDuplicateStrings(arr, n_back, n_stimuli) {
   return newarr;
 }
 
-function generate_stimuli_sequence (n_trials, n_stimuli, folder, prefix, n_repeated) {
-  const randomNumbers = Array.from({length: n_trials}, 
-    () => Math.floor(Math.random() * n_stimuli) + 1)
-  const stimuli = randomNumbers.map(num => `${NBACKSTIMULIURL.data.publicUrl}${folder}/${prefix}${num}.png`);
+function generate_stimuli_sequence (n_trials, n_stimuli, folder, prefix, official) {
+  let randomNumbers = []
+  let stimuli = [];
+  if(official) {
+    randomNumbers = jsPsych.randomization.sampleWithoutReplacement(Array.from({length: n_trials}, (_, i) => i + 1), n_trials)
+    stimuli = randomNumbers.map(num => `${NBACKSTIMULIURL.data.publicUrl}/final/nback_final_${prefix}${num}.png`);
+  } else {
+    randomNumbers = jsPsych.randomization.sampleWithoutReplacement(Array.from({length: n_stimuli}, (_, i) => i + 1), n_trials)
+    stimuli = randomNumbers.map(num => `${NBACKSTIMULIURL.data.publicUrl}${folder}/nback_${prefix}${num}.png`);
+  }
   return stimuli;
 }
 
@@ -96,20 +108,24 @@ function generate_timeline_sequence(stimuli, duration, width, height) {
   return sequence_trials;
 }
 
-let planetstimuli = generate_stimuli_sequence(NUMBER_OF_TRIALS, NUMBER_OF_STIMULI, 'planets', 'nback_planet_')
+let planetstimuli = generate_stimuli_sequence(NUMBER_OF_TRIALS, NUMBER_OF_STIMULI, 'planets', 'planet_', OFFICIAL)
 planetstimuli = selectAndDuplicateStrings(planetstimuli, N_BACK, N_REPEATED_TRIALS)
+console.log(planetstimuli)
 const planet_sequence = generate_timeline_sequence(planetstimuli, TRIAL_DURATION, IMAGE_WIDTH, IMAGE_HEIGHT);
 
-let abstractstimuli = generate_stimuli_sequence(NUMBER_OF_TRIALS, NUMBER_OF_STIMULI, 'abstract', 'nback_abstract_')
+let abstractstimuli = generate_stimuli_sequence(NUMBER_OF_TRIALS, NUMBER_OF_STIMULI, 'abstract', 'abstract_', OFFICIAL)
 abstractstimuli = selectAndDuplicateStrings(abstractstimuli, N_BACK, N_REPEATED_TRIALS)
+console.log(abstractstimuli)
 const abstract_sequence = generate_timeline_sequence(abstractstimuli, TRIAL_DURATION, IMAGE_WIDTH, IMAGE_HEIGHT);
 
-let fractalstimuli = generate_stimuli_sequence(NUMBER_OF_TRIALS, NUMBER_OF_STIMULI, 'fractals', 'nback_fractals_')
+let fractalstimuli = generate_stimuli_sequence(NUMBER_OF_TRIALS, NUMBER_OF_STIMULI, 'fractals', 'fractals_', OFFICIAL)
 fractalstimuli = selectAndDuplicateStrings(fractalstimuli, N_BACK, N_REPEATED_TRIALS)
+console.log(fractalstimuli)
 const fractal_sequence = generate_timeline_sequence(fractalstimuli, TRIAL_DURATION, IMAGE_WIDTH, IMAGE_HEIGHT);
 
-let thirdfractalstimuli = generate_stimuli_sequence(NUMBER_OF_TRIALS, NUMBER_OF_STIMULI, '3d', 'nback_3d_')
+let thirdfractalstimuli = generate_stimuli_sequence(NUMBER_OF_TRIALS, NUMBER_OF_STIMULI, '3d', '3d_', OFFICIAL)
 thirdfractalstimuli = selectAndDuplicateStrings(thirdfractalstimuli, N_BACK, N_REPEATED_TRIALS)
+console.log(thirdfractalstimuli)
 const thirdfractal_sequence = generate_timeline_sequence(thirdfractalstimuli, TRIAL_DURATION, IMAGE_WIDTH, IMAGE_HEIGHT);
 
 const all_stimuli = planetstimuli.concat(abstractstimuli).concat(fractalstimuli).concat(thirdfractalstimuli);
@@ -184,7 +200,7 @@ timeline.push({
     <div class="text-center">
       <h2 class="text-xl font-bold mb-4">A jedeme do finále!</h2>
       <p>V poslední fázi tě čekají planetky. Ty budou asi nejzapeklitější, všechny vypadají tak trochu stejně. Úloha je stejná, klikni na obrázek pokaždé, pokud se shoduje s tím, který jsi viděl/a předminule.</p>
-      <img src="/images/tutorials/n-back/n-back-abstract.png" class="max-w-none" style="margin:auto;" width="512"/>
+      <img src="/images/tutorials/n-back/n-back-planets.png" class="max-w-none" style="margin:auto;" width="512"/>
       <p> Až budeš připravený/á, pokračuj dál.</p>
     </div>
   `,

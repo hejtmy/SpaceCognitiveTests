@@ -13,6 +13,7 @@ import { timeline_hideFooter, timeline_pcMouseWarning, timeline_confirmOfficialA
 const TEST_NAME = "spatial-cognition";
 const POST_INSTRUCTIONS_DELAY = 2000;
 const spatialurl = client.storage.from("test-stimuli").getPublicUrl('spatialcognition/')
+let OFFICIAL = false;
 
 // Initialize jsPsych
 const jsPsych = initJsPsych({
@@ -25,6 +26,11 @@ const jsPsych = initJsPsych({
 onMounted(() => {
   jsPsych.run(timeline)
 })
+
+if(user.value) {
+  jsPsych.randomization.setSeed(1969);
+  OFFICIAL = true;
+}
 
 function imagename (direction, distance, angle) {
   return `${spatialurl.data.publicUrl}map_${direction}_${distance}_${angle}.png`
@@ -103,7 +109,6 @@ if(user.value) {
   timeline.push(timeline_confirmOfficialAttempt());
   timeline.push(timeline_checkValidAttempt(client, user.value, TEST_NAME, jsPsych));
   timeline.push(timeline_abortOrCreateAttempt(client, user.value, TEST_NAME, jsPsych));
-  
 }
 
 timeline.push({
