@@ -29,7 +29,7 @@ onUnmounted(() => {
 })
 
 const links = [
-  { name: 'Psychologické testy', link: '/tests' },
+  { name: 'K testům', link: '/tests' },
   //{ name: 'Inspirace', link: '/inspiration/' },
 ]
 

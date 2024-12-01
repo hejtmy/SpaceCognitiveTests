@@ -13,7 +13,7 @@ const tests = data.value;
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <div class="pt-16 md:pt-32">
         <div class="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-          <h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Psychická výbava astronauta</h2>
+          <h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Psychologická výbava astronauta</h2>
           <p class="text-lg text-slate-400">Každý test měří specifický aspekt psychologických dovedností, které by měl astronaut splňovat. Klikněte si na test abyste se o něm dozvěděli více, nebo si jej můžete rovnou ozkoušet.</p>
         </div>
         <div class="relative pb-12 md:pb-20">

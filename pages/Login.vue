@@ -29,7 +29,7 @@
             <div class="text-center mt-4">
               <div class="text-sm text-slate-400">
                 Přihlášení je pouze pro registrované uživatele. 
-                Přihlašovací údaje by vám měly přijít na zaregistrovaný email. Pokud ne, ozvěte se prosím organizárům Cesty do Vesmíru.
+                Přihlašovací údaje by vám měly přijít na zaregistrovaný email. Pokud ne, ozvěte se prosím organizárům Vzhůru do vesmíru.
               </div>
             </div>
           </div>
