@@ -179,6 +179,8 @@ timeline.push({
   stimulus: `<div class="text-center">
       <h2 class="text-xl font-bold mb-4">A teď finále!</h2>
       <p>Neboť ve vesmíru se může snadno stát, že uvidíš něčí obličej vzhůru nohama, v této fázi bude tvůj úkol určit emoci na různě natočených obličejích. Hodnotíme tvojí rychlost a správnost.</p>
+      <img src="/images/tutorials/emotions/happy.png" class="max-w-none rotate_90" width="256" height="256" alt="happy">
+      <img src="/images/tutorials/emotions/sad.png" class="max-w-none rotate_180" width="256" height="256" alt="sad">
       <p> Až budeš připravený/á, pokračuj dál.</p>
     </div>`,
   choices: ['Pokračovat']
