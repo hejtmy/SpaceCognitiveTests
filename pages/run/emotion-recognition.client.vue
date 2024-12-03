@@ -16,7 +16,7 @@ const TEST_NAME = "emotion-recognition";
 const EMOTIONS = ['neutral', 'sad', 'happy', 'surprised', 'angry'];
 const EMOTION_CHOICES = ['Neutrálně', 'Smutně', 'Vesele', 'Překvapeně', 'Naštvaně'];
 const EMOTION_STIMULI_URL = client.storage.from("test-stimuli").getPublicUrl('emotions/');
-const DURATION = 500;
+const DURATION = 350;
 let OFFICIAL = false;
 
 jsPsych = initJsPsych({
