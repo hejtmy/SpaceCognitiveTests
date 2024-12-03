@@ -24,10 +24,11 @@ export const timeline_confirmOfficialAttempt = () => {
   type: htmlButtonResponse,
   stimulus: `
     <div class="max-w-2xl mx-auto text-center">
-      <h2 class="mb-4">Oficiální pokus</h2>
-      <p class="mb-4">Neboť jsi přihlášená/ý, toto bude tvůj oficiální pokus. Oficální pokus můžeš absolvovat pouze jednou. Jakmile začneš, musíš jej dokončit. Pokud pokus přerušíš, vypneš počítač či prohlížeč, již ti nepůjde test začít znovu.</p>
-      <p class="mb-4">Pokud si chceš test ještě ozkoušet či natrénovat, tak se odhlaš se a mužeš trénovat anonymně jak dlouho budeš chtít.</p>
+      <h2 class="mb-4"> Pozor, oficiální pokus!</h2>
+      <p class="mb-4">Neboť jsi přihlášená/ý, toto bude tvůj oficiální pokus. Oficální pokus můžeš absolvovat pouze jednou. Jakmile začneš, musíš jej dokončit. Pokud vypneš prohlížeč, zavřeš okno, test bude uzavřen a již nebudeš moci jej absolvovat znovu.</p>
+      <p class="mb-4">Pokud si chceš test ještě ozkoušet či natrénovat, tak se odhlaš se a mužeš trénovat anonymně jak dlouho budeš chtít, aby všechno šlapalo na ten oficiální už dobře.</p>
       <h2 class="mb-4">Pro tvůj oficiální pokus doporučujeme být v klidném, tichém prostředí. Úlohy vyžadují koncentraci, a když tě v průběhu někdo vyruší, může ti to pokus pokazit.</p>
+      <p class="mb-4">Pokud během pokusu nastanou neočekávané problémy, které ti znemožní jej dokončit, ozvi se pak na posadka@vzhurudovesmiru.cz a zkusíme to vyřešit.</p>
     </div>`,
     choices: ['Rozumím a jsem připraven/a'],
   }
@@ -43,9 +44,9 @@ export const timeline_pcMouseWarning = () => {
   <div class="max-w-4xl mx-auto text-center">
     <h1 class="mb-4"> Upozornění </h1>
     <p> Úlohy byly zamýšleny pro použití na počítači/notebooku s myší.</p>
-    <p> Pokud máš tablet či mobilní telefon, nemusí se ti vše zobrazovat správně. Pokud nemáš myš, ale touchpad, tak tě to může zpomalit a u mnohých úloh hodnotíme čas.</p>
-    <p> Obrázky i všechna tlačítka s odpověďmi by měla u všech úloh snadno dostupná a viditelná na obrazovce. Pokud se ti něco nezobrazuje a musíš třeba scrollovat, aby ses k tlačítku dostal, zkus ve svém prohlížeči lehce změnšit zoom na 90% či méně.</p>
-    <p> Pokud nejsi přihlášen/a, můžeš testovat úlohy jak dlouho chceš a najít si tak ideální podmínky pro svůj oficiální pokus :) </p>
+    <p class="mb-4"> Pokud máš tablet či mobilní telefon, nemusí se ti vše zobrazovat správně. Pokud nemáš myš, ale touchpad, tak tě to může lehce zpomalit a u mnohých úloh hodnotíme i rychlost.</p>
+    <p class="mb-4"> Obrázky i všechna tlačítka s odpověďmi by měla u všech úloh snadno dostupná a viditelná na obrazovce. Pokud musíš scrollovat, aby ses k tlačítku dostal/a, či nevidíš celý obrázek, zkus v prohlížeči lehce změnšit zoom na 90% či méně.</p>
+    <p> Jestli nejsi přihlášen/a, můžeš si úlohy zkoušet jak dlouho chceš a najít tak ideální podmínky pro pokus naostro :) </p>
     <p> Pokud jsi připraven/a, jdeme na to! </p>
   </div>`,
   choices: ['Beru na vědomí']
@@ -72,9 +73,9 @@ export const timeline_abortOrCreateAttempt = (client, user, test_name, jsPsych) 
     async: true,
     func: async (done) => {
       if (jsPsych.data.get().values()[0].attempted) {
-        jsPsych.abortExperiment(`<p>V tomto testu již evidujeme tvůj oficiální pokus.</p> 
-        <p>Pokud si chceš test zopakovat pro zábavu, můžete se odhlásit a zkoušet si jej i dál anonymně.</p>
-        </>Pokud se jedná o omyl a o pokus jsi se oficiálně ještě nepokusil/a, prosím ozvi se na hejtmanek@praha.psu.cas.cz</p>`);
+        jsPsych.abortExperiment(`<p>V této úloze již máme zaznamenaný tvůj oficiální pokus.</p> 
+        <p class="mb-4">Pokud si chceš test zopakovat pro zábavu nebo někomu ukázat, můžeš se odhlásit a pojede ti v anonymním režimu</p>
+        <p> Pokud se jedná o omyl a oficiálně jsi se o pokus ještě nepokusil/a, prosím ozvi se na posadka@vzhurudovesmiru.cz</p>`);
       } else {
         await save_attempt(client, user, test_name);
         done()
@@ -84,26 +85,43 @@ export const timeline_abortOrCreateAttempt = (client, user, test_name, jsPsych) 
   return trial;
 }
 
-// create a saving call function
-export const confirm_attempt = async (client, test_name) => {
-  if (client == null) {
-    console.error('Supabase client is not available');
-    return
-  }
-  try {
-    const updates = {
-      test_name: test_name,
-      test_results: test_data,
+export const timeline_finalMessage = () => {
+  const trial = {
+    type: htmlButtonResponse,
+    stimulus: `<div class="text-center">
+        <h2 class="text-xl font-bold mb-4">Perketní!</h2>
+        <p>Gratulujeme k úspěšnému zakončení.</p>
+      </div>`,
+    choices: ['Zpět k testům'],
+    on_finish: () => {
+      navigateTo('/tests');
     }
-    const { error } = await client.from('TestResults').insert(updates, {
-      returning: 'minimal', // Don't return the value after inserting
-    })
-    if (error) throw error
-  } catch (error) {
-    alert(error.message)
-  } finally {
-
   }
+  return trial;
+}
+
+export const timeline_saveAttemptData = (client, user, test_name, jsPsych) => {
+  let trial = {}
+  if(user) {
+    trial = {
+      type: callFuncion,
+      async: true,
+      func: async (done) => {
+        await save_attempt_data(client, user, test_name, jsPsych)
+        done();
+      }
+    }
+  } else {
+    trial = { 
+      type: callFuncion,
+      async: true,
+      func: async (done) => {
+        await save_test_data(client, test_name, jsPsych);
+        done();
+      }
+    }
+  }
+  return trial;
 }
 
 // create a saving call function
@@ -198,41 +216,3 @@ export async function save_attempt_data(client, user, test_name, jsPsych) {
   }
 }
 
-export const timeline_finalMessage = () => {
-  const trial = {
-    type: htmlButtonResponse,
-    stimulus: `<div class="text-center">
-        <h2 class="text-xl font-bold mb-4">Perketní!</h2>
-        <p>Gratulujeme k úspěšnému zakončení.</p>
-      </div>`,
-    choices: ['Zpět k testům'],
-    on_finish: () => {
-      navigateTo('/tests');
-    }
-  }
-  return trial;
-}
-
-export const timeline_saveAttemptData = (client, user, test_name, jsPsych) => {
-  let trial = {}
-  if(user) {
-    trial = {
-      type: callFuncion,
-      async: true,
-      func: async (done) => {
-        await save_attempt_data(client, user, test_name, jsPsych)
-        done();
-      }
-    }
-  } else {
-    trial = { 
-      type: callFuncion,
-      async: true,
-      func: async (done) => {
-        await save_test_data(client, test_name, jsPsych);
-        done();
-      }
-    }
-  }
-  return trial;
-}
