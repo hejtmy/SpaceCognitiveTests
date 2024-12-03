@@ -38,7 +38,7 @@ Test rozpoznávání emocí (anglicky Emotion Recognition Task – ERT) je nást
 Jak to bude probíhat?
 ::
 
-V úloze budeš mít za úkol rozpoznat, co emoční vyladění na obrázku. Úloha bude mít několik fází, ve kterých se bude lišit na jak dlouho nebo v jaké orientaci obrázky uvidíš. Budeš mít na výběr z několika možností, jak se osoba na obrázku může cítit - **Neutrálně, Smutně, Vesele, Překvapeně či Naštvaně**.
+V úloze budeš mít za úkol rozpoznat, jak se asi osoba na obrázku cítí. Vždy budeš mít na výběr z několika možností - **Neutrálně, Smutně, Vesele, Překvapeně či Naštvaně**. Úloha bude mít několik fází, ve kterých se bude lišit na jak dlouho, nebo v jaké orientaci obrázky uvidíš. 
 
 **Fáze 1**
 

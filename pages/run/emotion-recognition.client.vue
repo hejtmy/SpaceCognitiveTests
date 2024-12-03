@@ -16,7 +16,7 @@ const TEST_NAME = "emotion-recognition";
 const EMOTIONS = ['neutral', 'sad', 'happy', 'surprised', 'angry'];
 const EMOTION_CHOICES = ['Neutrálně', 'Smutně', 'Vesele', 'Překvapeně', 'Naštvaně'];
 const EMOTION_STIMULI_URL = client.storage.from("test-stimuli").getPublicUrl('emotions/');
-const DURATION = 350;
+const DURATION = 400;
 let OFFICIAL = false;
 
 jsPsych = initJsPsych({
@@ -173,7 +173,7 @@ if(user.value) {
 var testinstructions = {
   type: htmlButtonResponse,
   stimulus: `<p>V tomto testu budeš mít za úkol rozlišit základní emoce</p>
-    <p>Na obrazovce se ti vždy zobrazí jeden obrázek s obličejem. Tvým úkolem je určit, jak se asi osoba cítí </p>.
+    <p>Na obrazovce se ti vždy zobrazí obrázek s obličejem. Tvým úkolem je určit, jak se asi osoba cítí </p>.
     <div class="flex justify-center">
       <img src="/images/tutorials/emotions/happy.png" class="max-w-none" width="256" height="256" alt="happy">
       <img src="/images/tutorials/emotions/sad.png" class="max-w-none" width="256" height="256" alt="sad">
