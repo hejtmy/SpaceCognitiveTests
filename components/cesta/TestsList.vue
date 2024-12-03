@@ -11,8 +11,8 @@ const tests = data.value;
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <div class="pt-16 md:pt-32">
         <div class="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-          <h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Psychologická výbava astronauta</h2>
-          <p class="text-lg text-slate-400">Každý test měří specifický aspekt psychologických dovedností, které by měl astronaut splňovat. Klikněte si na test abyste se o něm dozvěděli více, nebo si jej můžete rovnou ozkoušet.</p>
+          <h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Kognitivní kompetence astronauta</h2>
+          <p class="text-lg text-slate-400">Na těchto stránkách najdeš čtyři testy. Každý z nich měří specifickou doménu psychologických kompetencí (rozpoznávání emocí, rychlost a pozornost, paměť a prostorová orientace). Každý test má svou průvodní stránků, kde se doszvíš, k čemu slouží a jak bude probíhat. Stránky si můžeš nastudovat anebo se můžeš rovnou vrhnout do zkoušení. Testy si můžeš zkusit kolikrát chceš, počítá se jen a pouze ostrá verze až po tvém přihlášení. Neboj, o všem tě budeme v průběhu informovat!</p>
         </div>
         <div class="relative pb-12 md:pb-20">
           <div class="absolute bottom-0 -mb-20 left-1/2 -translate-x-1/2 blur-2xl opacity-50 pointer-events-none" aria-hidden="true">

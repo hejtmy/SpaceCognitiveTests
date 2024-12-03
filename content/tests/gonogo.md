@@ -1,5 +1,5 @@
 ---
-title: Reakční čas a pozornost
+title: Rychlost reakce a pozornost
 description: Každý astronaut musí být neustále ve střehu a mít jak rychlé reakce, tak i reagovat správně
 duration: 10 minut
 skill: Reakční čas, Pozornost, Exekutivní kontrola
@@ -9,8 +9,11 @@ icon: /images/cesta/tests/icons/reaction-icon.png
 testListShortDescription: V úloze budete mít za úkol reagovat co nejrychleji na série obrázků a zároveň muset ignorovat jiné.
 url: gonogo
 ---
+::ContentHeader
+Rychlost reakce a pozornost
+::
 
-Astronauti při svých misích často čelí situacím, kde může i drobné zaváhání nebo špatné rozhodnutí vést k vážným následkům. Představte si, že jste na vesmírné stanici a něco se začne dít – bliká kontrolka, houká alarm. Je to problém? Měli byste zmáčknout tlačítko, nebo je to jen falešný poplach? Co když aktivujete nesprávný systém, nebo budete ignorovat důležité varování? I ta nejmenší chyba může vést k velkým problémům. Astronauti proto musí být schopni se soustředit, rychle se rozhodnout a zvolit vždy tu nejvhodnější akci. Klíčové je zaměřit se na důležité informace a ignorovat ty, které odvádějí pozornost.
+Astronauti při svých misích často čelí situacím, kde může i drobné zaváhání nebo špatné rozhodnutí vést k vážným následkům. Představte si, že jste na vesmírné stanici a něco se začne dít – bliká kontrolka, houká alarm. Je to problém? Měli byste zmáčknout tlačítko, nebo je to jen falešný poplach? Co když aktivujete nesprávný systém, nebo budete ignorovat důležité varování? I ta nejmenší chyba může vést k velkým problémům. Astronauti proto musí být schopni se soustředit, rychle se rozhodnout a zvolit vždy tu nejvhodnější akci. Klíčové je zaměřit se na důležité informace a ignorovat ty, které nás rozptylují.
 
 Dlouhé mise a vysoká psychická i fyzická zátěž mohou zpomalit reakce a snížit přesnost rozhodování. Díky různým variantám testu lze analyzovat, jak se výkon jednotlivce mění v závislosti na únavě nebo vyčerpání, a předpovědět, jak by se astronaut mohl zachovat při dlouhodobých misích.
 
@@ -18,7 +21,7 @@ Dlouhé mise a vysoká psychická i fyzická zátěž mohou zpomalit reakce a sn
 O úloze
 ::
 
-Go/No-Go je test využívaný k měření reakčního času a pozornosti. V psychologii se také používá pro testování dalších procesů, jako je schopnost rozhodování nebo potlačení impulzivního chování. V typickém Go/No-Go testu jsou účastníci vystaveni sérii podnětů, nejčastěji obrázků. Na podněty typu „Go“ (například zelené kolečko) musí co nejrychleji reagovat, zatímco na „No-Go“ podněty (například červené kolečko), naopak reagovat nesmí. Úspěšné zvládnutí testu závisí na schopnosti rychle rozlišovat mezi podněty a zvolit správnou akci. 
+Go/No-Go je test využívaný k měření rychlosti reakcí a pozornosti. V psychologii se také používá pro testování dalších procesů, jako je schopnost rozhodování nebo potlačení impulzivního chování (ukázněnost). V typickém Go/No-Go testu jsou účastníci vystaveni sérii podnětů, nejčastěji obrázků. Na podněty typu „Go“ (například zelené kolečko) musí co nejrychleji reagovat, zatímco na „No-Go“ podněty (například červené kolečko), naopak reagovat nesmí. Úspěšné zvládnutí testu závisí na schopnosti rychle rozlišovat mezi podněty a zvolit správnou akci. 
 
 Test nám také umožňuje sledovat impulzivní tendence našeho rozhodování. Pokud jedinec často reaguje na „No-Go“ podněty, může to ukazovat na problémy s kontrolou impulzů. Astronaut může mít tudíž velmi rychlé reakce na podněty, ale pokud nejsou jeho impulzivní tendence dostatečně kontrolovány, může reagovat i tam, kde je třeba zachovat klid a nic nedělat.
 

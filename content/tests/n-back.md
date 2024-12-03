@@ -1,5 +1,5 @@
 ---
-title: Paměť
+title: Pracovní paměť a flexibilita
 description: Každý astronaut potřebuje mít výbornou paměť na informace i krátkodobou paměť, aby si zapamatoval a dokálaz zpracovat množství informací, které se na něj v každou chvíli hrnou
 longDescription: Dlouhý popis úlohy
 skill: Pracovní paměť, Pozornost, Flexibilita
@@ -10,6 +10,9 @@ icon: /images/cesta/tests/icons/n-back-icon.png
 testListShortDescription: V úloze budete mít za úkol udržet si v paměti informace a rychle reagovat na změny.
 url: n-back
 ---
+::ContentHeader
+Pracovní paměť a flexibilita
+::
 
 Pro astronauty jsou dobrá pracovní paměť, kognitivní flexibilita a pozornost zásadními dovednostmi. Jejich práce vyžaduje rychlé zpracování, uchovávání a využití informací v náročných a stresujících podmínkách. Představte si, že letíte na dlouhou misi na Mars. Máte spousty důležitých úkolů: navigovat vesmírnou loď, opravovat systémy nebo hlídat zásoby kyslíku a rychlost lodi zároveň. Váš „mentální pracovní stůl“ – neboli pracovní paměť – hraje obrovskou roli při zvládání těchto úkolů.
 
@@ -18,14 +21,14 @@ Pracovní paměť je něco jako poznámková tabule. Umožňuje nám v mysli dr�
 A pak tu máme kognitivní flexibilitu – schopnost přizpůsobit se nečekaným změnám. Představte si, že vám během letu přestane fungovat navigační systém. Musíte rychle přejít na záložní plán, najít jiné řešení a zůstat klidní. Kognitivní flexibilita je o tom, jak rychle dokážete změnit strategii a přemýšlet jinak. Astronauti nikdy neví, co se může stát. Může dojít k poruše systému nebo ke změně plánu mise, a to často bez možnosti poradit se s pozemními experty. Kognitivní flexibilita jim pomáhá zachovat klid a zvládnout různé překážky.
 
 ::ContentHeader
-O Úloze
+O úloze
 ::
 
 N-back task je test používaný k měření pracovní paměti, kognitivní flexibility a pozornosti. Testovanému je postupně prezentována série podnětů (například písmena, číslic nebo obrázků). Úkolem je reagovat, pokud se aktuální podnět shoduje s podnětem, který se objevil před N kroky - proto *N-back*. Pro zjednodušení: například v „2-back“ úloze má účastník za úkol reagovat, pokud podnět který teď vidí, je stejný jako ten, který viděl předminule.
 
 ![n back example](/images/tutorials/n-back/n-back-planets.png)
 
-Na obrázku je příklad vizuální 2-back úlohy. Účastník vidí sérii obrázků, které se objevují postupně (vždy vidíte jen jeden). Pokud se obrázek planety shoduje s tou, která byla vidět předminule (2-back), má za úkol kliknout. Neboť pátá planeta se shoduje s tou, která byla dvě planety zpět, tak účastník musí reagovat. Ostatní planety se neopakují a tak reagovat nemá.
+Na obrázku je příklad vizuální 2-back úlohy. Testovaný vidí sérii obrázků, které se objevují postupně (vždy vidí jen jeden). Pokud se obrázek planety shoduje s tou, která byla vidět předminule (2-back), má za úkol kliknout. Neboť pátá planeta se shoduje s planetou, která byla dvě pozice zpět, tak účastník musí reagovat. Ostatní planety se neopakují a tak reagovat nemá.
 
 ::ContentHeader
 Jak to bude probíhat?
