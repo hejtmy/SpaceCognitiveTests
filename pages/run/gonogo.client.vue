@@ -4,7 +4,6 @@ import {initJsPsych} from 'jspsych';
 import preload from '@jspsych/plugin-preload';
 import htmlButtonResponse from '@jspsych/plugin-html-button-response'
 import browserCheck from '@jspsych/plugin-browser-check';
-import { navigateTo } from 'nuxt/app';
 import { timeline_finalMessage } from '~/utils/jsPsychUtils';
 
 const user = useSupabaseUser();
@@ -23,19 +22,21 @@ onMounted(() => {
   jsPsych.run(timeline)
 })
 
+
+// Initialize jsPsych
+const jsPsych = initJsPsych({
+  display_element: 'jspsych-target',
+  on_finish: () => {
+    const data = jsPsych.data.get().json()
+  }
+})
+
 // OFFICIAL ATTEMPT -------
 // we are just setting seed value
 if (user.value){
   jsPsych.randomization.setSeed(1969);
   OFFICIAL = true;
 }
-// Initialize jsPsych
-var jsPsych = initJsPsych({
-  display_element: 'jspsych-target',
-  on_finish: () => {
-    const data = jsPsych.data.get().json()
-  }
-})
 
 const spatialurl = client.storage.from("test-stimuli").getPublicUrl('gonogo/');
 const fixation_cross = client.storage.from("test-stimuli").
@@ -141,6 +142,7 @@ fourth_block = jsPsych.randomization.shuffle(fourth_block);
 const timeline = [];
 timeline.push({type: preload, images: all_stimuli });
 timeline.push({type:browserCheck});
+
 timeline.push(timeline_hideFooter());
 timeline.push(timeline_pcMouseWarning());
 

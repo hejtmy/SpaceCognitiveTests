@@ -19,7 +19,7 @@ const EMOTION_STIMULI_URL = client.storage.from("test-stimuli").getPublicUrl('em
 const DURATION = 400;
 let OFFICIAL = false;
 
-jsPsych = initJsPsych({
+const jsPsych = initJsPsych({
   display_element: 'jspsych-target',
   on_finish: () => {
     const data = jsPsych.data.get().json()
