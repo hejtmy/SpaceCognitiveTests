@@ -99,8 +99,8 @@ function generate_timeline_sequence(stimuli, duration, width, height) {
         is_target: isTarget,
       },
       on_finish: (data) => {
-        data.correct = (isTarget && data.response === 1) || 
-        (!isTarget && data.response === 0)
+        data.correct = (isTarget && data.response === 0) || 
+        (!isTarget && data.response === null)
       },
       post_trial_gap: POST_TRIAL_GAP
     }
