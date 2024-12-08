@@ -85,6 +85,7 @@ function generate_timeline_sequence(stimuli, duration, width, height) {
   let sequence_trials = []
   stimuli.forEach((stimulus, index) => {
     const isTarget = index >= 2 && stimulus === stimuli[index - 2]
+    const image = stimulus;
     const trial = {
       type: htmlButtonResponse,
       button_html: (choice, index) => `<img src=${choice} class="max-w-none" style="margin:auto;" width="${width}" height="${height}"/>`,
@@ -94,7 +95,7 @@ function generate_timeline_sequence(stimuli, duration, width, height) {
       trial_duration: duration,
       data: {
         trial_index: index,
-        stimulus: stimulus,
+        stimulus: image,
         is_target: isTarget,
       },
       on_finish: (data) => {
