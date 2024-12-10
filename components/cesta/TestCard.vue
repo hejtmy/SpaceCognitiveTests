@@ -18,9 +18,15 @@ const props = defineProps({
   url: {
     type: String,
     required: true,
+  },
+  attempted: {
+    type: Boolean,
+    required: false,
+    default: false
   }
 })
 const runURL = 'run/' + props.url;
+var stopColor = '#6366F1';
 </script>
 
 <template>
@@ -32,7 +38,7 @@ const runURL = 'run/' + props.url;
             <svg xmlns="http://www.w3.org/2000/svg" width="342" height="393">
               <defs>
                 <linearGradient id="bs-a" x1="19.609%" x2="50%" y1="14.544%" y2="100%">
-                  <stop offset="0%" stop-color="#6366F1" />
+                  <stop offset="0%" :stop-color="stopColor" />
                   <stop offset="100%" stop-color="#6366F1" stop-opacity="0" />
                 </linearGradient>
               </defs>
@@ -58,11 +64,12 @@ const runURL = 'run/' + props.url;
               </nuxt-link>
             </div>
             <div class="my-4">
-              <nuxt-link :to="runURL" class="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none">
+              <div v-if="attempted" class="text-slate-400 text-sm">Test máš už hotový</div>
+              <NuxtLink v-else :to="runURL" class="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none">
                 <span class="relative inline-flex items-center">
-                  Spustit test<span class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+                   Spustit test<span class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
                 </span>
-              </nuxt-link>
+              </NuxtLink>
             </div>
           </div>
           <div class="relative w-full h-64 md:h-auto overflow-hidden">

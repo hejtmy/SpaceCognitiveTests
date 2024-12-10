@@ -1,6 +1,27 @@
 <script setup>
 const { data } = await useAsyncData('tests', () => queryContent('/tests/').find())
 const tests = data.value;
+const client = useSupabaseClient();
+const user = useSupabaseUser();
+
+if(user.value) {
+  try {
+    const { data: attempts, error } = await client.from('OfficialResults').
+      select('test_name').
+      eq('user_id', user.value.id)
+  if (error) throw error
+  // go to the const data and for each test, check if its url matches any value in the attempted test and if so, set the test.attempted to true
+  tests.forEach(test => {
+    attempts.forEach(attempt => {
+      if (test.url === attempt.test_name) {
+        test.attempted = true
+      }
+    })
+  })
+  } catch (error) {
+    console.error('Chyba při načítání pokusů', error)
+  }
+}
 
 </script>
 <template>
@@ -27,7 +48,8 @@ const tests = data.value;
             </svg>
           </div>
           <Highlighter class="grid md:grid-cols-12 gap-6 group">
-            <CestaTestCard v-for="test in tests" :url="test.url" :title="test.title" :description="test.testListShortDescription" :image="test.listThumb"/>
+            <CestaTestCard v-for="test in tests" :url="test.url" :title="test.title" :description="test.testListShortDescription" 
+              :image="test.listThumb" :attempted="test.attempted"/>
           </Highlighter>
         </div>
       </div>

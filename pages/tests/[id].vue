@@ -2,6 +2,26 @@
 const route = useRoute()
 const { data } = await useAsyncData('tests', () => queryContent(`tests/${route.params.id}`).findOne())
 const cardThumb = data?.value.cardThumb;
+console.log(data?.value.url)
+const client = useSupabaseClient();
+const user = useSupabaseUser();
+let attempted = false;
+
+if(user.value && data?.value.url) {
+  try {
+    const { data: attempts, error } = await client.from('OfficialResults').
+      select('test_name').
+      eq('test_name', data.value.url).
+      eq('user_id', user.value.id)
+  if (error) throw error
+  // if there is an attempt set the const attempted to true
+  if (attempts.length > 0) {
+    attempted = true
+  }
+  } catch (error) {
+    console.error('Chyba při načítání pokusů', error)
+  }
+}
 </script>
 
 <template>
@@ -52,7 +72,7 @@ const cardThumb = data?.value.cardThumb;
               <aside class="md:w-64 lg:w-80 md:shrink-0 md:pt-[3.75rem] lg:pt-0 pb-12 md:pb-20">
                 <ContentDoc>
                   <template v-slot="{doc}">
-                    <CestaTestSideCard :icon="doc.icon" :url="doc.url" :name="doc.name" :duration="doc.duration" :skill="doc.skill"/>
+                    <CestaTestSideCard :icon="doc.icon" :url="doc.url" :name="doc.name" :duration="doc.duration" :skill="doc.skill" :attempted="attempted"/>
                   </template>
                 </ContentDoc> 
               </aside>
