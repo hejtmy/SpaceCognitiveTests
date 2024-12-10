@@ -25,8 +25,9 @@ const props = defineProps({
     default: false
   }
 })
+const uniqueId = useId();
 const runURL = 'run/' + props.url;
-var stopColor = '#6366F1';
+const stopColor = computed(() => props.attempted ? '#FF0000' : '#6366F1');
 </script>
 
 <template>
@@ -37,7 +38,7 @@ var stopColor = '#6366F1';
           <div class="absolute right-0 top-0 blur-2xl" aria-hidden="true">
             <svg xmlns="http://www.w3.org/2000/svg" width="342" height="393">
               <defs>
-                <linearGradient id="bs-a" x1="19.609%" x2="50%" y1="14.544%" y2="100%">
+                <linearGradient :id="`bs-${uniqueId}`" x1="19.609%" x2="50%" y1="14.544%" y2="100%">
                   <stop offset="0%" :stop-color="stopColor" />
                   <stop offset="100%" stop-color="#6366F1" stop-opacity="0" />
                 </linearGradient>
@@ -46,7 +47,7 @@ var stopColor = '#6366F1';
             </svg>
           </div>
           <div class="absolute flex items-center justify-center bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 h-full aspect-square" aria-hidden="true">
-            <div class="absolute inset-0 translate-z-0 bg-purple-500 rounded-full blur-[120px] opacity-70"></div>
+            <div :class="props.attempted ? 'bg-red-500' : 'bg-purple-500'" class="absolute inset-0 translate-z-0 rounded-full blur-[120px] opacity-70"></div>
             <div class="absolute w-1/4 h-1/4 translate-z-0 bg-purple-400 rounded-full blur-[40px]"></div>
           </div>
           <div class="md:max-w-[480px] shrink-0 order-1 md:order-none p-6 pt-0 md:p-8 md:pr-0">
@@ -80,3 +81,14 @@ var stopColor = '#6366F1';
     </HighlighterItem>
   </div>
 </template>
+
+<style scoped>
+.bg-red-500 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(255 90 10 / var(--tw-bg-opacity));
+}
+.bg-red-400 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(255 0 10 / var(--tw-bg-opacity));
+}
+</style>
