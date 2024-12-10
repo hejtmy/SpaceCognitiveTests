@@ -23,11 +23,24 @@ const props = defineProps({
     type: Boolean,
     required: false,
     default: false
+  },
+  finished: {
+    type: Boolean,
+    required: false,
+    default: false
   }
 })
 const uniqueId = useId();
 const runURL = 'run/' + props.url;
-const stopColor = computed(() => props.attempted ? '#FF0000' : '#6366F1');
+const stateClass = computed(() => {
+  if(props.finished) return 'bg-green-500';
+  return props.attempted ? 'bg-red-500' : 'bg-purple-500';
+})
+
+const message = computed(() => {
+  if(props.finished) return 'Test máš už hotový. Výborně!';
+  return props.attempted ? 'Test jsi začal/a, nemáme tvoje výsledky:( Pokud se jedná o chybu, ozvi se prosím organizátorům.' : 'Spustit test';
+})
 </script>
 
 <template>
@@ -39,7 +52,7 @@ const stopColor = computed(() => props.attempted ? '#FF0000' : '#6366F1');
             <svg xmlns="http://www.w3.org/2000/svg" width="342" height="393">
               <defs>
                 <linearGradient :id="`bs-${uniqueId}`" x1="19.609%" x2="50%" y1="14.544%" y2="100%">
-                  <stop offset="0%" :stop-color="stopColor" />
+                  <stop offset="0%" stop-color="#6366F1" />
                   <stop offset="100%" stop-color="#6366F1" stop-opacity="0" />
                 </linearGradient>
               </defs>
@@ -47,7 +60,7 @@ const stopColor = computed(() => props.attempted ? '#FF0000' : '#6366F1');
             </svg>
           </div>
           <div class="absolute flex items-center justify-center bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 h-full aspect-square" aria-hidden="true">
-            <div :class="props.attempted ? 'bg-red-500' : 'bg-purple-500'" class="absolute inset-0 translate-z-0 rounded-full blur-[120px] opacity-70"></div>
+            <div :class="stateClass" class="absolute inset-0 translate-z-0 rounded-full blur-[120px] opacity-70"></div>
             <div class="absolute w-1/4 h-1/4 translate-z-0 bg-purple-400 rounded-full blur-[40px]"></div>
           </div>
           <div class="md:max-w-[480px] shrink-0 order-1 md:order-none p-6 pt-0 md:p-8 md:pr-0">
@@ -65,8 +78,8 @@ const stopColor = computed(() => props.attempted ? '#FF0000' : '#6366F1');
               </nuxt-link>
             </div>
             <div class="my-4">
-              <div v-if="attempted" class="text-slate-400 text-sm">Test máš už hotový</div>
-              <NuxtLink v-else :to="runURL" class="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none">
+              <div v-if="attempted" class="text-slate-400 text-sm"> {{ message }} </div>
+              <NuxtLink v-if="!attempted" :to="runURL" class="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none">
                 <span class="relative inline-flex items-center">
                    Spustit test<span class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
                 </span>
@@ -87,8 +100,8 @@ const stopColor = computed(() => props.attempted ? '#FF0000' : '#6366F1');
     --tw-bg-opacity: 1;
     background-color: rgb(255 90 10 / var(--tw-bg-opacity));
 }
-.bg-red-400 {
+.bg-green-500 {
     --tw-bg-opacity: 1;
-    background-color: rgb(255 0 10 / var(--tw-bg-opacity));
+    background-color: rgb(128 255 64/ var(--tw-bg-opacity));
 }
 </style>

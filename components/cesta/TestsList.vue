@@ -7,7 +7,7 @@ const user = useSupabaseUser();
 if(user.value) {
   try {
     const { data: attempts, error } = await client.from('OfficialResults').
-      select('test_name').
+      select('test_name, results').
       eq('user_id', user.value.id)
   if (error) throw error
   // go to the const data and for each test, check if its url matches any value in the attempted test and if so, set the test.attempted to true
@@ -15,6 +15,9 @@ if(user.value) {
     attempts.forEach(attempt => {
       if (test.url === attempt.test_name) {
         test.attempted = true
+        if(attempt.results) {
+          test.finished = true
+        }
       }
     })
   })
@@ -49,7 +52,7 @@ if(user.value) {
           </div>
           <Highlighter class="grid md:grid-cols-12 gap-6 group">
             <CestaTestCard v-for="test in tests" :url="test.url" :title="test.title" :description="test.testListShortDescription" 
-              :image="test.listThumb" :attempted="test.attempted"/>
+              :image="test.listThumb" :attempted="test.attempted" :finished="test.finished"/>
           </Highlighter>
         </div>
       </div>
