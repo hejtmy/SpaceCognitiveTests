@@ -1,5 +1,8 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+const runtimeConfig = useRuntimeConfig();
+const loginActive = ref(runtimeConfig.loginActive);
+
 const user = useSupabaseUser();
 
 const mobileNavOpen = ref(false)
@@ -53,7 +56,7 @@ defineExpose({ isLoggedIn });
           </li>
           </ul>
         </nav>
-        <CestaLoginLogoutButton :userLoggedIn="isLoggedIn"/>
+        <CestaLoginLogoutButton v-if="loginActive" :userLoggedIn="isLoggedIn"/>
         <div class="md:hidden flex items-center ml-4">
           <button class="hamburger" ref="hamburger" :class="{ 'active': mobileNavOpen }" @click="mobileNavOpen = !mobileNavOpen" aria-controls="mobile-nav" :aria-expanded="mobileNavOpen">
             <span class="sr-only">Menu</span>
