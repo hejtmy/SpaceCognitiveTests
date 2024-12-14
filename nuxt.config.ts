@@ -3,6 +3,9 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   ssr: true,
   devtools: { enabled: true },
+  runtimeConfig: {
+    loginActive: false,
+  },
   modules: [
     '@nuxtjs/tailwindcss', 
     'shadcn-nuxt', 
