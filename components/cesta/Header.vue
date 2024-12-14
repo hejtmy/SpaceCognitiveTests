@@ -56,7 +56,7 @@ defineExpose({ isLoggedIn });
           </li>
           </ul>
         </nav>
-        <CestaLoginLogoutButton v-if="loginActive" :userLoggedIn="isLoggedIn"/>
+        <CestaLoginLogoutButton :active="loginActive" :userLoggedIn="isLoggedIn"/>
         <div class="md:hidden flex items-center ml-4">
           <button class="hamburger" ref="hamburger" :class="{ 'active': mobileNavOpen }" @click="mobileNavOpen = !mobileNavOpen" aria-controls="mobile-nav" :aria-expanded="mobileNavOpen">
             <span class="sr-only">Menu</span>

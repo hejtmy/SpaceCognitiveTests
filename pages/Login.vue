@@ -51,6 +51,7 @@ const loginActive = ref(runtimeConfig.loginActive);
             <h1 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60">Konec!</h1>
           <p>Děkujeme za účast. Vaše výsledky se nyní vyhodnocují.</p>
         </div>
+        </div>
       </div>
     </section>
     <CestaFooter/>

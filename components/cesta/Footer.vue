@@ -25,13 +25,13 @@
           </ul>
         </div>
         <div class="sm:col-span-6 md:col-span-4 lg:col-span-3">
-          <h6 class="text-sm text-slate-50 font-medium mb-2">Autoři stránek</h6>
+          <h6 class="text-sm text-slate-50 font-medium mb-2">Autoři</h6>
           <ul class="text-sm space-y-2">
             <li>
-              <span class="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out">Lukáš Hejtmánek (Psychologický ústav AVČR)</span>
+              <span class="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out">Lukáš Hejtmánek (PSÚ AVČR)</span>
             </li>
             <li>
-              <span class="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out">Viktorie Račková (Psychologický ústav AVČR)</span>
+              <span class="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out">Viktorie Račková (PSÚ AVČR)</span>
             </li>
           </ul>
         </div>
