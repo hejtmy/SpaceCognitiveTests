@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   ssr: true,
   devtools: { enabled: true },
   runtimeConfig: {
-    loginActive: false,
+    loginActive: true,
   },
   modules: [
     '@nuxtjs/tailwindcss', 
