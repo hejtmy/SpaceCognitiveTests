@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 const runtimeConfig = useRuntimeConfig();
-const loginActive = ref(runtimeConfig.loginActive);
+const loginActive = true;
 
 const user = useSupabaseUser();
 

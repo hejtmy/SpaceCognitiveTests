@@ -1,6 +1,6 @@
 <script setup>
 const runtimeConfig = useRuntimeConfig();
-const loginActive = ref(runtimeConfig.loginActive);
+const loginActive = true;
 
 </script>
 <template>
